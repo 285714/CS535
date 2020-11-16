@@ -12,7 +12,7 @@
 \usepackage{graphicx}
 \usepackage{enumerate}
 \usepackage{comment}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{amsmath, amsfonts, amsthm, amssymb, algorithm, graphicx, mathtools,xfrac}
 \usepackage[noend]{algpseudocode}
 
@@ -73,7 +73,7 @@ representing the truth table of $f_n$ and $f_n$ is computable by a circuit of si
 \end{center}
 }
 
-In the paper ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi Cai addressed the difficulty of showing $\mathprob{MCSP}$ to be $\NP$-hard. Namely, they showed some consequences that are unlikely to happen if there exists a polynomial-time reduction $R$ from $\mathprob{SAT}$ to $\mathprob{MCSP}$ that is ``natural,'' in the sense that the size of the output depends on the size of the inputs only, and these sizes are polynomially related.  Furthermore, the authors pointed out why it is challenging to prove $\mathprob{MCSP} \notin \P$ (again, by providing some consequences whose likelihood are questionable). Clearly, such proof would imply $\P \neq \NP$ which goes beyond the currently known techniques. 
+In their paper ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi Cai addressed the difficulty of showing $\mathprob{MCSP}$ to be $\NP$-hard. Namely, they showed some consequences that are unlikely to happen if there exists a polynomial-time reduction $R$ from $\mathprob{SAT}$ to $\mathprob{MCSP}$ that is ``natural,'' in the sense that the size of the output depends on the size of the inputs only, and these sizes are polynomially related.  Furthermore, the authors pointed out why it is challenging to prove $\mathprob{MCSP} \notin \P$ (again, by providing some consequences whose likelihood are questionable). Clearly, such proof would imply $\P \neq \NP$ which goes beyond the currently known techniques. 
 
 \textbf{The rest of the review:} In Section 2, we will provide some definitions required to understand the main results and theorems of the paper. Section 3 introduces some main consequences when $\mathprob{MCSP} \notin \P$ and $\mathprob{MCSP}$ is $\NP$-hard under ``natural'' reductions. Finally, we conclude the review by providing some insightful remarks and directions for further research on this topic in Section 4.
 
@@ -81,6 +81,7 @@ In the paper ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi Cai
 \section{Some definitions:}
 \begin{enumerate} [1.]
 	\item The class Sub-Exponential: $\class{SUBEXP} = \bigcap_{\epsilon > 0} \TIME(2^{n^{\epsilon}})$
+
   \item The class $\class{QP}$ of languages decided by a TM in
     \emph{quasi-polynomial} time defined by
     \[
@@ -98,7 +99,11 @@ In the paper ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi Cai
       = n^{\log^c n} \,.
     \]
     Note that $\class{QP}$ contains $\P$ since $\mathrm{polylog}(n) \in \Omega(1)$.
-	\item The class exponential time with linear exponential: $\class{E} = \TIME(2^{O(n)})$
+
+	\item The class exponential time with linear exponential is defined as
+    $\class{E} \coloneqq \TIME(2^{O(n)})$.
+    Since $\log^c n \in O(n)$ for any $c > 0$, we obtain that
+    $\class{QP} \subseteq \class E$.
 	
 	\item \textbf{Natural Reduction}: For two problems $A$ and $B$ and a Karp reduction from $A$ to $B$, we say the reduction $R$ is natural if, for any instance $I$ of $A$, the length of the output $|R(I)|$, as well as all possible output parameters $s_n$, depend only on the input length $|I|$. Furthermore, $|I|$ and $|R(I)|$ are polynomial related.
 	
@@ -110,6 +115,7 @@ In the paper ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi Cai
 \newpage
 
 \begin{lemma}
+  \label{lem:ph-sub-qp}
   If $\NP \subseteq \class{QP}$ then
   $\class{PH} \subseteq \class{QP}$.
 \end{lemma}
@@ -162,6 +168,16 @@ In the paper ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi Cai
   $\class{QP}$.
 \end{proof}
 
+\begin{lemma}
+  \label{lem:qp-super-circ}
+  $\class{QP}^{\class{\Sigma}^p_k}$ contains a language which does not belong
+  to $\Ppoly$ for some $k \in \N$.
+\end{lemma}
+
+\begin{proof}
+  abc
+\end{proof}
+
 \bigskip
 
 \begin{theorem}[Theorem 15]
@@ -178,9 +194,22 @@ If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT
 	\begin{enumerate} [+]
 		\item Case 1: $\NP \subseteq \class{QP}$
 		
-		It is obvious to see that $\NP \subseteq \class{QP} \implies \class{PH} \subseteq \class{QP}$ (think of this as a generalisation of $\NP \subseteq \P \implies \class{PH} \subseteq \P$). Also, we make an observation that $\class{QP}^{\Sigma_k^p}$, for some $k \in \N$, contains a language of superpolynomial circuit complexity. The proof of this claim is as follow: (help!!!!)
+      {\color{gray}
+      It is obvious to see that $\NP \subseteq \class{QP} \implies \class{PH} \subseteq \class{QP}$ (think of this as a generalisation of $\NP \subseteq \P \implies \class{PH} \subseteq \P$). Also, we make an observation that $\class{QP}^{\Sigma_k^p}$, for some $k \in \N$, contains a language of superpolynomial circuit complexity. The proof of this claim is as follow: (help!!!!)
 		
-		Combining these two results, we get the following $\NP \subseteq \class{QP} \implies \class{QP}^{\class{PH}} \subseteq \class{QP}^{\class{QP}} \subseteq \class{QP} \subset \class{E}$ contains a family of function not in $\Ppoly$. 
+		Combining these two results, we get the following $\NP \subseteq \class{QP} \implies \class{QP}^{\class{PH}} \subseteq \class{QP}^{\class{QP}} \subseteq \class{QP} \subset \class{E}$ contains a family of function not in $\Ppoly$.}
+
+      Applying Lemma~\ref{lem:ph-sub-qp} to this assumption yields that
+      $\class{QP}^{\class{PH}} \subseteq \class{QP}^{\class{QP}} \subseteq
+       \class{QP} \subseteq \class{E}$.
+      Lemma~\ref{lem:qp-super-circ} shows that also $\class E$ contains
+      a language of superpolynomial circuit complexity.
+
+      % how does
+      %   'a language of superpolynomial circuit complexity'
+      % relate to
+      %   'a family of Boolean functions not in P/poly'
+      % ?
 		
 		Hence, $\class{E} \not\subseteq \Ppoly$\\
 		
