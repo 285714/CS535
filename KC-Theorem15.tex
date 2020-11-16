@@ -37,38 +37,112 @@
 {\Large Notes on Circuit Minimization Problem by Kabanets-Cai}
 
 \bigskip
-{\normalsize Date: 11/10/2020}
+{\normalsize Date: \today}
 
 \bigskip
 {\normalsize (First Draft)}
 
 \end{center}
 
-\textbf{MCSP:} the input is a truth table (of length $2^n$) representing a Boolean function $f_n: \{0, 1\}^n \rightarrow \{0, 1\}$ and a number $s_n \in \N$ (encoded in binary). Question: is $f_n$ computable by a Boolean circuit of size at most $s_n$?
+\paragraph{MCSP} the input is a truth table (of length $2^n$) representing a Boolean function $f_n: \{0, 1\}^n \rightarrow \{0, 1\}$ and a number $s_n \in \N$ (encoded in binary). Question: is $f_n$ computable by a Boolean circuit of size at most $s_n$?
 
 \bigskip
-\textbf{Natural Reduction:} For two problems $A$ and $B$ and a Karp reduction from $A$ to $B$, we say the reduction $R$ is natural if, for any instance $I$ of $A$, the length of the output $|R(I)|$, as well as all possible output parameters $s_n$, depend only on the input length $|I|$. Furthermore, $|I|$ and $|R(I)|$ are polynomial related.
+\paragraph{Natural Reduction} For two problems $A$ and $B$ and a Karp reduction from $A$ to $B$, we say the reduction $R$ is natural if, for any instance $I$ of $A$, the length of the output $|R(I)|$, as well as all possible output parameters $s_n$, depend only on the input length $|I|$. Furthermore, $|I|$ and $|R(I)|$ are polynomial related.
 
 Example: $\mathprob{SAT} \leq_p \mathprob{3SAT}$ is natural. 
 
 Question(s): What is output parameter $s_n$? Example?
 
 \bigskip
-\textbf{Some definitions:}
+\section{Some definitions:}
 \begin{enumerate} [1.]
 	\item The class Sub-Exponential: $\class{SUBEXP} = \bigcap_{\epsilon > 0} \TIME(2^{n^{\epsilon}})$
-	\item The class quasi-polynomial: $\class{QP} = \bigcup_{c > 1}\TIME(2^{\log^c n}) = \bigcup_{k = c-1}\TIME(n^{\log^k n})$
+  \item The class $\class{QP}$ of languages decided by a TM in
+    \emph{quasi-polynomial} time defined by
+    \[
+      \class{QP}
+      \coloneqq
+      \TIME(n^{\mathrm{polylog}(n)})
+      =
+      \bigcup_{c > 1}\TIME(2^{\log^c n})
+      =
+      \bigcup_{c > 1}\TIME(n^{\log^c n})
+    \]
+    where we obtain the last equality since
+    \[
+      2^{(\log n)^{c+1}} = \exp( \log^{c+1} n ) = \exp( \log n \log^c n )
+      = n^{\log^c n} \,.
+    \]
+    Note that $\class{QP}$ contains $\P$ since $\mathrm{polylog}(n) \in \Omega(1)$.
 	\item The class exponential time with linear exponential: $\class{E} = \TIME(2^{O(n)})$
 \end{enumerate}
 
+\newpage
+
+\begin{lemma}
+  If $\NP \subseteq \class{QP}$ then
+  $\class{PH} \subseteq \class{QP}$.
+\end{lemma}
+
+\begin{proof}
+  We first show that $\NP = \exists \P \subseteq \class{QP}$ also implies that
+  $\exists \class{QP} \subseteq \class{QP}$ by a padding
+  argument.\footnote{The class $\exists \class{QP}$ is defined to consist of
+  all languages $L$ such that there exists a quasi-polynomial TM $M$ and a
+  polynomial $p$ with $x \in L \iff \exists y \in \{0,1\}^{p(|x|)}\
+  M(x,y) = 1$}
+  To this end, assume that $L \in \exists \class{QP}$ such that it is decided
+  by a $\exp(\log^c n)$-time verifier $M$.
+  We define our padded language as
+  $L_{\textrm{pad}} \coloneqq \set{ x 1^{\exp(\log^c n)} \mid x \in L }$.
+  We obtain that $L_{\textrm{pad}} \in \exists \P$ since applying $M$ to a
+  padded element takes takes only linear time.
+  It follows by our assumption that $L_{\textrm{pad}} \in \class{QP}$;
+  say $L_{\textrm{pad}}$ is decided by an $\exp(\log^{c'} n)$-time TM $M'$.
+  Now, the key idea lies in showing that this already implies
+  $L \in \class{QP}$:
+  Let $x \in \{0,1\}^*$ be of length $n \coloneqq |x|$ and
+  its padded version $y \coloneqq x 1^{\exp(\log^c n)}$ of length
+  $m = \exp(\log^c n)$. Then, the time needed by $M'$ to decide $y$ is
+  \[
+    \exp(\log^{c'} m)
+    =
+    \exp(\log^{c'}(\exp(\log^c n)))
+    =
+    \exp(\log^{c \cdot c'} n)
+  \]
+  which is again quasi-polynomial in $n$.
+  Therefore, we can decide $x \in L$ by applying padding and running $M'$ all
+  in quasi-polynomial time.
+
+  The second step is to show that also
+  $\forall \class{QP} \subseteq \class{QP}$.
+  By definition, given a language $L \in \forall \class{QP}$, there exists a
+  polynomial $p$ and a quasi-polynomial time verifier $M$ such that
+  \[
+    x \in L \iff \forall y \in \{0,1\}^{p(|x|)}\ M(x,y) = 1 \,.
+  \]
+  However, the right hand side is equivalent to the negation of
+  $(\exists y \in \{0,1\}^{p(|x|)}\ M(x,y) = 0)$, a statement which can itself
+  be decided in quasi-polynomial time by the above argument.
+  Since all quasi-polynomial time TMs are also deterministic, we can also
+  negate the output efficiently. It follows that $L \in \class{QP}$.
+
+  By an inductive argument, we see that $\class{PH}$ collapses into a subset of
+  $\class{QP}$.
+\end{proof}
+
 \bigskip
-\textbf{Theorem 15:} If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT}$, then
+
+\begin{theorem}[Theorem 15]
+If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT}$, then
 \begin{enumerate} [1.]
 	\item $\class{E}$ contains a family of Boolean functions $f_n$ not in $\Ppoly$ (i.o.), and
 	\item $\class{E}$ contains a family of Boolean functions $f_n$ of circuit complexity $2^{\Omega(n)}$ (i.o.), unless $\NP \subseteq \class{SUBEXP}$
 \end{enumerate}
+\end{theorem}
 
-\textbf{Proof:}
+\begin{proof}
 \begin{enumerate}[-]
 	\item Statement 1: consider two cases
 	\begin{enumerate} [+]
@@ -91,6 +165,7 @@ Question(s): What is output parameter $s_n$? Example?
 	\end{enumerate}
 	\item Statement 2: the proof is similar (you want to do it too?)
 \end{enumerate}
+\end{proof}
 
 \end{document}
 
