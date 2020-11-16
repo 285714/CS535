@@ -46,11 +46,36 @@
 
 \section{Introduction}
 
-In the Minimum Circuit Size Problem (MCSP), we are given a truth table of some Boolean function together with a positive integer $s_n$ as input, and our task is to answer the question whether there exists a circuit of size at most $s_n$ that solves the function represented by the given truth table. Formally speaking, given a Boolean function $f_n: \{0, 1\}^n \rightarrow \{0, 1\}$, an instance of $\mathprob{MCSP}$ is a tuple $\langle T_n, s_n \rangle$ where $T_n$ is the string of length $2^n$ representing the truth table of $f_n$ and $f_n$ is computable by a circuit of size at most $s_n$. It is easy to see that $\mathprob{MCSP}$ is in $\NP$. Namely, we can define a certificate as some proposed circuit $C$ of size at most $s_n$, and verify whether $C$ computes each entry of the truth table correctly in polynomial time. With that being said, a natural question arise: Is $\mathprob{MCSP}$  $\NP$-complete?
+In the Minimum Circuit Size Problem (MCSP), we are given a truth table of some Boolean function together with a positive integer $s_n$ as input, and our task is to answer the question whether there exists a circuit of size at most $s_n$ that computes the function represented by the given truth table. Formally speaking, given a Boolean function $f_n: \{0, 1\}^n \rightarrow \{0, 1\}$, an instance of $\mathprob{MCSP}$ is a tuple $\langle T_n, s_n \rangle$ where $T_n$ is the string of length $2^n$
+representing the truth table of $f_n$ and $f_n$ is computable by a circuit of size at most $s_n$. It is easy to see that $\mathprob{MCSP}$ is in $\NP$. Namely, we can define a certificate as some proposed circuit $C$ of size at most $s_n$, and verify whether $C$ computes each entry of the truth table correctly in polynomial time. With that being said, a natural question arises: Is $\mathprob{MCSP}$  $\NP$-complete?
 
-In the paper ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi Cai addressed the difficulty of showing $\mathprob{MCSP}$ to be $\NP$-hard. Namely, they showed some consequences that are unlikely to happen if there exists a polynomial-time reduction function $R$ from $\mathprob{SAT}$ to $\mathprob{MCSP}$ that is ``natural,'' in the sense that the size of the output depends on the size of the inputs only, and these sizes are polynomial related.  Furthermore, the authors pointed out why it is challenging to prove $\mathprob{MCSP} \notin \P$ (again, by providing some consequences whose likelihood are questionable). Clearly, such proof would imply $\P \neq \NP$ which goes beyond the currently known techniques. 
+{
+% we can use this structure if you like it:
+\color{gray}
+\renewcommand{\arraystretch}{1.5}
+\begin{center}
+  \begin{tabular}{|p{2cm}p{11cm}|}
+    \hline
+    Problem:
+    &
+    $\mathprob{MSCP}$
+    \\
+    \hline
+    Input:
+    &
+    A tuple $\langle T_n, s_n \rangle$ consisting of a truth table $T_n$ for
+    a Boolean function of arity $n$ and an integer $s_n$
+    \\
+    Question: & Is there a circuit $C_n$ of size at most $s_n$ computing $T_n$?
+    \\
+    \hline
+  \end{tabular}
+\end{center}
+}
 
-\textbf{The rest of the review:} In Section 2, we will provide some definitions required to understand the main results and theorems of the paper. Section 3 introduces some main consequences when $\mathprob{MCSP} \notin \P$ and $\mathprob{MCSP}$ is $\NP$-hard under the ``natural'' reduction. Finally, we conclude the review by providing some insightful remarks and directions for further research on this topic in Section 4.
+In the paper ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi Cai addressed the difficulty of showing $\mathprob{MCSP}$ to be $\NP$-hard. Namely, they showed some consequences that are unlikely to happen if there exists a polynomial-time reduction $R$ from $\mathprob{SAT}$ to $\mathprob{MCSP}$ that is ``natural,'' in the sense that the size of the output depends on the size of the inputs only, and these sizes are polynomially related.  Furthermore, the authors pointed out why it is challenging to prove $\mathprob{MCSP} \notin \P$ (again, by providing some consequences whose likelihood are questionable). Clearly, such proof would imply $\P \neq \NP$ which goes beyond the currently known techniques. 
+
+\textbf{The rest of the review:} In Section 2, we will provide some definitions required to understand the main results and theorems of the paper. Section 3 introduces some main consequences when $\mathprob{MCSP} \notin \P$ and $\mathprob{MCSP}$ is $\NP$-hard under ``natural'' reductions. Finally, we conclude the review by providing some insightful remarks and directions for further research on this topic in Section 4.
 
 \bigskip
 \section{Some definitions:}
