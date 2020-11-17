@@ -175,19 +175,31 @@ In their paper ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi C
 \end{lemma}
 
 \begin{proof}
-  % TODO: needs more details!
-  Let $L$ be the language defined similarly to Problem~1 in Homework~7.
-  Namely, upon input $x$ of length $n \coloneqq |x|$, let $C$ be the
-  lexicographically first circuit of size $n^{\log^2 n}$ which is not computed
-  by any circuit of size $n^{\log n}$.
-  % TODO: argue for existence
-  We obtain that $L \in \class{QP}^{\class{\Sigma}^p_k}$ for some $k \in \N$.
-  % TODO: show this! k = 4?
-  Now, assume $L \in \Ppoly$. In particular, assume $L$ is decided by a
-  $n^a$-size circuit family.
-  % TODO: elaborate...
-  However, since $n^a \in o(n^{\log n})$, the circuits in this family cannot
-  compute $L$ for large enough $x$ anymore.
+  The proof follows a nonuniform diagonalization argument. We first define
+  a language which will be hard to compute for any polynomial-size circuit
+  family:
+  Let $L'$ be the language consisting of tuples
+  $\langle x, 1^{\exp(\log^3 n)} \rangle$
+  with $n \coloneqq |x|$
+  such that $C(x) = 1$ where $C$ is the
+  lexicographically first circuit of size $\exp(\log^3 n)$ which is not
+  computed by any circuit of size $\exp(\log^2 n)$.
+  The existence of such a circuit for sufficiently large $n$ follows from a
+  slightly more careful analysis of the nonuniform hierarchy theorem
+  (Theorem~6.22).
+
+  We can decide membership $\langle x, 1^{\exp(\log^3 n)} \rangle \in L'$
+  by a $\class{\Sigma}^p_4$-oracle as in Problem~(1c) of Homework~7.
+  Finally, we define our language $L$ of superpolynomial circuit complexity
+  as the output of a $\class{QP}^{\class{\Sigma}^p_4}$-machine: Given an input
+  $x \in \{0,1\}^n$, query the oracle for $L'$ with
+  $\langle x, 1^{\exp(\log^3 n)} \rangle$ and output its answer.
+
+  We constructed this language such that it is hard for a polynomial-size
+  circuit to compute. To see this, assume to the contrary that there is
+  a $n^a$-size circuit family.
+  However, since $n^a \in o(\exp(\log^2 n))$ and we particularly excluded any
+  circuits of size less than $\exp(\log^2 n)$, this is a contradiction.
 \end{proof}
 
 \bigskip
