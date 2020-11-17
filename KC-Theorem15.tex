@@ -77,6 +77,20 @@ In their paper ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi C
 
 \textbf{The rest of the review:} In Section 2, we will provide some definitions required to understand the main results and theorems of the paper. Section 3 introduces some main consequences when $\mathprob{MCSP} \notin \P$ and $\mathprob{MCSP}$ is $\NP$-hard under ``natural'' reductions. Finally, we conclude the review by providing some insightful remarks and directions for further research on this topic in Section 4.
 
+\newpage
+Note that for functions $f, g \colon \N_+ \to \N_+$ holds
+$\exp(f(n)) \in o(\exp(g(n)))$ if and only if $g(n) - f(n) \to \infty$ for
+$n \to \infty$.
+This is easily seen by looking at the limit definition of Landau symbols, i.e.
+\begin{multline*}
+  f(n) \in o(g(n))
+  \iff
+  0 = \lim_{n \to \infty} \frac{\exp(f(n))}{\exp(g(n))}
+  = \lim_{n \to \infty} \exp(f(n) - g(n)) \\
+  \iff
+  \lim_{n \to \infty} f(n) - g(n) = -\infty \,.
+\end{multline*}
+
 \bigskip
 \section{Some definitions:}
 \begin{enumerate} [1.]
@@ -98,7 +112,11 @@ In their paper ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi C
       2^{(\log n)^{c+1}} = \exp( \log^{c+1} n ) = \exp( \log n \log^c n )
       = n^{\log^c n} \,.
     \]
-    Note that $\class{QP}$ contains $\P$ since $\mathrm{polylog}(n) \in \Omega(1)$.
+    Note that $\class{QP}$ contains $\P$ since
+    $\mathrm{polylog}(n) \in \Omega(1)$.
+    Also, $\class{SUBEXP}$ contains $\class{QP}$ since for every
+    $\varepsilon > 0$ and $c > 1$ holds that
+    $\exp(\log^c n) \in o(\exp(n^\varepsilon))$.
 
 	\item The class exponential time with linear exponential is defined as
     $\class{E} \coloneqq \TIME(2^{O(n)})$.
@@ -202,6 +220,32 @@ In their paper ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi C
   circuits of size less than $\exp(\log^2 n)$, this is a contradiction.
 \end{proof}
 
+\begin{lemma}
+  \label{lem:num-of-circs}
+  There are at most $n^{\mathrm{polylog}(n)}$ different circuits of size
+  $\log^c n$ for a constant $c$.
+\end{lemma}
+
+\begin{proof}
+  In a circuit with $s \in \N$ many gates and inputs, each gate is connected to
+  at most two out of $s$ gates, and computes one of the functions
+  $\land, \lor, \neg$.
+  This means, there are $3 \cdot s^2$ choices to construct each gate and thus
+  $(3 s^2)^s$ choices to construct the whole circuit.
+  Setting $s \coloneqq \log^c n$ gives us
+  \[
+    % O-notation missing....
+    (3 \log^{2c} n)^{\log^c n}
+    =
+    \exp((\log^{2c} n) \cdot (\log^c n))
+    =
+    \exp(\log^{3c} n)
+    =
+    n^{\mathrm{polylog}(n)}
+  \]
+  many ways to construct a circuit of size $\log^c n$.
+\end{proof}
+
 \bigskip
 
 \begin{theorem}[Theorem 15]
@@ -241,12 +285,19 @@ If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT
 		
 		A given natural reduction $R$ from $\mathprob{SAT}$ to $\mathprob{MCSP}$ maps every family of boolean formulas of size $n$  to truth tables of Boolean functions on $k = \theta(\log n)$ variables (is the symbol $\theta$ significant? more elaboration on $\theta(\log n)$, like why is that?) and a parameter $s_n$.
 		
-		Since the reduction is natural, $s_n$ is some function of $n$ only and thus it could be some fixed polynomial $\log^c n$. Since there are at most [$\dots$] (fill in the gap, I don't really understand why they said there are $n^{\text{polylog(n)}}$ circuits) that many different circuits on $k$ inputs given $\log^c n$ gates. Thus, all such instances of $\mathprob{MCSP}$ where $s_n = \log^c n$, for some constant $c$, are solvable in quasi-polynomial time. This implies that $\mathprob{SAT} \in \class{QP}$ which is a contradiction to our assumption since $\mathprob{SAT}$ is $\NP$-complete. (should we say something about the relationship between $k$ and $\log n$? My understanding is that what we have shown here implies that the circuit size $s_n \neq \log^c n$ which is related to something like $k^c$, i.e. can't get a circuit of poly(k) size which leads to the thing below)
+		Since the reduction is natural, $s_n$ is some function of $n$ only and thus it could be some fixed polynomial $\log^c n$.
+      By Lemma~\ref{lem:num-of-circs}, there are at most $n^{\text{polylog(n)}}$
+      many different circuits on $k$ inputs given $\log^c n$ gates.
+      Thus, all such instances of $\mathprob{MCSP}$ where $s_n = \log^c n$, for some constant $c$, are solvable in quasi-polynomial time. This implies that $\mathprob{SAT} \in \class{QP}$ which is a contradiction to our assumption since $\mathprob{SAT}$ is $\NP$-complete. (should we say something about the relationship between $k$ and $\log n$? My understanding is that what we have shown here implies that the circuit size $s_n \neq \log^c n$ which is related to something like $k^c$, i.e. can't get a circuit of poly(k) size which leads to the thing below)
 		
 		Therefore, we can obtain the desired k-variable functions not in $\Ppoly$ by applying the reduction $R$ to any trivial family of unsatisfiable formulas. Clearly, this family of hard functions is computable in time $2^{O(k)}$. (maybe more elaboration on this too...).
 		
 	\end{enumerate}
 	\item Statement 2: the proof is similar (you want to do it too?)
+    % I believe Statement is ruled out of Case 1 since if assuming
+    % NP <= QP implies
+    % (since QP <= SUBEXP) that NP <= SUBEXP.
+    % So that should rather be a bullet point in Case 2
 \end{enumerate}
 \end{proof}
 
