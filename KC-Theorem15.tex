@@ -133,12 +133,41 @@ This is easily seen by looking at the limit definition of Landau symbols, i.e.
 \newpage
 
 \begin{lemma}
+	\label{lem:qp-collapse}
+	$\class{QP}^{\class{QP}} \subseteq \class{QP}$.
+\end{lemma}
+
+\begin{proof}
+	Let $M$ be a TM deciding a language $L \in \class{QP}^{\class{QP}}$.
+	
+	Then, $M$ runs in $O(n^{\log^c n})$ time with oracle access to a $\class{QP}$ machine.
+	
+	Suppose $f(n) = n^{\log^c n}$ and $g(n) = n^{\log^k n}$ are the run-time upper-bound functions of the ``main body'' of $M$ and the oracle machine respectively. This implies that the total running time of $M$ with some oracle access during the execution is bounded by $f(g(n))$ since $\class{QP}$ is a deterministic time related class.
+	
+	Let $t = \log^k n$, then $f(g(n)) = (n^{\log^k n})^{\log^c (n^{\log^k n})} = (n^t)^{(\log(n^t))^c} = (n^t)^{t^c \log^c n} = n^{t^{c+1}\log^c n}$
+	
+	Substitute $\log^k n$ to $t$, we have $f(g(n)) = n^{\log^{k(c+1)} n \log^c n} = n^{\log^{k(c+1) + c} n}$ which is quasi-polynomial. In other words, $M$ runs in quasi-polynomial time which implies that $L \in \class{QP}$.
+	
+	Hence, $\class{QP}^{\class{QP}} \subseteq \class{QP}$
+	
+\end{proof}
+
+\begin{lemma}
   \label{lem:ph-sub-qp}
   If $\NP \subseteq \class{QP}$ then
   $\class{PH} \subseteq \class{QP}$.
 \end{lemma}
 
 \begin{proof}
+	From the assumption $\NP \subseteq \class{QP}$, we have $\class{PH} = \NP^{\NP^{\NP^{\dots^{\NP}}}} \subseteq \class{QP}^{\class{QP}^{\class{QP}^{\dots^{\class{QP}}}}}$ (how do I put $k$ times in there?)
+	
+	Also, from Lemma 1, we have $\class{QP}^{\class{QP}^{\class{QP}^{\dots^{\class{QP}}}}} \subseteq \class{QP}^{\class{QP}^{\class{QP}^{\dots^{\class{QP}}}}} \subseteq \dots \subseteq \class{QP}$ (here, it means that we first have a stack of $k$ $\class{QP}$'s then it collapses to the stack of $k - 1$ and so on... thus, we finally collapses it to $\class{QP}$)
+	
+	Thus, $\NP \subseteq \class{QP} \implies \class{PH} \subseteq \class{QP}$
+\end{proof}
+
+\bigskip
+\begin{proof} (alternative proof)
   We first show that $\NP = \exists \P \subseteq \class{QP}$ also implies that
   $\exists \class{QP} \subseteq \class{QP}$ by a padding
   argument.\footnote{The class $\exists \class{QP}$ is defined to consist of
@@ -267,10 +296,10 @@ If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT
 		
 		Combining these two results, we get the following $\NP \subseteq \class{QP} \implies \class{QP}^{\class{PH}} \subseteq \class{QP}^{\class{QP}} \subseteq \class{QP} \subset \class{E}$ contains a family of function not in $\Ppoly$.}
 
-      Applying Lemma~\ref{lem:ph-sub-qp} to this assumption yields that
+      Applying Lemma~\ref{lem:qp-collapse} and Lemma~\ref{lem:ph-sub-qp} to this assumption yields that
       $\class{QP}^{\class{PH}} \subseteq \class{QP}^{\class{QP}} \subseteq
        \class{QP} \subseteq \class{E}$.
-      Lemma~\ref{lem:qp-super-circ} shows that also $\class E$ contains
+      Lemma~\ref{lem:qp-super-circ} shows that $\class E$ also contains
       a language of superpolynomial circuit complexity.
 
       % how does
