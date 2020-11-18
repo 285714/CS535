@@ -1,0 +1,68 @@
+%
+% To use this as a template for turning in your solutions, change the flag
+% \inclsolns from 0 to 1. Make sure you include macros.tex in the directory
+% containing this file. Edit the "author" and "collaborators" fields as
+% appropriate. Write your solutions where indicated.
+%
+
+\documentclass[11pt]{article}
+
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{comment}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+\usepackage[capitalise]{cleveref}
+
+\include{macros}
+
+%If you want to add more macros, do it like this
+\newcommand{\dolphin}{\mathsf{DOLPHIN!!}}
+
+
+\author{Your name, should you choose to include it}
+\title{Silly title of your review: \\ A serious title on an extra line if you need it}
+\date{November 17, 2020}
+
+\begin{document}
+	\maketitle
+	
+\section{Introduction}
+
+What are the main contributions of the paper you are reviewing? This introduction should emphasize conceptual contributions and why they are important, avoiding technical definitions and details.
+
+\section{Preliminaries}
+
+Introduce important notation and definitions, like this:
+
+\begin{definition}
+	The class $\class{PP}$ consists of all languages $L$ such that there exists a probabilistic Turing machine $M$ where $x \in L$ iff $\Pr[M(x) = 1] \ge 1/2$.
+\end{definition}
+
+\section{Main Results}
+
+Next, you should describe the main results of the paper at a technical level, giving precise theorem statements. Then you should choose one of these main results and give a detailed proof. Depending on the topic you choose, it may be difficult to do this concisely. If that is the case, you may decide to prove a special case of the result (that illustrates most of the main ideas). You might also ``black-box out'' technical lemmas that require lengthy calculations but are not so conceptually important, so long as these lemmas are stated precisely and you can prove how they fit together.
+
+This is a theorem due to Beigel, Reingold, and Spielman~\cite{brsconf}. (The reference for the journal version of the paper is~\cite{brsjournal}.)
+
+\begin{theorem}
+	$\class{PP}$ is closed under intersection. That is, if $L_1, L_2 \in \PP$, then $L_1 \cap L_2 \in \PP$.
+\end{theorem}
+
+\begin{proof}
+	I'm not gonna do this.
+\end{proof}
+
+\section{Conclusion}
+
+Further discussion of the implications of the results you've described and directions for future research. 
+
+% I like to use bibtex to organize reference, but you can use whatever you like. https://dblp.org/ is a good source for bibtex entries for CS papers
+\bibliographystyle{alpha}
+\bibliography{term_paper_bib}
+
+\end{document}
+
+
+
