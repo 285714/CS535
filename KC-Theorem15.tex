@@ -323,6 +323,7 @@ If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT
 		Therefore, we can obtain the desired k-variable functions not in $\Ppoly$ by applying the reduction $R$ to any trivial family of unsatisfiable formulas. Clearly, this family of hard functions is computable in time $2^{O(k)}$. (maybe more elaboration on this too...).
       }
 
+      {\color{orange}
       The premise gives us a natural reduction $R$ from $\SAT$ which maps
       a formula of size $n$ to a truth table of size $\Theta(\log n)$ and a
       parameter $s_n$.
@@ -342,8 +343,80 @@ If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT
       in a truth table $T_k$ and parameter $s_n \le k^c$ such that $T_k$ cannot
       be represented by a circuit of size at most $s_n$.
       The truth table can be evaluated in time $2^{O(k)}$ (in $E$).
+      }
 
-		
+      \newpage
+      We pick any set $U$ of unsatisfiable Boolean formulae such that for each
+      formula $\phi_k \in U$ in $k$ variables, its size $n = |\phi|$ is related
+      to the number of variables by $k \in \Theta(\log n)$. Say,
+      $U \coloneqq \set{ \phi_k \mid k \in \N }$
+      where
+      \[
+        \phi_k(x_1, \dots, x_k) \coloneqq
+        (x_1 \land \bar x_1) \land
+        \underbrace{(\cdots \cdots\cdots \cdots \cdots \cdots\cdots \cdots)}_{
+          \textrm{arbitrary term of size $2^k$}} \,.
+      \]
+      Now based on this, we apply $R$ to define our language: Let
+      $\langle T_k, s_{?} \rangle \coloneqq R(\phi_k)$ for each $\phi_k \in U$
+      and define
+      \[
+        L \coloneqq
+        \set{
+          x \in \{0,1\}^k \mid
+          k \in \N,
+          T_k(x) = 1
+        } \,.
+      \]
+      We obtain the following.
+      \begin{enumerate}[(i)]
+        \item $L \in E$:
+          %
+          We can easily construct a machine running to decide $L$ in time
+          $2^{O(n)}$: Given an input $x \in \{0,1\}^k$, first construct the
+          Boolean formula $\phi_k \in U$ corresponding to this input length.
+          Note that $k \in \Theta(\log n)$ implies
+          that $n \in 2^{O(k)}$. % why would that be?
+          In particular, this means that we can write down $\phi_k$ in time
+          $2^{O(k)}$.
+          %
+          Next, we apply our natural reduction $R$ to $\phi_k$ to obtain
+          $\langle T_k, s \rangle = R(\phi_k)$.
+          As $R$ is polynomial-time, say $n^a$, the time needed for this
+          application is also bound by $(2^{O(k)})^a = 2^{O(k)}$.
+          %
+          In a final step, we output $T_k(x)$.
+          %
+          Overall, we can carry out the decision in time $2^{O(k)}$ proving
+          that $L \in E$.
+
+        \item $L \not\in \Ppoly$:
+          %
+          We assume to the contrary that $L \in \Ppoly$.
+          Remember that the reduction $R$ is natural. In particular, this means
+          for a mapping $R(\phi_k) = \langle T_k, s \rangle$ that
+          the parameter $s$ depends only on a polynomial in $k$, say it is
+          upper bounded by
+          $s = k^b = \log^b n$ % more like \Theta(...)
+          for a $b \in \N$.
+          However, Lemma~\ref{lem:num-of-circs} implies that there are at
+          most $n^{\mathrm{polylog}(n)}$ circuits of size $s$.
+          We can simply enumerate these and check for each circuit whether
+          it represents $T_k$ to decide
+          $\langle T_k , s\rangle \in \mathprob{MCSP}$.
+          Note that testing whether a circuit $C$ of size $s$ represents
+          $T_k$ only requires us to do $2^k$ evaluations of $C$, each of which
+          take time $O(s)$.
+          Overall, we can decide membership in quasi-polynomial time.
+          This, in turn, allows us to decide $\phi \in \SAT$ by applying $R$
+          and carrying out the above enumeration,
+          implying that $\SAT \in \class{QP}$.
+          We have, however, assumed that $\NP \not\subseteq \class{QP}$, which
+          is a contradiction.
+      \end{enumerate}
+
+
+      \newpage
 	\end{enumerate}
 	\item Statement 2: the proof is similar (you want to do it too?)
     % I believe Statement is ruled out of Case 1 since if assuming
