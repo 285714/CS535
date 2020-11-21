@@ -354,42 +354,42 @@ If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT
 		
 		\item Case 2: $\NP \not\subseteq \class{QP}$
 		
-      We pick any set $U$ of unsatisfiable Boolean formulae such that for each
-      formula $\phi_k \in U$ in $k$ variables, its size $n = |\phi|$ is related
-      to the number of variables by $k \in \Theta(\log n)$. Say,
-      $U \coloneqq \set{ \phi_k \mid k \in \N }$
+      We pick any infinite set $U$ of unsatisfiable Boolean formulae, say,
+      $U \coloneqq \set{ \phi_n \mid n \in \N }$
       where
       \[
-        \phi_k(x_1, \dots, x_k) \coloneqq
+        \phi_n(x_1, \dots, x_n) \coloneqq
         (x_1 \land \bar x_1) \land
-        \underbrace{(\cdots \cdots\cdots \cdots \cdots \cdots\cdots \cdots)}_{
-          \textrm{arbitrary term of size $2^k$}} \,.
+        \underbrace{(x_3 \land x_4 \land \cdots \cdots \cdots \land x_n)}_{
+          \textrm{arbitrary term of size $\Theta(i)$}} \,.
       \]
-      Now based on this, we apply $R$ to define our language: Let
-      $\langle T_k, s \rangle \coloneqq R(\phi_k)$ for each $\phi_k \in U$
-      and define
+      Now based on this, we want to apply $R$ to define our language. To this
+      end, let first
+      $\langle T_k, s_n \rangle \coloneqq R(\phi_n)$ for each $\phi_n \in U$.
+      Note that a truth table $T_k$ for a Boolean function in $k$ variables is
+      of size $2^k$. Since $R$ is a polynomial-time natural reduction, we have
+      $2^k = \Theta(\textrm{poly}(n))$ and thus
+      $k = \log(\Theta(\textrm{poly}(n))) = \Theta(\log n)$.
+      Now, define
       \[
         L \coloneqq
         \set{
           x \in \{0,1\}^k \mid
           k \in \N,
           T_k(x) = 1
-        } \,.
+        }
       \]
-      We obtain the following.
+      to obtain the following.
       \begin{enumerate}[(i)]
         \item $L \in E$:
           %
           We can easily construct a machine running to decide $L$ in time
           $2^{O(n)}$: Given an input $x \in \{0,1\}^k$, first construct the
-          Boolean formula $\phi_k \in U$ corresponding to this input length.
-          Note that $k \in \Theta(\log n)$ implies
-          that $n \in 2^{O(k)}$. % why would that be?
-          In particular, this means that we can write down $\phi_k$ in time
-          $2^{O(k)}$.
+          Boolean formula $\phi_n \in U$ for $n \coloneqq 2^k$.
+          In particular, we can write down $\phi_n$ in time $2^{O(k)}$.
           %
-          Next, we apply our natural reduction $R$ to $\phi_k$ to obtain
-          $\langle T_k, s \rangle = R(\phi_k)$.
+          Next, we apply our natural reduction $R$ to $\phi_n$ to obtain
+          $\langle T_k, s_n \rangle = R(\phi_n)$.
           As $R$ is polynomial-time, say $n^a$, the time needed for this
           application is also bound by $(2^{O(k)})^a = 2^{O(k)}$.
           %
@@ -402,19 +402,25 @@ If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT
           %
           We assume to the contrary that $L \in \Ppoly$.
           Remember that the reduction $R$ is natural. In particular, this means
-          for a mapping $R(\phi_k) = \langle T_k, s \rangle$ that
-          the parameter $s$ depends only on a polynomial in $k$, say it is
+          for a mapping $R(\phi) = \langle T_k, s_n \rangle$ where
+          $\phi$ is any Boolean formula of size $n$, that
+          the parameter $s_n$ depends only on a polynomial in
+          $k = \Theta(\log n)$; say it is
           upper bounded by
-          $s = k^b = \log^b n$ % more like \Theta(...)
-          for a $b \in \N$.
-          However, Lemma~\ref{lem:num-of-circs} implies that there are at
-          most $n^{\mathrm{polylog}(n)}$ circuits of size $s$.
-          We can simply enumerate these and check for each circuit whether
+          $s_n \le k^b = \log^b n$ % more like \Theta(...)
+          for a $b \in \N$.\footnote{
+            We are also not exactly clear about why this is the case.
+          }
+          %
+          Now, this bound yields a simple strategy to decide $\phi \in \SAT$.
+          As Lemma~\ref{lem:num-of-circs} implies that there are at
+          most $n^{\mathrm{polylog}(n)}$ circuits of size $s_n$,
+          we can simply enumerate these and check for each circuit whether
           it represents $T_k$ to decide
-          $\langle T_k , s\rangle \in \mathprob{MCSP}$.
-          Note that testing whether a circuit $C$ of size $s$ represents
+          $\langle T_k , s_n \rangle \in \mathprob{MCSP}$.
+          Note that testing whether a circuit $C$ of size $s_n$ represents
           $T_k$ only requires us to do $2^k$ evaluations of $C$, each of which
-          take time $O(s)$.
+          take time $O(s_n)$.
           Overall, we can decide membership in quasi-polynomial time.
           This, in turn, allows us to decide $\phi \in \SAT$ by applying $R$
           and carrying out the above enumeration,
