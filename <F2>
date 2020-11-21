@@ -163,8 +163,7 @@ reduction. We can define
     \end{array}
   \right.
 \]
-where $G \cup H$ denotes the union of two graphs $G$ and $H$ where
-$\bar K_m$ is the empty graph on $m$ vertices.
+where $G \cup H$ denotes the union of two graphs $G$ and $H$.
 Now, the output size is $|f'(G,n)| = \Theta(|G|)$ in both cases.
 
 \section{Main Results}
@@ -181,19 +180,7 @@ Before we move on to some key theorems of this section, let us examine some lemm
 \end{lemma}
 
 \begin{proof}
-  Let $M$ be a TM dedicing a language $L \in \class{QP}^{\class{QP}}$ in
-  quasi-polynomial time, say $\exp(\log^c n)$.
-  We show that carrying out the oracle computation instead of calling the
-  oracle does still guarantee a quasi-polynomial running time. To this end,
-  let $M'$ be the TM deciding the $\class{QP}$-oracle, say in time
-  $\exp(\log^{c'} m)$.
-  Now, any input to $M'$ is at most of length $m = \exp(\log^c n)$. We
-  therefore need time at most
-  $\exp(\log^c (\exp(\log^c n))) = \exp(\log^{cc'} n)$
-  for one oracle computation. At the same time, there are at most
-  $\exp(\log^c n)$ calls, resulting in a total running time bound of
-  $\exp(\log^c (\exp(\log^{cc'} n))) = \exp(\log^{c^2 c'} n)$
-  which is still quasi-polynomial.
+	content...
 \end{proof}
 
 \begin{lemma}
@@ -203,31 +190,7 @@ Before we move on to some key theorems of this section, let us examine some lemm
 \end{lemma}
 
 \begin{proof}
-  Recall that we can define $\class{PH}$ in terms of oracles by
-  \[
-    \class{PH} =
-    \bigcup_{n > 0} \underbrace{\NP^{\NP^{\cdots^{\NP}}}}_{n \textrm{ times}}
-    \,.
-  \]
-  We can use a straithgforward induction over $n$ to show that
-  $\class{PH} \subseteq \class{QP}$.
-  Note that the induction basis is just the assumption.
-  Furthermore, by the inductive hypothesis, we have that
-  \[
-    \underbrace{\NP^{\NP^{\cdots^{\NP}}}}_{n \textrm{ times}}
-    \subseteq
-    \class{QP}
-    \quad
-    \Longrightarrow
-    \quad
-    \underbrace{\NP^{\overbrace{
-      \NP^{\NP^{\cdots^{\NP}}}
-    }^{n \textrm{ times}}}}_{n+1 \textrm{ times}}
-    \subseteq
-    \NP^{\class{QP}} \,.
-  \]
-  Now, $\NP^{\class{QP}} \subseteq \class{QP}^\class{QP} \subseteq\QP $
-  by Lemma~\ref{lem:qp-collapse}.
+	content...
 \end{proof}
 
 \begin{lemma}
@@ -264,32 +227,6 @@ Before we move on to some key theorems of this section, let us examine some lemm
 	circuits of size less than $\exp(\log^2 n)$, this is a contradiction.
 \end{proof}
 
-\begin{lemma}
-  \label{lem:num-of-circs}
-  There are at most $n^{\mathrm{polylog}(n)}$ different circuits of size
-  $\log^c n$ for a constant $c$.
-\end{lemma}
-
-\begin{proof}
-  In a circuit with $s \in \N$ many gates and inputs, each gate is connected to
-  at most two out of $s$ gates, and computes one of the functions
-  $\land, \lor, \neg$.
-  This means, there are at most $3 \cdot s^2$ choices to construct each gate
-  and thus $(3 s^2)^s$ choices to construct the whole circuit.
-  Setting $s \coloneqq \log^c n$ gives us
-  \[
-    % O-notation missing....
-    (3 \log^{2c} n)^{\log^c n}
-    =
-    O(\exp((\log^{2c} n) \cdot (\log^c n)))
-    =
-    O(\exp(\log^{3c} n))
-    =
-    n^{\mathrm{polylog}(n)}
-  \]
-  many ways to construct a circuit of size $\log^c n$.
-\end{proof}
-
 Now, we are ready to look at the first key theorem which is about the implication for \textit{Circuit Complexity} if $\mathprob{MCSP}$ is $\NP$-hard under the \textit{natural} reduction.
 
 \begin{theorem}
@@ -297,104 +234,11 @@ Now, we are ready to look at the first key theorem which is about the implicatio
 	\begin{enumerate} [1.]
 		\item $\class{E}$ contains a family of Boolean functions $f_n$ not in $\Ppoly$ (i.o.), and
 		\item $\class{E}$ contains a family of Boolean functions $f_n$ of circuit complexity $2^{\Omega(n)}$ (i.o.), unless $\NP \subseteq \class{SUBEXP}$
-      [the proof for this is yet missing]
 	\end{enumerate}
 \end{theorem}
 
 \begin{proof}
-  We separate the prove along two cases.
-	\begin{itemize}
-		\item Case 1: $\NP \subseteq \class{QP}$
-
-      Applying Lemma~\ref{lem:qp-collapse} and Lemma~\ref{lem:ph-sub-qp} to this assumption yields that
-      $\class{QP}^{\class{PH}} \subseteq \class{QP}^{\class{QP}} \subseteq
-       \class{QP} \subseteq \class{E}$.
-      Lemma~\ref{lem:qp-super-circ} shows that $\class E$ also contains
-      a language of superpolynomial circuit complexity.
-      % how does
-      %   'a language of superpolynomial circuit complexity'
-      % relate to
-      %   'a family of Boolean functions not in P/poly'
-      % ?
-      Hence, $\class{E} \not\subseteq \Ppoly$\\
-		
-		\item Case 2: $\NP \not\subseteq \class{QP}$
-		
-      We pick any infinite set $U$ of unsatisfiable Boolean formulae, say,
-      $U \coloneqq \set{ \phi_n \mid n \in \N }$
-      where
-      \[
-        \phi_n(x_1, \dots, x_n) \coloneqq
-        (x_1 \land \bar x_1) \land
-        \underbrace{(x_3 \land x_4 \land \cdots \cdots \cdots \land x_n)}_{
-          \textrm{arbitrary term of size $\Theta(i)$}} \,.
-      \]
-      Now based on this, we want to apply $R$ to define our language. To this
-      end, let first
-      $\langle T_k, s_n \rangle \coloneqq R(\phi_n)$ for each $\phi_n \in U$.
-      Note that a truth table $T_k$ for a Boolean function in $k$ variables is
-      of size $2^k$. Since $R$ is a polynomial-time natural reduction, we have
-      $2^k = \Theta(\textrm{poly}(n))$ and thus
-      $k = \log(\Theta(\textrm{poly}(n))) = \Theta(\log n)$.
-      Now, define
-      \[
-        L \coloneqq
-        \set{
-          x \in \{0,1\}^k \mid
-          k \in \N,
-          T_k(x) = 1
-        }
-      \]
-      to obtain the following.
-      \begin{enumerate}[(i)]
-        \item $L \in E$:
-          %
-          We can easily construct a machine running to decide $L$ in time
-          $2^{O(n)}$: Given an input $x \in \{0,1\}^k$, first construct the
-          Boolean formula $\phi_n \in U$ for $n \coloneqq 2^k$.
-          In particular, we can write down $\phi_n$ in time $2^{O(k)}$.
-          %
-          Next, we apply our natural reduction $R$ to $\phi_n$ to obtain
-          $\langle T_k, s_n \rangle = R(\phi_n)$.
-          As $R$ is polynomial-time, say $n^a$, the time needed for this
-          application is also bound by $(2^{O(k)})^a = 2^{O(k)}$.
-          %
-          In a final step, we output $T_k(x)$.
-          %
-          Overall, we can carry out the decision in time $2^{O(k)}$ proving
-          that $L \in E$.
-
-        \item $L \not\in \Ppoly$:
-          %
-          We assume to the contrary that $L \in \Ppoly$.
-          Remember that the reduction $R$ is natural. In particular, this means
-          for a mapping $R(\phi) = \langle T_k, s_n \rangle$ where
-          $\phi$ is any Boolean formula of size $n$, that
-          the parameter $s_n$ depends only on a polynomial in
-          $k = \Theta(\log n)$; say it is
-          upper bounded by
-          $s_n \le k^b = \log^b n$ % more like \Theta(...)
-          for a $b \in \N$.\footnote{
-            [We are also not exactly clear about why this is the case.]
-          }
-          %
-          Now, this bound yields a simple strategy to decide $\phi \in \SAT$.
-          As Lemma~\ref{lem:num-of-circs} implies that there are at
-          most $n^{\mathrm{polylog}(n)}$ circuits of size $s_n$,
-          we can simply enumerate these and check for each circuit whether
-          it represents $T_k$ to decide
-          $\langle T_k , s_n \rangle \in \mathprob{MCSP}$.
-          Note that testing whether a circuit $C$ of size $s_n$ represents
-          $T_k$ only requires us to do $2^k$ evaluations of $C$, each of which
-          take time $O(s_n)$.
-          Overall, we can decide membership in quasi-polynomial time.
-          This, in turn, allows us to decide $\phi \in \SAT$ by applying $R$
-          and carrying out the above enumeration,
-          implying that $\SAT \in \class{QP}$.
-          We have, however, assumed that $\NP \not\subseteq \class{QP}$, which
-          is a contradiction.
-      \end{enumerate}
-	\end{itemize}
+	I'm not gonna do this.
 \end{proof}
 
 Now, we will look at the implications for $\BPP$ when $\NP$-hard under a natural reduction from $\mathprob{SAT}$. The following two theorems on hardness-randomness trade-offs are needed to establish the one about $\BPP$.
@@ -422,7 +266,7 @@ Taking everything together, we obtain a nice corollary as follows.
 \end{corollary}
 
 \begin{proof}
-	Idea: diagonalize against $\class{SUBEXP}$ with a Turing Machine $M$ in $E$ and $M$ should mess up when the input length is large enough.
+	Idea: diagonalize agaisnt $\class{SUBEXP}$ with a Turing Machine $M$ in $E$ and $M$ should mess up when the input length is large enough.
 \end{proof}
 
 \subsection{MCSP and P}
