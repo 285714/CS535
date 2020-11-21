@@ -138,19 +138,35 @@ This is easily seen by looking at the limit definition of Landau symbols, i.e.
 \end{lemma}
 
 \begin{proof}
-	Let $M$ be a TM deciding a language $L \in \class{QP}^{\class{QP}}$.
-	
-	Then, $M$ runs in $O(n^{\log^c n})$ time with oracle access to a $\class{QP}$ machine.
-	
-	Suppose $f(n) = n^{\log^c n}$ and $g(n) = n^{\log^k n}$ are the run-time upper-bound functions of the ``main body'' of $M$ and the oracle machine respectively. This implies that the total running time of $M$ with some oracle access during the execution is bounded by $f(g(n))$ since $\class{QP}$ is a deterministic time related class.
-	
-	Let $t = \log^k n$, then $f(g(n)) = (n^{\log^k n})^{\log^c (n^{\log^k n})} = (n^t)^{(\log(n^t))^c} = (n^t)^{t^c \log^c n} = n^{t^{c+1}\log^c n}$
-	
-	Substitute $\log^k n$ to $t$, we have $f(g(n)) = n^{\log^{k(c+1)} n \log^c n} = n^{\log^{k(c+1) + c} n}$ which is quasi-polynomial. In other words, $M$ runs in quasi-polynomial time which implies that $L \in \class{QP}$.
-	
-	Hence, $\class{QP}^{\class{QP}} \subseteq \class{QP}$
-	
+  Let $M$ be a TM dedicing a language $L \in \class{QP}^{\class{QP}}$ in
+  quasi-polynomial time, say $\exp(\log^c n)$.
+  We show that carrying out the oracle computation instead of calling the
+  oracle does still guarantee a quasi-polynomial running time. To this end,
+  let $M'$ be the TM deciding the $\class{QP}$-oracle, say in time
+  $\exp(\log^{c'} m)$.
+  Now, any input to $M'$ is at most of length $m = \exp(\log^c n)$. We
+  therefore need time at most
+  $\exp(\log^c (\exp(\log^c n))) = \exp(\log^{cc'} n)$
+  for one oracle computation. At the same time, there are at most
+  $\exp(\log^c n)$ calls, resulting in a total running time bound of
+  $\exp(\log^c (\exp(\log^{cc'} n))) = \exp(\log^{c^2 c'} n)$
+  which is still quasi-polynomial.
 \end{proof}
+
+% \begin{proof}
+%   Let $M$ be a TM deciding a language $L \in \class{QP}^{\class{QP}}$.
+%   
+%   Then, $M$ runs in $O(n^{\log^c n})$ time with oracle access to a $\class{QP}$ machine.
+%   
+%   Suppose $f(n) = n^{\log^c n}$ and $g(n) = n^{\log^k n}$ are the run-time upper-bound functions of the ``main body'' of $M$ and the oracle machine respectively. This implies that the total running time of $M$ with some oracle access during the execution is bounded by $f(g(n))$ since $\class{QP}$ is a deterministic time related class.
+%   
+%   Let $t = \log^k n$, then $f(g(n)) = (n^{\log^k n})^{\log^c (n^{\log^k n})} = (n^t)^{(\log(n^t))^c} = (n^t)^{t^c \log^c n} = n^{t^{c+1}\log^c n}$
+%   
+%   Substitute $\log^k n$ to $t$, we have $f(g(n)) = n^{\log^{k(c+1)} n \log^c n} = n^{\log^{k(c+1) + c} n}$ which is quasi-polynomial. In other words, $M$ runs in quasi-polynomial time which implies that $L \in \class{QP}$.
+%   
+%   Hence, $\class{QP}^{\class{QP}} \subseteq \class{QP}$
+%   
+% \end{proof}
 
 \begin{lemma}
   \label{lem:ph-sub-qp}
@@ -291,10 +307,6 @@ If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT
 	\begin{enumerate} [+]
 		\item Case 1: $\NP \subseteq \class{QP}$
 		
-      {\color{gray}
-      It is obvious to see that $\NP \subseteq \class{QP} \implies \class{PH} \subseteq \class{QP}$ (think of this as a generalisation of $\NP \subseteq \P \implies \class{PH} \subseteq \P$). Also, we make an observation that $\class{QP}^{\Sigma_k^p}$, for some $k \in \N$, contains a language of superpolynomial circuit complexity. The proof of this claim is as follow: (help!!!!)
-		
-		Combining these two results, we get the following $\NP \subseteq \class{QP} \implies \class{QP}^{\class{PH}} \subseteq \class{QP}^{\class{QP}} \subseteq \class{QP} \subset \class{E}$ contains a family of function not in $\Ppoly$.}
 
       Applying Lemma~\ref{lem:qp-collapse} and Lemma~\ref{lem:ph-sub-qp} to this assumption yields that
       $\class{QP}^{\class{PH}} \subseteq \class{QP}^{\class{QP}} \subseteq
@@ -312,40 +324,6 @@ If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT
 		
 		\item Case 2: $\NP \not\subseteq \class{QP}$
 		
-      {\color{gray}
-		A given natural reduction $R$ from $\mathprob{SAT}$ to $\mathprob{MCSP}$ maps every family of boolean formulas of size $n$  to truth tables of Boolean functions on $k = \theta(\log n)$ variables (is the symbol $\theta$ significant? more elaboration on $\theta(\log n)$, like why is that?) and a parameter $s_n$.
-		
-		Since the reduction is natural, $s_n$ is some function of $n$ only and thus it could be some fixed polynomial $\log^c n$.
-      By Lemma~\ref{lem:num-of-circs}, there are at most $n^{\text{polylog(n)}}$
-      many different circuits on $k$ inputs given $\log^c n$ gates.
-      Thus, all such instances of $\mathprob{MCSP}$ where $s_n = \log^c n$, for some constant $c$, are solvable in quasi-polynomial time. This implies that $\mathprob{SAT} \in \class{QP}$ which is a contradiction to our assumption since $\mathprob{SAT}$ is $\NP$-complete. (should we say something about the relationship between $k$ and $\log n$? My understanding is that what we have shown here implies that the circuit size $s_n \neq \log^c n$ which is related to something like $k^c$, i.e. can't get a circuit of poly(k) size which leads to the thing below)
-		
-		Therefore, we can obtain the desired k-variable functions not in $\Ppoly$ by applying the reduction $R$ to any trivial family of unsatisfiable formulas. Clearly, this family of hard functions is computable in time $2^{O(k)}$. (maybe more elaboration on this too...).
-      }
-
-      {\color{orange}
-      The premise gives us a natural reduction $R$ from $\SAT$ which maps
-      a formula of size $n$ to a truth table of size $\Theta(\log n)$ and a
-      parameter $s_n$.
-      Since $R$ is natural, we can upper bound $s_n$ by a fixed polynomial,
-      say $s_n \le \log^c n$.
-      Now, we can solve $\SAT$ in quasi-polynomial time as follows:
-      Given a formula $\phi$ of size $n$, compute $R(f)$ resulting in a truth
-      table $T_{\log n}$ and parameter $s_n \le \log^c n$.
-      Using Lemma~\ref{lem:num-of-circs}, we know there are at most
-      $n^{\mathrm{polylog}(n)}$ different circuits of size $\log^c n$. We can
-      enumerate all and test whether they compute the same function of $T_n$.
-      The procedure can overall be carried out in quasi-polynomial time.
-      We conclude that $\SAT \in \class{QP}$.
-
-      Now, we also assumed that $\NP \not\subseteq \class{QP}$. Taking
-      an unsatisfiable formula $\phi$ on $k$ variables and applying $R$ results
-      in a truth table $T_k$ and parameter $s_n \le k^c$ such that $T_k$ cannot
-      be represented by a circuit of size at most $s_n$.
-      The truth table can be evaluated in time $2^{O(k)}$ (in $E$).
-      }
-
-      \newpage
       We pick any set $U$ of unsatisfiable Boolean formulae such that for each
       formula $\phi_k \in U$ in $k$ variables, its size $n = |\phi|$ is related
       to the number of variables by $k \in \Theta(\log n)$. Say,
@@ -416,7 +394,6 @@ If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT
       \end{enumerate}
 
 
-      \newpage
 	\end{enumerate}
 	\item Statement 2: the proof is similar (you want to do it too?)
     % I believe Statement is ruled out of Case 1 since if assuming
