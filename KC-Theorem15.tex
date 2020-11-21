@@ -168,22 +168,52 @@ This is easily seen by looking at the limit definition of Landau symbols, i.e.
 %   
 % \end{proof}
 
-\begin{lemma}
+\begin{corollary}
   \label{lem:ph-sub-qp}
   If $\NP \subseteq \class{QP}$ then
   $\class{PH} \subseteq \class{QP}$.
-\end{lemma}
+\end{corollary}
 
 \begin{proof}
-	From the assumption $\NP \subseteq \class{QP}$, we have $\class{PH} = \NP^{\NP^{\NP^{\dots^{\NP}}}} \subseteq \class{QP}^{\class{QP}^{\class{QP}^{\dots^{\class{QP}}}}}$ (how do I put $k$ times in there?)
-	
-	Also, from Lemma 1, we have $\class{QP}^{\class{QP}^{\class{QP}^{\dots^{\class{QP}}}}} \subseteq \class{QP}^{\class{QP}^{\class{QP}^{\dots^{\class{QP}}}}} \subseteq \dots \subseteq \class{QP}$ (here, it means that we first have a stack of $k$ $\class{QP}$'s then it collapses to the stack of $k - 1$ and so on... thus, we finally collapses it to $\class{QP}$)
-	
-	Thus, $\NP \subseteq \class{QP} \implies \class{PH} \subseteq \class{QP}$
+  Recall that we can define $\class{PH}$ in terms of oracles by
+  \[
+    \class{PH} =
+    \bigcup_{n > 0} \underbrace{\NP^{\NP^{\cdots^{\NP}}}}_{n \textrm{ times}}
+    \,.
+  \]
+  We can use a straithgforward induction over $n$ to show that
+  $\class{PH} \subseteq \class{QP}$.
+  Note that the induction basis is just the assumption.
+  Furthermore, by the inductive hypothesis, we have that
+  \[
+    \underbrace{\NP^{\NP^{\cdots^{\NP}}}}_{n \textrm{ times}}
+    \subseteq
+    \class{QP}
+    \quad
+    \Longrightarrow
+    \quad
+    \underbrace{\NP^{\overbrace{
+      \NP^{\NP^{\cdots^{\NP}}}
+    }^{n \textrm{ times}}}}_{n+1 \textrm{ times}}
+    \subseteq
+    \NP^{\class{QP}} \,.
+  \]
+  Now, $\NP^{\class{QP}} \subseteq \class{QP}^\class{QP} \subseteq\QP $
+  by Lemma~\ref{lem:qp-collapse}.
 \end{proof}
 
-\bigskip
-\begin{proof} (alternative proof)
+% \begin{proof}
+%   From the assumption $\NP \subseteq \class{QP}$, we have $\class{PH} = \NP^{\NP^{\NP^{\dots^{\NP}}}} \subseteq \class{QP}^{\class{QP}^{\class{QP}^{\dots^{\class{QP}}}}}$ (how do I put $k$ times in there?)
+%   
+%   Also, from Lemma 1, we have $\class{QP}^{\class{QP}^{\class{QP}^{\dots^{\class{QP}}}}} \subseteq \class{QP}^{\class{QP}^{\class{QP}^{\dots^{\class{QP}}}}} \subseteq \dots \subseteq \class{QP}$ (here, it means that we first have a stack of $k$ $\class{QP}$'s then it collapses to the stack of $k - 1$ and so on... thus, we finally collapses it to $\class{QP}$)
+%   
+%   Thus, $\NP \subseteq \class{QP} \implies \class{PH} \subseteq \class{QP}$
+% \end{proof}
+
+We can also establish this resulting by using a padding argument as done
+in the following.
+
+\begin{proof}[Alternative Proof]
   We first show that $\NP = \exists \P \subseteq \class{QP}$ also implies that
   $\exists \class{QP} \subseteq \class{QP}$ by a padding
   argument.\footnote{The class $\exists \class{QP}$ is defined to consist of
