@@ -23,40 +23,200 @@
 
 \author{Your name, should you choose to include it}
 \title{Silly title of your review: \\ A serious title on an extra line if you need it}
-\date{November 17, 2020}
+\date{November 20, 2020}
 
 \begin{document}
 	\maketitle
 	
 \section{Introduction}
 
-What are the main contributions of the paper you are reviewing? This introduction should emphasize conceptual contributions and why they are important, avoiding technical definitions and details.
+In the Minimum Circuit Size Problem (MCSP), we are given a truth table of some Boolean function together with a positive integer $s_n$ as input, and our task is to answer the question whether there exists a circuit of size at most $s_n$ that computes the function represented by the given truth table.
+
+{
+	% we can use this structure if you like it:
+	\renewcommand{\arraystretch}{1.5}
+	\begin{center}
+		\begin{tabular}{|p{2cm}p{11cm}|}
+			\hline
+			Problem:
+			&
+			$\mathprob{MSCP}$
+			\\
+			\hline
+			Input:
+			&
+			A tuple $\langle T_n, s_n \rangle$ consisting of a truth table $T_n$ for
+			a Boolean function of arity $n$ and an integer $s_n$
+			\\
+			Question: & Is there a circuit $C_n$ of size at most $s_n$ computing $T_n$?
+			\\
+			\hline
+		\end{tabular}
+	\end{center}
+}
+
+It is easy to see that $\mathprob{MCSP}$ is in $\NP$. Namely, we can define a certificate as some proposed circuit $C$ of size at most $s_n$, and verify whether $C$ computes each entry of the truth table correctly in polynomial time. With that being said, a natural question arises: Is $\mathprob{MCSP}$  $\NP$-complete?
+
+In ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi Cai addressed the difficulty of showing $\mathprob{MCSP}$ to be $\NP$-hard \cite{10.1145/335305.335314}. Namely, they showed some consequences that are unlikely to happen if there exists a polynomial-time reduction $R$ from $\mathprob{SAT}$ to $\mathprob{MCSP}$ that is ``natural,'' in the sense that the size of the output depends on the size of the inputs only, and these sizes are polynomially related.  Furthermore, the authors pointed out why it is challenging to prove $\mathprob{MCSP} \notin \P$ (again, by providing some consequences whose likelihood is questionable). Clearly, such proof would imply $\P \neq \NP$ which goes beyond the currently known techniques. 
+
+In this review, we will provide some definitions required to understand the main results and key theorems of the paper in Section 2. Section 3 introduces some main consequences when $\mathprob{MCSP} \notin \P$ and $\mathprob{MCSP}$ is $\NP$-hard under ``natural'' reductions. Finally, we conclude the review by providing some insightful remarks and directions for further research on this topic in Section 4.
 
 \section{Preliminaries}
 
-Introduce important notation and definitions, like this:
+In this section, we provide the list of some definitions that, we believe, are useful for the readers.
 
 \begin{definition}
-	The class $\class{PP}$ consists of all languages $L$ such that there exists a probabilistic Turing machine $M$ where $x \in L$ iff $\Pr[M(x) = 1] \ge 1/2$.
+	The class Sub-Exponential: $\class{SUBEXP} = \bigcap_{\epsilon > 0} \TIME(2^{n^{\epsilon}})$
+\end{definition}
+
+\begin{definition}
+	The class $\class{QP}$ of languages decided by a TM in
+	\emph{quasi-polynomial} time defined by
+	\[
+	\class{QP}
+	\coloneqq
+	\TIME(n^{\mathrm{polylog}(n)})
+	=
+	\bigcup_{c > 1}\TIME(2^{\log^c n})
+	=
+	\bigcup_{c > 1}\TIME(n^{\log^c n})
+	\]
+	where we obtain the last equality since
+	\[
+	2^{(\log n)^{c+1}} = \exp( \log^{c+1} n ) = \exp( \log n \log^c n )
+	= n^{\log^c n} \,.
+	\]
+	Note that $\class{QP}$ contains $\P$ since
+	$\mathrm{polylog}(n) \in \Omega(1)$.
+	Also, $\class{SUBEXP}$ contains $\class{QP}$ since for every
+	$\varepsilon > 0$ and $c > 1$ holds that
+	$\exp(\log^c n) \in o(\exp(n^\varepsilon))$.
+\end{definition}
+
+\begin{definition}
+	The class exponential time with linear exponential is defined as
+	$\class{E} \coloneqq \TIME(2^{O(n)})$.
+	Since $\log^c n \in O(n)$ for any $c > 0$, we obtain that
+	$\class{QP} \subseteq \class E$.
+\end{definition}
+
+\begin{definition}
+	\textit{Natural (Karp) Reduction}: For two problems $A$ and $B$ and a Karp reduction from $A$ to $B$, we say the reduction $R$ is natural if, for any instance $I$ of $A$, the length of the output $|R(I)|$, as well as all possible output parameters $s_n$, depend only on the input length $|I|$. Furthermore, $|I|$ and $|R(I)|$ are polynomial related.
+	
+	For example, $\mathprob{SAT} \leq_p \mathprob{3SAT}$ is ``natural.'' Namely, given $\varphi$ - an instance in $\mathprob{SAT}$, the general idea is to split some clause $C$ in $\varphi$ of size $k > 3$ into a pair of two equivalent clauses $C_1$ of size $k - 1$ and $C_2$ of size $3$ and we repeat the process until we get the desired $3-CNF$ formula, $\varphi'$. Thus, the length of $\varphi'$ is only dependent on $\varphi$ as we just add more clauses solely based on everything from the original formula, intuitively speaking.
+	
+	Other textbook reductions that we know and love (such as $\mathprob{3SAT} \leq_p \mathprob{VERTEXCOVER}$, etc.) are ``natural'' in this sense.
 \end{definition}
 
 \section{Main Results}
 
-Next, you should describe the main results of the paper at a technical level, giving precise theorem statements. Then you should choose one of these main results and give a detailed proof. Depending on the topic you choose, it may be difficult to do this concisely. If that is the case, you may decide to prove a special case of the result (that illustrates most of the main ideas). You might also ``black-box out'' technical lemmas that require lengthy calculations but are not so conceptually important, so long as these lemmas are stated precisely and you can prove how they fit together.
+\subsection{MCSP and NP-completeness}
 
-This is a theorem due to Beigel, Reingold, and Spielman~\cite{brsconf}. (The reference for the journal version of the paper is~\cite{brsjournal}.)
+To begin with, we want to emphasize that researchers have not figured out yet whether it is possible to prove the $\NP$-hardness of $\mathprob{MCSP}$ or not. The difficulty of such proof was explicitly addressed through some implications for \textit{Circuit Complexity} and $\BPP$. In other words, the authors provided some consequences that are still unknown to the current state of the art if $\mathprob{MCSP}$ is $\NP$-hard under the ``natural'' Karp reduction. 
+
+Before we move on to some key theorems of this section, let us examine some lemmas that are useful for establishing.
+
+\begin{lemma}
+	\label{lem:qp-collapse}
+	$\class{QP}^{\class{QP}} \subseteq \class{QP}$.
+\end{lemma}
+
+\begin{proof}
+	content...
+\end{proof}
+
+\begin{lemma}
+	\label{lem:ph-sub-qp}
+	If $\NP \subseteq \class{QP}$ then
+	$\class{PH} \subseteq \class{QP}$.
+\end{lemma}
+
+\begin{proof}
+	content...
+\end{proof}
+
+\begin{lemma}
+	\label{lem:qp-super-circ}
+	$\class{QP}^{\class{\Sigma}^p_k}$ contains a language which does not belong
+	to $\Ppoly$ for some $k \in \N$.
+\end{lemma}
+
+\begin{proof}
+	The proof follows a nonuniform diagonalization argument. We first define
+	a language which will be hard to compute for any polynomial-size circuit
+	family:
+	Let $L'$ be the language consisting of tuples
+	$\langle x, 1^{\exp(\log^3 n)} \rangle$
+	with $n \coloneqq |x|$
+	such that $C(x) = 1$ where $C$ is the
+	lexicographically first circuit of size $\exp(\log^3 n)$ which is not
+	computed by any circuit of size $\exp(\log^2 n)$.
+	The existence of such a circuit for sufficiently large $n$ follows from a
+	slightly more careful analysis of the nonuniform hierarchy theorem
+	(Theorem~6.22).
+	
+	We can decide membership $\langle x, 1^{\exp(\log^3 n)} \rangle \in L'$
+	by a $\class{\Sigma}^p_4$-oracle as in Problem~(1c) of Homework~7.
+	Finally, we define our language $L$ of superpolynomial circuit complexity
+	as the output of a $\class{QP}^{\class{\Sigma}^p_4}$-machine: Given an input
+	$x \in \{0,1\}^n$, query the oracle for $L'$ with
+	$\langle x, 1^{\exp(\log^3 n)} \rangle$ and output its answer.
+	
+	We constructed this language such that it is hard for a polynomial-size
+	circuit to compute. To see this, assume to the contrary that there is
+	a $n^a$-size circuit family.
+	However, since $n^a \in o(\exp(\log^2 n))$ and we particularly excluded any
+	circuits of size less than $\exp(\log^2 n)$, this is a contradiction.
+\end{proof}
+
+Now, we are ready to look at the first key theorem which is about the implication for \textit{Circuit Complexity} if $\mathprob{MCSP}$ is $\NP$-hard under the \textit{natural} reduction.
 
 \begin{theorem}
-	$\class{PP}$ is closed under intersection. That is, if $L_1, L_2 \in \PP$, then $L_1 \cap L_2 \in \PP$.
+	If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT}$, then
+	\begin{enumerate} [1.]
+		\item $\class{E}$ contains a family of Boolean functions $f_n$ not in $\Ppoly$ (i.o.), and
+		\item $\class{E}$ contains a family of Boolean functions $f_n$ of circuit complexity $2^{\Omega(n)}$ (i.o.), unless $\NP \subseteq \class{SUBEXP}$
+	\end{enumerate}
 \end{theorem}
 
 \begin{proof}
 	I'm not gonna do this.
 \end{proof}
 
+Now, we will look at the implications for $\BPP$ when $\NP$-hard under a natural reduction from $\mathprob{SAT}$. The following two theorems on hardness-randomness trade-offs are needed to establish the one about $\BPP$.
+
+\begin{theorem}
+	If the class $\class{E}$ contains a family of Boolean functions $f_n: \{0, 1\}^n \rightarrow \{0, 1\}$ of circuit complexity at least $2^{\epsilon n}$ for some $\epsilon > 0$, (i.o.), then $\BPP = \P$ (i.o.).
+\end{theorem}
+
+\begin{theorem}
+	If the class $\EXP$ contains a family of Boolean functions of superpolynomial circuit complexity (i.o.), then $\BPP \subseteq \class{SUBEXP}$ (i.o.).
+\end{theorem}
+
+\begin{theorem}
+	If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT}$, then
+	\begin{enumerate} [1.]
+		\item $\BPP \subseteq \class{SUBEXP}$ (i.o.), and
+		\item $\BPP = \P$, unless $\NP \subseteq \class{SUBEXP}$.
+	\end{enumerate}
+\end{theorem}
+
+Taking everything together, we obtain a nice corollary as follows.
+
+\begin{corollary}
+	If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT}$, then $\BPP \subsetneq \class{E}$
+\end{corollary}
+
+\begin{proof}
+	Idea: diagonalize agaisnt $\class{SUBEXP}$ with a Turing Machine $M$ in $E$ and $M$ should mess up when the input length is large enough.
+\end{proof}
+
+\subsection{MCSP and P}
+[We plan to discuss some implication for hard functions in uniform complexity class (2.4) and Zero-sided and One-sided error (2.5)] 
+
 \section{Conclusion}
 
-Further discussion of the implications of the results you've described and directions for future research. 
+[Will be added when we are done with section 3, but basically, we plan to briefly introduce some other work that tackled the open problems introduced in this paper and then conclude with some further plans of research.]
 
 % I like to use bibtex to organize reference, but you can use whatever you like. https://dblp.org/ is a good source for bibtex entries for CS papers
 \bibliographystyle{alpha}
