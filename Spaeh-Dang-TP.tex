@@ -12,7 +12,7 @@
 \usepackage{enumerate}
 \usepackage{comment}
 \usepackage{amsmath,amssymb,amsthm}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage[capitalise]{cleveref}
 
 \include{macros}
@@ -22,7 +22,7 @@
 
 
 \author{Your name, should you choose to include it}
-\title{Silly title of your review: \\ A serious title on an extra line if you need it}
+\title{``A first glimpse on why MCSP is interesting''\\ or something like that}
 \date{November 20, 2020}
 
 \begin{document}
@@ -399,11 +399,11 @@ Now, we are ready to look at the first key theorem which is about the implicatio
 
 Now, we will look at the implications for $\BPP$ when $\NP$-hard under a natural reduction from $\mathprob{SAT}$. The following two theorems on hardness-randomness trade-offs are needed to establish the one about $\BPP$.
 
-\begin{theorem}
+\begin{theorem}[\cite{impagliazzo1997}]
 	If the class $\class{E}$ contains a family of Boolean functions $f_n: \{0, 1\}^n \rightarrow \{0, 1\}$ of circuit complexity at least $2^{\epsilon n}$ for some $\epsilon > 0$, (i.o.), then $\BPP = \P$ (i.o.).
 \end{theorem}
 
-\begin{theorem}
+\begin{theorem}[\cite{babai1993bpp}]
 	If the class $\EXP$ contains a family of Boolean functions of superpolynomial circuit complexity (i.o.), then $\BPP \subseteq \class{SUBEXP}$ (i.o.).
 \end{theorem}
 
