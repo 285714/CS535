@@ -259,8 +259,8 @@ This is easily seen by looking at the limit definition of Landau symbols, i.e.
   In a circuit with $s \in \N$ many gates and inputs, each gate is connected to
   at most two out of $s$ gates, and computes one of the functions
   $\land, \lor, \neg$.
-  This means, there are $3 \cdot s^2$ choices to construct each gate and thus
-  $(3 s^2)^s$ choices to construct the whole circuit.
+  This means, there are at most $3 \cdot s^2$ choices to construct each gate
+  and thus $(3 s^2)^s$ choices to construct the whole circuit.
   Setting $s \coloneqq \log^c n$ gives us
   \[
     % O-notation missing....
@@ -358,7 +358,7 @@ If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT
           \textrm{arbitrary term of size $2^k$}} \,.
       \]
       Now based on this, we apply $R$ to define our language: Let
-      $\langle T_k, s_{?} \rangle \coloneqq R(\phi_k)$ for each $\phi_k \in U$
+      $\langle T_k, s \rangle \coloneqq R(\phi_k)$ for each $\phi_k \in U$
       and define
       \[
         L \coloneqq
@@ -425,6 +425,63 @@ If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT
     % So that should rather be a bullet point in Case 2
 \end{enumerate}
 \end{proof}
+
+\subsection{Natural and Unnatural Reductions}
+Consider the following reduction from
+$\mathprob{Clique}$\footnote{
+  The clique problem ($\mathprob{Clique}$) asks for an instance
+  $\langle G, n \rangle$ of a graph $G$ and integer $n$, whether $G$ has
+  a completely connected subgraph of size $n$.
+}
+to
+$\mathprob{SubIso}$:\footnote{
+  The subgraph isomorphism problem ($\mathprob{SubIso}$) asks, given two graphs
+  $G$ and $H$, whether there is a subgraph $G'$ of $G$ which is isomorphic to
+  $H$.
+}
+\[
+  f(G, n) =
+  \left\{
+    \begin{array}{ll}
+      \langle K_1, K_2 \rangle & \textrm{if } |V(G)| < n \\
+      \langle G, K_{n} \rangle & \textrm{otherwise} \\
+    \end{array}
+  \right.
+\]
+where $K_n$ is the complete graph on $n$ vertices.
+Note that the reduction is correct since $G$ has a clique of size $n$ if and
+only if it has a connected subgraph $K_n$. Also, $G$ cannot have a clique of
+size $n$ if it does not even have $n$ vertices.
+Also, the reduction can be carried out in polynomial time: In fact,
+we can commpute the output size as
+\[
+  |f(G,n)| = 
+  \left\{
+    \begin{array}{ll}
+      O(1) & \textrm{if } |V(G)| < n \\
+      \Theta(|G|) & \textrm{otherwise} \\
+    \end{array}
+  \right.
+\]
+However, $|f(G,n)|$ is certainly not a function in the input size $(|G|+n)$,
+so this reduction is not natural.
+
+With a little more care, we can turn this reduction into a natural reduction.
+For example, we can define
+\[
+  f'(G, n) =
+  \left\{
+    \begin{array}{ll}
+      \langle G \cup K_1, G \rangle & \textrm{if } |V(G)| < n \\
+      \langle G, K_{n} \rangle & \textrm{otherwise} \\
+    \end{array}
+  \right.
+\]
+where $G \cup H$ denotes the union of two graphs $G$ and $H$.
+Now, the output size becomes
+$|f'(G,n)| = \Theta(|G|)$
+in both cases.
+
 
 \end{document}
 
