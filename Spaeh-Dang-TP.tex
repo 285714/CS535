@@ -21,7 +21,7 @@
 \newcommand{\dolphin}{\mathsf{DOLPHIN!!}}
 
 
-\author{Your name, should you choose to include it}
+\author{\dots}
 \title{``A first glimpse on why MCSP is interesting''\\ or something like that}
 \date{November 20, 2020}
 
@@ -108,11 +108,18 @@ $\class{QP} \subseteq \class E$.
 \begin{definition}
 	\textit{Natural (Karp) Reduction}: For two problems $A$ and $B$ and a Karp reduction from $A$ to $B$, we say the reduction $R$ is natural if, for any instance $I$ of $A$, the length of the output $|R(I)|$, as well as all possible output parameters $s_n$, depend only on the input length $|I|$. Furthermore, $|I|$ and $|R(I)|$ are polynomial related.
 \end{definition}
+
+\begin{definition}
+  Proper definition of natural reductions as given in the PhD-thesis.
+\end{definition}
 	
 	For example, $\mathprob{SAT} \leq_p \mathprob{3SAT}$ is ``natural.'' Namely, given $\varphi$ - an instance in $\mathprob{SAT}$, the general idea is to split some clause $C$ in $\varphi$ of size $k > 3$ into a pair of two equivalent clauses $C_1$ of size $k - 1$ and $C_2$ of size $3$ and we repeat the process until we get the desired $3-CNF$ formula, $\varphi'$. Thus, the length of $\varphi'$ is only dependent on $\varphi$ as we just add more clauses solely based on everything from the original formula, intuitively speaking.
 	
 	Other textbook reductions that we know and love (such as $\mathprob{3SAT} \leq_p \mathprob{VERTEXCOVER}$, etc.) are ``natural'' in this sense.
 Unnatural reductions, on the other hand, are more contrived.
+%
+%
+{\color{gray}
 Consider, for example, the following reduction from
 $\mathprob{Clique}$\footnote{
   The clique problem ($\mathprob{Clique}$) asks for an instance
@@ -165,7 +172,68 @@ reduction. We can define
 \]
 where $G \cup H$ denotes the union of two graphs $G$ and $H$ where
 $\bar K_m$ is the empty graph on $m$ vertices.
-Now, the output size is $|f'(G,n)| = \Theta(|G|)$ in both cases.
+Now, the output size is $|f'(G,n)| = \Theta(|G|)$ in both cases.}
+%
+%
+\begin{example}
+  We reduce from
+  $\mathprob{Partition}$\footnote{The partition problem asks, given a multiset
+  of positive integers $\{a_1, \dots, a_n\}$ whether there exists a partition
+  $(S,T)$ of $\{1, \dots, n\}$ such that
+  $\sum_{i \in S} a_i = \sum_{i \in T} a_i$.}
+  to
+  $\mathprob{SubsetSum}:$\footnote{The partition problem asks for an instance
+  $\langle A, s \rangle$ of a multiset of positive integers
+  $A = \{a_1, \dots, a_n\}$ and an integer $s$ whether there exists a subset
+  $S \subseteq \{1, \dots, n\}$ such that
+  $s = \sum_{i \in S} a_i$.}
+  \[
+    R(\{a_1, \dots, a_n\}) \coloneqq
+    \left\{
+      \begin{array}{ll}
+        \langle \{2, 4, 8\}, 7 \rangle
+          & \textrm{if } \sum_{i=1}^n a_i \equiv_2 1 \\
+        \langle \{a_1, \dots, a_n\}, \frac 1 2 \sum_{i=1}^n a_i \rangle
+          & \textrm{otherwise} \,. \\
+      \end{array}
+    \right.
+  \]
+  Now, while this reduction is correct (if $\sum_{i=1}^n a_i$ is congruent to 1
+  modulo 2, it is impossible to divide the set into two partitions of equal sum;
+  the tuple $\langle \{2, 4, 8\}, 7 \rangle$ is a no-instance to
+  $\mathprob{SubsetSum}$) and can be carried out in polynomial time.
+  It is not natural for two reasons:
+  First, the output size does not strictly depend on the input size as, in the
+  case of an obvious no-instance to $\mathprob{Partition}$, we map directly to a
+  no-instance of $\mathprob{SubsetSum}$ of constant size.
+  Second, the numerical parameter $s$ is not a function of the input
+  size only. For example, the two instances $\{1, \dots, 1\}$ ($n$-times) and
+  $\{2^n\}$ are of equal size, but have totally different sums.
+  With a little more care, we can, however, make this a natural reduction: Let
+  \[
+    \begin{array}{rrl}
+      R'(\{a_1, \dots, a_n\}) \coloneqq
+        \langle \{2 a_1, \dots, 2 a_n, r,
+         2^{\sigma+2} \rangle
+      &\textrm{where}&
+      \sigma \coloneqq \mathrm{size}(\{a_1, \dots, a_n\}) \\
+      &\textrm{and}&
+      r \coloneqq 2^{\sigma+2} - \sum_{i=1}^n a_i \,.
+    \end{array}
+  \]
+  Now, the numerical parameter $s$ is obviously only a function in the input
+  size $\sigma$. Regarding correctness, first note that
+  $2^{\sigma+2} > \sum_{i=1}^n 2 a_i$. This implies that any subset with a sum
+  of $2^{\sigma+2}$ necessarily contains $r$ and thus
+  \[
+    \textstyle
+    2^{\sigma+2} = r + \sum_{i \in S} 2a_i
+    \iff
+    \frac 1 2 \sum_{i=1}^n = \sum_{i \in S} a_i
+  \]
+  where $S$ is the rest of the subset without $r$.
+\end{example}
+
 
 \section{Main Results}
 
@@ -319,24 +387,38 @@ Now, we are ready to look at the first key theorem which is about the implicatio
       Hence, $\class{E} \not\subseteq \Ppoly$\\
 		
 		\item Case 2: $\NP \not\subseteq \class{QP}$
-		
-      We pick any infinite set $U$ of unsatisfiable Boolean formulae, say,
+
+      While it is (computationally) trivial to choose a no-instance for $\SAT$
+      of any given size, it is not clear how to do so for $\mathprob{MCSP}$.
+      The key idea for this part is, therefore, to use the natural reduction $R$
+      to obtain hard instances for $\mathprob{MCSP}$, i.e. a family of
+      truthtables which cannot be represented by ciruits of polynomial size.
+
+      We start out by picking a quite arbitrary infinite set $U$ of 
+      unsatisfiable CNF-formulae, say,
       $U \coloneqq \set{ \phi_n \mid n \in \N }$
       where
       \[
         \phi_n(x_1, \dots, x_n) \coloneqq
         (x_1 \land \bar x_1) \land
-        \underbrace{(x_3 \land x_4 \land \cdots \cdots \cdots \land x_n)}_{
-          \textrm{arbitrary term of size $\Theta(i)$}} \,.
+        (x_3 \land x_4 \land \cdots \cdots \cdots \land x_n) \,.
       \]
-      Now based on this, we want to apply $R$ to define our language. To this
-      end, let first
-      $\langle T_k, s_n \rangle \coloneqq R(\phi_n)$ for each $\phi_n \in U$.
-      Note that a truth table $T_k$ for a Boolean function in $k$ variables is
-      of size $2^k$. Since $R$ is a polynomial-time natural reduction, we have
-      $2^k = \Theta(\textrm{poly}(n))$ and thus
-      $k = \log(\Theta(\textrm{poly}(n))) = \Theta(\log n)$.
-      Now, define
+      By construction, $|\phi_n| \in \Theta(n)$.
+      Now, based on this, we want to apply $R$ to define our hard language.
+      %
+      For each $k \in \N$, let $T_k$ be the truthtable in $k$-variables such
+      that $\langle T_k, s_n \rangle = R(\phi_n)$ and $n$ is minimal.
+      If no $\phi_n$ maps to a truthtable in $k$ variables, simply let
+      $T_k \equiv 0$.
+
+      We know that $R$ is natural, which in particular implies
+      $n^{1/c} \le |T_k| \le n^c$ (with an appropriate $c \in \N$)
+      for every $\phi_n$ mapping to a truthtable $T_k$.
+      Since $|T_k| = 2^k$, this is equivalent to
+      $\log (n^{1/c}) \le k \le \log (n^c)$
+      implying $k = \Theta(\log n)$ or $n = 2^{\Theta(k)}$.
+      %
+      Now, we proceed with defining our hard language
       \[
         L \coloneqq
         \set{
@@ -347,52 +429,65 @@ Now, we are ready to look at the first key theorem which is about the implicatio
       \]
       to obtain the following.
       \begin{enumerate}[(i)]
-        \item $L \in E$:
+        \item $L \in \class E$:
           %
-          We can easily construct a machine running to decide $L$ in time
-          $2^{O(n)}$: Given an input $x \in \{0,1\}^k$, first construct the
-          Boolean formula $\phi_n \in U$ for $n \coloneqq 2^k$.
-          In particular, we can write down $\phi_n$ in time $2^{O(k)}$.
+          We show how to construct a machine to decide $L$ in time
+          $2^{O(k)}$.
+          Given an input $x \in \{0,1\}^k$, we first need to know which
+          $\phi_n$ maps to $T_k$ under $R$.
+
+          To each candidate $\phi_n$ for $n \in \N$, we apply $R$ and obtain
+          $\langle T_{k'}, s_n \rangle = R(\phi_n)$.
+          We then compare whether $k = k'$ and if so, output $T_k(x)$.
+          The reduction $R$ runs in polynomial time, say $n^a$ for an
+          $a \in \N$.
           %
-          Next, we apply our natural reduction $R$ to $\phi_n$ to obtain
-          $\langle T_k, s_n \rangle = R(\phi_n)$.
-          As $R$ is polynomial-time, say $n^a$, the time needed for this
-          application is also bound by $(2^{O(k)})^a = 2^{O(k)}$.
+          By the above construction, $n = 2^{\Theta(k)}$ which means we
+          only need to check $2^{\Theta(k)}$ candidates whereas each check
+          runs in time at most $n^a = (2^{\Theta(k)})^a = 2^{\Theta(k)}$.
           %
-          In a final step, we output $T_k(x)$.
+          If no candidate maps to a truthtable on $k$ variables, we know
+          that $T_k \equiv 0$ by definition and reject since
+          $T_k(x) = 0 \not= 1$.
           %
-          Overall, we can carry out the decision in time $2^{O(k)}$ proving
-          that $L \in E$.
+          Overall, the decision procedure took time $2^{O(k)}$, proving
+          that $L \in \class E$.
 
         \item $L \not\in \Ppoly$:
+          We start by showing that the parameter $s_n$ produced by $R$ is
+          superpolynomial in $\log n$.
+          Let us thus assume to the contrary that it is bound by a polynomial
+          $s_n \le \log^b n$ for any $b \in \N$.
           %
-          We assume to the contrary that $L \in \Ppoly$.
-          Remember that the reduction $R$ is natural. In particular, this means
-          for a mapping $R(\phi) = \langle T_k, s_n \rangle$ where
-          $\phi$ is any Boolean formula of size $n$, that
-          the parameter $s_n$ depends only on a polynomial in
-          $k = \Theta(\log n)$; say it is
-          upper bounded by
-          $s_n \le k^b = \log^b n$ % more like \Theta(...)
-          for a $b \in \N$.\footnote{
-            [We are also not exactly clear about why this is the case.]
-          }
-          %
-          Now, this bound yields a simple strategy to decide $\phi \in \SAT$.
-          As Lemma~\ref{lem:num-of-circs} implies that there are at
-          most $n^{\mathrm{polylog}(n)}$ circuits of size $s_n$,
-          we can simply enumerate these and check for each circuit whether
-          it represents $T_k$ to decide
-          $\langle T_k , s_n \rangle \in \mathprob{MCSP}$.
+          Now, this yields a simple strategy to decide $\SAT$ in
+          quasi-polynomial time:
+          Given a CNF-formula $\phi$ of size $n$, we apply
+          $R$ to obtain $\langle T_{k'}, s_n \rangle \coloneqq R(\phi)$
+          with $s_n \le \log^b n$.
+          We are going to decide the membership of this instance to
+          $\mathprob{MSCP}$ instead of solving
+          the original satisfiability problem.
+          By Lemma~\ref{lem:num-of-circs}, there are at most
+          $n^{\mathrm{polylog}(n)}$ circuits of size $s_n$.
+          We enumerate these and check for each circuit whether
+          it represents $T_{k'}$.
           Note that testing whether a circuit $C$ of size $s_n$ represents
-          $T_k$ only requires us to do $2^k$ evaluations of $C$, each of which
-          take time $O(s_n)$.
-          Overall, we can decide membership in quasi-polynomial time.
-          This, in turn, allows us to decide $\phi \in \SAT$ by applying $R$
-          and carrying out the above enumeration,
-          implying that $\SAT \in \class{QP}$.
-          We have, however, assumed that $\NP \not\subseteq \class{QP}$, which
-          is a contradiction.
+          $T_{k'}$ only requires us to do $2^{k'}$ evaluations of $C$, each of
+          which take time $O(s_n)$.
+          Overall, we can decide the membership to $\mathprob{MCSP}$, and
+          as such the satisfiability of $\phi$, in quasi-polynomial time.
+          However, this implies that $\SAT \in \class{QP}$
+          contradicting our assumption that $\NP \not\subseteq \class{QP}$.
+
+          We therefore established that $s_n$ is superpolynomial in $\log n$.
+          At the same time, $R$ is a natural reduction, meaning that $s_n$ is
+          the same for every input of size $n$.
+          In particular, we obtain that since we set
+          $\langle T_k, s_n \rangle = R(\phi_n)$, the parameter
+          $s_n$ is superpolynomial in $\log n = \Theta(k)$.
+          As $\phi_n$ is a no-instance to $\SAT$, we conclude that
+          $T_k$ cannot be represented by a polynomial-size circuit family.
+          In other words, $L \not\in \Ppoly$.
       \end{enumerate}
 	\end{itemize}
 \end{proof}
