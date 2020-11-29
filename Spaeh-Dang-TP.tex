@@ -110,69 +110,26 @@ $\class{QP} \subseteq \class E$.
 \end{definition}
 
 \begin{definition}
-  Proper definition of natural reductions as given in the PhD-thesis.
+  Assume we are given two languages $A$ and $B$, where $B$ describes the
+  decision version of a search problem, meaning its instances are of the kind
+  $\langle y, s \rangle \in B$ where $s \in \N$ is a numerical parameter.
+  A many-one reduction $R = \langle R_1, R_2 \rangle$ from $A$ to $B$, whereas
+  $R_1$ maps to instances $y$ of the original search problem and $R_2$ to the
+  parameters $s$, is called \emph{natural} if for all instances $x$ of $A$ holds
+  that
+  \begin{itemize}
+    \item there exists a $c \in \R_+$ such that
+      $|x|^{1/c} \le |R(x)| \le |x|^c$, meaning $R_1$ does not suddenly grow or
+      shrink, and
+    \item $R_2$ depends only on the length of the instance $x$, i.e. there
+      exists a function $f \colon \N \to \N$ such that $R_2(I) = f(|x|)$.
+  \end{itemize}
 \end{definition}
 	
 	For example, $\mathprob{SAT} \leq_p \mathprob{3SAT}$ is ``natural.'' Namely, given $\varphi$ - an instance in $\mathprob{SAT}$, the general idea is to split some clause $C$ in $\varphi$ of size $k > 3$ into a pair of two equivalent clauses $C_1$ of size $k - 1$ and $C_2$ of size $3$ and we repeat the process until we get the desired $3-CNF$ formula, $\varphi'$. Thus, the length of $\varphi'$ is only dependent on $\varphi$ as we just add more clauses solely based on everything from the original formula, intuitively speaking.
 	
 	Other textbook reductions that we know and love (such as $\mathprob{3SAT} \leq_p \mathprob{VERTEXCOVER}$, etc.) are ``natural'' in this sense.
 Unnatural reductions, on the other hand, are more contrived.
-%
-%
-{\color{gray}
-Consider, for example, the following reduction from
-$\mathprob{Clique}$\footnote{
-  The clique problem ($\mathprob{Clique}$) asks for an instance
-  $\langle G, n \rangle$ of a graph $G$ and integer $n$, whether $G$ has
-  a completely connected subgraph of size $n$.
-}
-to
-$\mathprob{SubIso}$:\footnote{
-  The subgraph isomorphism problem ($\mathprob{SubIso}$) asks, given two graphs
-  $G$ and $H$, whether there is a subgraph $G'$ of $G$ which is isomorphic to
-  $H$.
-}
-\[
-  f(G, n) =
-  \left\{
-    \begin{array}{ll}
-      \langle K_1, K_2 \rangle & \textrm{if } |V(G)| < n \\
-      \langle G, K_{n} \rangle & \textrm{otherwise} \\
-    \end{array}
-  \right.
-\]
-where $K_n$ is the complete graph on $n$ vertices.
-Note that the reduction is correct since $G$ has a clique of size $n$ if and
-only if it has a connected subgraph $K_n$. Also, $G$ cannot have a clique of
-size $n$ if it does not even have $n$ vertices.
-Also, the reduction can be carried out in polynomial time: In fact,
-we can commpute the output size as
-\[
-  |f(G,n)| = 
-  \left\{
-    \begin{array}{ll}
-      O(1) & \textrm{if } |V(G)| < n \\
-      \Theta(|G|) & \textrm{otherwise} \\
-    \end{array}
-  \right.
-\]
-However, $|f(G,n)|$ is certainly not a function in the input size $(|G|+n)$,
-so this reduction is not natural.
-%
-With a little more care, we can still turn this reduction into a natural
-reduction. We can define
-\[
-  f'(G, n) =
-  \left\{
-    \begin{array}{ll}
-      \langle G \cup \bar K_{\log n}, G \rangle & \textrm{if } |V(G)| < n \\
-      \langle G, K_{n} \rangle & \textrm{otherwise} \\
-    \end{array}
-  \right.
-\]
-where $G \cup H$ denotes the union of two graphs $G$ and $H$ where
-$\bar K_m$ is the empty graph on $m$ vertices.
-Now, the output size is $|f'(G,n)| = \Theta(|G|)$ in both cases.}
 %
 %
 \begin{example}
