@@ -191,6 +191,8 @@ Unnatural reductions, on the other hand, are more contrived.
   where $S$ is the rest of the subset without $r$.
 \end{example}
 
+\subsection{Pseudoramdom generator}
+%TODO: add definition of pseudo random generator, and its definition of hardness.
 
 \section{Main Results}
 
@@ -251,7 +253,7 @@ Before we move on to some key theorems of this section, let us examine some lemm
     \subseteq
     \NP^{\class{QP}} \,.
   \]
-  Now, $\NP^{\class{QP}} \subseteq \class{QP}^\class{QP} \subseteq\QP $
+  Now, $\NP^{\class{QP}} \subseteq \class{QP}^\class{QP} \subseteq \class{QP} $
   by Lemma~\ref{lem:qp-collapse}.
 \end{proof}
 
@@ -317,7 +319,7 @@ Before we move on to some key theorems of this section, let us examine some lemm
 
 Now, we are ready to look at the first key theorem which is about the implication for \textit{Circuit Complexity} if $\mathprob{MCSP}$ is $\NP$-hard under the \textit{natural} reduction.
 
-\begin{theorem}
+\begin{theorem}[\cite{10.1145/335305.335314}]
 	If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT}$, then
 	\begin{enumerate} [1.]
 		\item $\class{E}$ contains a family of Boolean functions $f_n$ not in $\Ppoly$ (i.o.), and
@@ -459,7 +461,8 @@ Now, we will look at the implications for $\BPP$ when $\NP$-hard under a natural
 	If the class $\EXP$ contains a family of Boolean functions of superpolynomial circuit complexity (i.o.), then $\BPP \subseteq \class{SUBEXP}$ (i.o.).
 \end{theorem}
 
-\begin{theorem}
+\begin{theorem}[\cite{10.1145/335305.335314}]
+	\label{BPPimplication}
 	If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT}$, then
 	\begin{enumerate} [1.]
 		\item $\BPP \subseteq \class{SUBEXP}$ (i.o.), and
@@ -467,19 +470,29 @@ Now, we will look at the implications for $\BPP$ when $\NP$-hard under a natural
 	\end{enumerate}
 \end{theorem}
 
-Taking everything together, we obtain a nice corollary as follows.
+Intuitively speaking, if $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT}$, then a problem in $\BPP$ can be efficiently solved. Finally, taking everything together, we obtain a nice corollary as follows.
 
 \begin{corollary}
 	If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT}$, then $\BPP \subsetneq \class{E}$
 \end{corollary}
 
 \begin{proof}
-	Idea: diagonalize against $\class{SUBEXP}$ with a Turing Machine $M$ in $E$ and $M$ should mess up when the input length is large enough.
+	Idea: From Theorem \ref{BPPimplication}, we know that if $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT}$, then $\BPP \subseteq \class{SUBEXP}$. Thus, we can diagonalize against $\class{SUBEXP}$ with a Turing Machine $M$ in $E$ and $M$ should mess up when the input length is large enough.
 \end{proof}
 
 \subsection{MCSP and P}
-[We plan to discuss some implication for hard functions in uniform complexity class (2.4) and Zero-sided and One-sided error (2.5)] 
+As mentioned previously, it is still unknown to us that whether we would be able to reduce $\mathprob{MCSP}$ to $\mathprob{SAT}$ using the natural Karp reduction. Namely, if such reduction exists, it yields some astonishing results (as stated in $3.1$) which are unlikely to be found soon. Nonetheless, the assumption that $\mathprob{MCSP}$ is in $\P$ gives some surprising consequences. 
 
+For starter, if $\mathprob{MCSP}$ can be efficiently solved, then we will be able to factor Blums integers \footnote{a Blum integer is the product of two primes, which congruent to $3$ mod $4$} well on the average case. Specifically, let us examine the following theorem and its consequence.
+
+[$\dots$ to be added]
+
+%TODO: add Theorem 2 and its consequence.
+
+Intuitively speaking, if $\mathprob{MCSP}$ is in $\P$, then our current cryptography breaks because a fast algorithm for factoring (at least for the average-case) can break any type of cryptography. It is mainly believed that factoring is hard and therefore it is very much unlikely that $\mathprob{MCSP}$ can be efficiently solved; however, nothing has been shown to draw an ultimate conclusion about this assumption. We will now explore some other unlikely consequences that would happen if such proof exists.
+
+%TODO: write about 2.5 (and maybe 2.4)
+ 
 \section{Conclusion}
 
 [Will be added when we are done with section 3, but basically, we plan to briefly introduce some other work that tackled the open problems introduced in this paper and then conclude with some further plans of research.]
