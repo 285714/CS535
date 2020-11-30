@@ -63,11 +63,31 @@ In this review, we will provide some definitions required to understand the main
 
 \section{Preliminaries}
 
-In this section, we provide the list of some definitions that, we believe, are useful for the readers.
+We start with providing necessary definitions for some complexity classes.
+For more details and a full discussion, see \cite{arora2009}.
+
+To analyze the relationship of exponentials, the following proofs useful:
+For functions $f, g \colon \N_+ \to \N_+$ holds
+$2^{f(n)} \in o(2^{g(n)})$ if and only if $g(n) - f(n) \to \infty$ for
+$n \to \infty$.
+This is easily seen by using the limit definition of Landau symbols, namely
+\[
+  f(n) \in o(g(n))
+  \iff
+  0 = \lim_{n \to \infty} \frac{2^{f(n)}}{2^{g(n)}}
+  = \lim_{n \to \infty} \exp(f(n) - g(n))
+  \iff
+  \lim_{n \to \infty} f(n) - g(n) = -\infty \,.
+\]
 
 \begin{definition}
-	The class Sub-Exponential: $\class{SUBEXP} = \bigcap_{\epsilon > 0} \TIME(2^{n^{\epsilon}})$
+  The class \emph{sub-exponential} is
+  $\class{SUBEXP} \coloneqq \bigcap_{\epsilon > 0} \TIME(2^{n^{\epsilon}})$.
 \end{definition}
+
+Note that $\class{SUBEXP}$ is not empty, even though it is defined as an infimum
+over complexity classes. This is because a language might be decided by a
+different TM for every $\varepsilon > 0$.
 
 \begin{definition}
 	The class $\class{QP}$ of languages decided by a TM in
@@ -81,13 +101,10 @@ In this section, we provide the list of some definitions that, we believe, are u
 	=
 	\bigcup_{c > 1}\TIME(n^{\log^c n})
 	\]
-	where we obtain the last equality since
-	\[
-	2^{(\log n)^{c+1}} = \exp( \log^{c+1} n ) = \exp( \log n \log^c n )
-	= n^{\log^c n} \,.
-	\]
 \end{definition}
-
+We obtain the last equality since
+$2^{(\log n)^{c+1}} = (2^{\log n})^{\log^c n} = n^{\log^c n}$.
+%
 Note that $\class{QP}$ contains $\P$ since
 $\mathrm{polylog}(n) \in \Omega(1)$.
 Also, $\class{SUBEXP}$ contains $\class{QP}$ since for every
@@ -95,7 +112,7 @@ $\varepsilon > 0$ and $c > 1$ holds that
 $\exp(\log^c n) \in o(\exp(n^\varepsilon))$.
 
 \begin{definition}
-	The class exponential time with linear exponential is defined as
+  The class \emph{exponential time with linear exponent} is defined as
 	$\class{E} \coloneqq \TIME(2^{O(n)})$.
 \end{definition}
 
@@ -129,7 +146,8 @@ $\class{QP} \subseteq \class E$.
 	For example, $\mathprob{SAT} \leq_p \mathprob{3SAT}$ is ``natural.'' Namely, given $\varphi$ - an instance in $\mathprob{SAT}$, the general idea is to split some clause $C$ in $\varphi$ of size $k > 3$ into a pair of two equivalent clauses $C_1$ of size $k - 1$ and $C_2$ of size $3$ and we repeat the process until we get the desired $3-CNF$ formula, $\varphi'$. Thus, the length of $\varphi'$ is only dependent on $\varphi$ as we just add more clauses solely based on everything from the original formula, intuitively speaking.
 	
 	Other textbook reductions that we know and love (such as $\mathprob{3SAT} \leq_p \mathprob{VERTEXCOVER}$, etc.) are ``natural'' in this sense.
-Unnatural reductions, on the other hand, are more contrived.
+% "in fact, all NP-complete parameterized problems we are aware of seem to be
+%  complete under natural reductions."
 %
 %
 \begin{example}
@@ -467,6 +485,10 @@ Now, we will look at the implications for $\BPP$ when $\NP$-hard under a natural
 	\end{enumerate}
 \end{theorem}
 
+\begin{proof}\
+  [TODO]
+\end{proof}
+
 Taking everything together, we obtain a nice corollary as follows.
 
 \begin{corollary}
@@ -475,6 +497,7 @@ Taking everything together, we obtain a nice corollary as follows.
 
 \begin{proof}
 	Idea: diagonalize against $\class{SUBEXP}$ with a Turing Machine $M$ in $E$ and $M$ should mess up when the input length is large enough.
+  [TODO]
 \end{proof}
 
 \subsection{MCSP and P}
