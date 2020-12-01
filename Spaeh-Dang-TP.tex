@@ -63,6 +63,9 @@ In this review, we will provide some definitions required to understand the main
 
 \section{Preliminaries}
 
+In this section, we provide some definitions that, we believe, are useful for the readers including some complexity classes, Natural (Karp) Reduction, and Pseudorandom Generators.
+
+\subsection{Some Complexity Classes}
 We start with providing necessary definitions for some complexity classes.
 For more details and a full discussion, see \cite{arora2009}.
 
@@ -121,6 +124,8 @@ $\class{QP} \subseteq \class E$.
 
 
 \subsection{Natural Reductions}
+
+In this subsection, we will provide you the definition of \textit{Natural Reduction} in two versions. The informal version will provide some general intuition of the natural reduction while the formal one will specify more technical properties of the ``mapping'' process.  
 
 \begin{definition}
 	\textit{Natural (Karp) Reduction}: For two problems $A$ and $B$ and a Karp reduction from $A$ to $B$, we say the reduction $R$ is natural if, for any instance $I$ of $A$, the length of the output $|R(I)|$, as well as all possible output parameters $s_n$, depend only on the input length $|I|$. Furthermore, $|I|$ and $|R(I)|$ are polynomial related.
@@ -210,7 +215,23 @@ $\class{QP} \subseteq \class E$.
 \end{example}
 
 \subsection{Pseudoramdom generator}
-%TODO: add definition of pseudo random generator, and its definition of hardness.
+\label{pseudorandom}
+\begin{definition}
+	\textit{Pseudorandom generators}: A distribution $R$ over $\{0, 1\}^m$ is ($S, \epsilon$)-pseudorandom (for $S \in \N$, $\epsilon > 0$) if for every circuit $C$ of size at most $S$.
+	\[|Pr[C(R) = 1] - Pr[C(U_m) = 1]| < \epsilon\]
+	where $U_m$ denotes the uniform distribution over $\{0, 1\}^m$.
+	
+	Let $S: \N \rightarrow \N$ be some function. A $2^n$-time computable function $G: \{0, 1\}^* \rightarrow \{0, 1\}^*$ is an $S(l)$-\textit{pseudorandom generator} if $|G(z)| = S(|z|)$ for every $z \in \{0, 1\}^*$ and for every $l \in \N$ the distribution $G(U_l)$ is $(S(l)^3, 1/10)$-pseudorandom.
+	
+	For more details and a full discussion of this topic, prefer to chapter 20 of \cite{arora2009}
+\end{definition}
+
+\begin{definition} (\cite{10.1145/335305.335314})
+	The \textit{hardness} $H(G_k)$ of a pseudorandom generator $G_k: \{0, 1\}^k \rightarrow \{0, 1\}^{2k}$ is defined as the minimal $s$ such that there exists a circuit $C$ of size at most $s$ for which
+	\[|Pr_{x \in \{0, 1\}^k}[C(G_k(x)) = 1] - Pr_{x \in \{0, 1\}^{2k}}[C(y) = 1]| \geq 1/s\]
+	
+	The pseudorandom generator $G_k$ is called \textit{strong} if it has hardness $H(G_k) > 2^{k^{\Omega(1)}}$ 
+\end{definition}
 
 \section{Main Results}
 
@@ -507,11 +528,19 @@ As mentioned previously, it is still unknown to us that whether we would be able
 
 For starter, if $\mathprob{MCSP}$ can be efficiently solved, then we will be able to factor Blums integers \footnote{a Blum integer is the product of two primes, which congruent to $3$ mod $4$} well on the average case. Specifically, let us examine the following theorem and its consequence.
 
-[$\dots$ to be added]
+\begin{theorem}
+	If $\mathprob{MCSP}$ is in $\Ppoly$, then there is no strong pseudorandom generator in $\Ppoly$.
+\end{theorem}
 
-%TODO: add Theorem 2 and its consequence.
+As a reminder, the definition of \textit{strong pseudorandom generators} can be found in section \ref{pseudorandom}. This theorem is a direct consequence of the main result of ``Natural Proofs'' by Razborov and Rudich \cite{10.1006/jcss.1997.1494}, and with that being said, this paper is the best reference for those who are interested in the proof of this theorem. In this sense, we obtain a consequence as follows.
 
-Intuitively speaking, if $\mathprob{MCSP}$ is in $\P$, then our current cryptography breaks because a fast algorithm for factoring (at least for the average-case) can break any type of cryptography. It is mainly believed that factoring is hard and therefore it is very much unlikely that $\mathprob{MCSP}$ can be efficiently solved; however, nothing has been shown to draw an ultimate conclusion about this assumption. We will now explore some other unlikely consequences that would happen if such proof exists.
+\begin{corollary}
+	If $\mathprob{MCSP}$ is in $\P$, then, for any $\epsilon > 0$, there is an algorithm running in time $2^{n^{\epsilon}}$ that factors Blum integers well on the average.
+\end{corollary}
+
+An example of a pseudorandom generator which is believed to be a strong one is a generator based on factoring Blum integers. Thus, the corollary above suggests that if $\mathprob{MCSP}$ can be efficiently solved, then we can ``break'' the strong pseudorandom generator of factoring Blum integers with a good enough average-case algorithm.  
+
+In other words, if $\mathprob{MCSP}$ is in $\P$, then our current cryptography breaks because a fast algorithm for factoring (at least for the average-case) can break any type of cryptography. It is mainly believed that factoring is hard and therefore it is very much unlikely that $\mathprob{MCSP}$ can be efficiently solved; however, nothing has been shown to draw an ultimate conclusion about this assumption. We will now explore some other unlikely consequences that would happen if such proof exists.
 
 %TODO: write about 2.5 (and maybe 2.4)
  
