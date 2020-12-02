@@ -69,20 +69,6 @@ In this section, we provide some definitions that, we believe, are useful for th
 We start with providing necessary definitions for some complexity classes.
 For more details and a full discussion, see \cite{arora2009}.
 
-To analyze the relationship of exponentials, the following proofs useful:
-For functions $f, g \colon \N_+ \to \N_+$ holds
-$2^{f(n)} \in o(2^{g(n)})$ if and only if $g(n) - f(n) \to \infty$ for
-$n \to \infty$.
-This is easily seen by using the limit definition of Landau symbols, namely
-\[
-  f(n) \in o(g(n))
-  \iff
-  0 = \lim_{n \to \infty} \frac{2^{f(n)}}{2^{g(n)}}
-  = \lim_{n \to \infty} \exp(f(n) - g(n))
-  \iff
-  \lim_{n \to \infty} f(n) - g(n) = -\infty \,.
-\]
-
 \begin{definition}
   The class \emph{sub-exponential} is
   $\class{SUBEXP} \coloneqq \bigcap_{\epsilon > 0} \TIME(2^{n^{\epsilon}})$.
@@ -110,9 +96,24 @@ $2^{(\log n)^{c+1}} = (2^{\log n})^{\log^c n} = n^{\log^c n}$.
 %
 Note that $\class{QP}$ contains $\P$ since
 $\mathrm{polylog}(n) \in \Omega(1)$.
+
 Also, $\class{SUBEXP}$ contains $\class{QP}$ since for every
 $\varepsilon > 0$ and $c > 1$ holds that
-$\exp(\log^c n) \in o(\exp(n^\varepsilon))$.
+$\exp(\log^c n) \in o(\exp(n^\varepsilon))$.\footnote{To analyze the
+relationship of exponentials, the following proofs useful:
+For functions $f, g \colon \N_+ \to \N_+$ holds
+$2^{f(n)} \in o(2^{g(n)})$ if and only if $g(n) - f(n) \to \infty$ for
+$n \to \infty$.
+This is easily seen by using the limit definition of Landau symbols, namely
+\[
+  f(n) \in o(g(n))
+  \iff
+  0 = \lim_{n \to \infty} \frac{2^{f(n)}}{2^{g(n)}}
+  = \lim_{n \to \infty} \exp(f(n) - g(n))
+  \iff
+  \lim_{n \to \infty} f(n) - g(n) = -\infty \,.
+\]}
+
 
 \begin{definition}
   The class \emph{exponential time with linear exponent} is defined as
@@ -125,7 +126,9 @@ $\class{QP} \subseteq \class E$.
 
 \subsection{Natural Reductions}
 
-In this subsection, we will provide you the definition of \textit{Natural Reduction} in two versions. The informal version will provide some general intuition of the natural reduction while the formal one will specify more technical properties of the ``mapping'' process.  
+In this subsection, we will provide you the definition of \textit{Natural Reduction} in two versions.
+% should we?
+The informal version will provide some general intuition of the natural reduction while the formal one will specify more technical properties of the ``mapping'' process.  
 
 \begin{definition}
 	\textit{Natural (Karp) Reduction}: For two problems $A$ and $B$ and a Karp reduction from $A$ to $B$, we say the reduction $R$ is natural if, for any instance $I$ of $A$, the length of the output $|R(I)|$, as well as all possible output parameters $s_n$, depend only on the input length $|I|$. Furthermore, $|I|$ and $|R(I)|$ are polynomial related.
@@ -213,6 +216,25 @@ In this subsection, we will provide you the definition of \textit{Natural Reduct
   \]
   where $S$ is the rest of the subset without $r$.
 \end{example}
+
+
+\subsection{Infinitely-often Simulations}
+
+We introduce a modifier to a complexity class $C$.
+
+\begin{definition}
+  A language $L$ belongs to the class
+  $\io C$ if there is a language $A \in C$ such that
+  $A$ and $L$ agree on infinitely many input lengths, i.e.
+  \[
+    |\set{ n \in \N \mid \forall x \in \{0,1\}^n\ A(x) = L(x) }| = \infty
+  \]
+\end{definition}
+
+Note that $C$ is obviously containend in $\io C$.
+
+% $L \in \almosteverywhere C$
+
 
 \subsection{Pseudoramdom generator}
 \label{pseudorandom}
@@ -361,7 +383,8 @@ Now, we are ready to look at the first key theorem which is about the implicatio
 \begin{theorem}[\cite{10.1145/335305.335314}]
 	If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT}$, then
 	\begin{enumerate} [1.]
-		\item $\class{E}$ contains a family of Boolean functions $f_n$ not in $\Ppoly$ (i.o.), and
+		\item $\class{E}$ contains a family of Boolean functions $f_n$ not in
+      $\io \Ppoly$, and
 		\item $\class{E}$ contains a family of Boolean functions $f_n$ of circuit complexity $2^{\Omega(n)}$ (i.o.), unless $\NP \subseteq \class{SUBEXP}$
       [the proof for this is yet missing]
 	\end{enumerate}
@@ -486,6 +509,14 @@ Now, we are ready to look at the first key theorem which is about the implicatio
           As $\phi_n$ is a no-instance to $\SAT$, we conclude that
           $T_k$ cannot be represented by a polynomial-size circuit family.
           In other words, $L \not\in \Ppoly$.
+          %
+          Being more careful, we furthermore obtain that any polynomial-size
+          circuit family can only agree with $T_k$ on finitely many
+          input lengths. The reason for this is that
+          $s_n \in \omega(\mathrm{poly}(k))$ guarantees
+          by definition the existence of a $k_0 \in \N$ such that
+          $\mathrm{poly}(k) < s_n$ for all $k > k_0$.
+          We conclude that $L \not\in \io \Ppoly$.
       \end{enumerate}
 	\end{itemize}
 \end{proof}
