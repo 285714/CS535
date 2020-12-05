@@ -358,7 +358,7 @@ Before we move on to some key theorems of this section, let us examine some lemm
   In particular, there are
   \begin{enumerate}
     \item $n^{\mathrm{polylog}(n)}$ circuits of size $\log^c n$ for any
-      constant $c > 0$ and
+      $c > 0$ and
 
     \item $O(2^{n^{2 \varepsilon}})$ circuits of size
       $n^\varepsilon$ for any $\varepsilon > 0$.
@@ -401,7 +401,7 @@ Now, we are ready to look at the first key theorem which is about the implicatio
   \label{thm:15}
   If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from
   $\mathprob{SAT}$, then $\class{E}$ contains a family of Boolean functions
-  $f_n$ not in $\io \Ppoly$.
+  $f_k$ not in $\io \Ppoly$.
 \end{theorem}
 
 \begin{proof}
@@ -538,27 +538,27 @@ Now, we are ready to look at the first key theorem which is about the implicatio
 
 \begin{theorem}[\cite{10.1145/335305.335314}]
   If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from
-  $\mathprob{SAT}$, then $\class{E}$ contains a family of Boolean functions
-  $f_n$ of circuit complexity $2^{\Omega(n)}$ (i.o.), unless
-  $\NP \subseteq \class{SUBEXP}$
+  $\mathprob{SAT}$ and $\NP \not\subseteq \class{SUBEXP}$, then
+  $\class{E}$ contains a family of Boolean functions
+  $f_k$ of circuit complexity $2^{\Omega(k)}$ (i.o.)
+  {\color{gray}(meaning not in $\io \mathrm{size}(2^{o(k)})$)}
 \end{theorem}
 
 \begin{proof}
   This proof follows similarly to the previous statement.
   In fact, let the language $L$ and pairs $\langle T_k, s_n \rangle$ be defined
   as in the proof for Theorem~\ref{thm:15}.
-  The difference is that here, we show that a less generous bound on
+  The difference is that here, we show that a more restrictive bound on
   $s_n$ contradicts the stronger assumption $\NP \subseteq \class{SUBEXP}$ as
   this bound would allow $\SAT$ to be solved in subexponential time.
 
-  So, to the contrary, assume that $s_n \in O(n^\varepsilon)$ for every
+  To this end, assume that $s_n \in O(n^\varepsilon)$ for any
   $\varepsilon > 0$.
   We pursue the same strategy to decide the satisfiability of a CNF formula
   $\phi$: Using the reduction $R$, map it to
   $\langle T_{k'}, s_n \rangle \coloneqq R(\phi)$.
   Lemma~\ref{lem:num-of-circs} shows that there are
-  $O(2^{n^{2 \varepsilon}})$ circuits of size at most $s_n$ for every
-  $\varepsilon > 0$.
+  $O(2^{n^{2 \varepsilon}})$ circuits of size at most $s_n$.
   Enumerating all such circuits and checking whether they represent $T_{k'}$
   therefore takes time
   \[
@@ -570,14 +570,24 @@ Now, we are ready to look at the first key theorem which is about the implicatio
     \mathrm{poly}(n) \cdot
     O(n^\varepsilon)
     =
-    O(2^{n^{3 \varepsilon}})
+    O(2^{n^{3 \varepsilon}}) \,.
   \]
-  for each $\varepsilon > 0$.
-  It therefore follows that we can decide the satisfiability of $\phi$
-  in subexponential time, i.e. $\SAT \in \class{SUBEXP}$, and we have
-  recreated the contradiction.
+  So, if we assume to the contrary that
+  $s_n \in O(n^\varepsilon)$ for every $\varepsilon > 0$,
+  we also obtain that we can decide the satisfiability of $\phi$ in time
+  $O(2^{n^{3 \varepsilon}})$ for every $\varepsilon$, i.e.
+  in subexponential time.
+  However, $\SAT \in \class{SUBEXP}$
+  contradicts the assumption $\NP \subseteq \class{SUBEXP}$.
 
-  Now, [Too tired, will finish tomorrow]
+  We can conclude that instead, $s_n \in \Omega(n^\varepsilon)$
+  for an $\varepsilon > 0$.
+  With $n = 2^{\Theta(k)}$, this shows that
+  $s_n \in \Omega(2^{\varepsilon \Theta(k)}) = 2^{\Omega(k)}$.
+  %
+  Now, with the same argument as above, we know that $L$ can only be decided
+  by a $2^{\Omega(k)}$ size circuit family. We have already proven that
+  $L \subseteq \mathbf E$, which concludes the proof.
 \end{proof}
 
 Now, we will look at the implications for $\BPP$ when $\NP$-hard under a natural reduction from $\mathprob{SAT}$. The following two theorems on hardness-randomness trade-offs are needed to establish the one about $\BPP$.
