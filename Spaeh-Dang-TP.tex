@@ -61,6 +61,79 @@ In ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi Cai addressed
 
 In this review, we will provide some definitions required to understand the main results and key theorems of the paper in Section 2. Section 3 introduces some main consequences when $\mathprob{MCSP} \notin \P$ and $\mathprob{MCSP}$ is $\NP$-hard under ``natural'' reductions. Finally, we conclude the review by providing some insightful remarks and directions for further research on this topic in Section 4.
 
+
+\newpage
+\subsection{Kolmogorov Complexity}
+\
+
+$\to$ here:
+
+\medskip
+
+\noindent
+META-complexity (how hard is it to proof a problem is hard?)
+---
+Define $\mathprob M \mathprob K_\mu \mathprob P$
+and
+$\mathprob{MKTP}$
+as a special case.
+Relate it to $\mathprob{MCSP}$
+---
+$\mathprob{CS}$ einordnen in die anderen Maße
+---
+
+\medskip
+
+\noindent
+Computational Learning Theory
+---
+finding smallest decision trees (NP-hard)
+---
+Occam's Razor
+---
+time bounded Kolmogorov complexity (easy to evaluate model)
+---
+
+\medskip
+
+$\to$ conclusion:
+
+\medskip
+\noindent
+No NP-hardness result known for $\mathprob{MCSP}^A$ for any oracle $A$;
+---
+some success in proving $\NP$-hardness for some restricted cirucit designs
+
+\medskip
+
+\noindent
+Showing $\NP$-completeness of $\mathprob{MCSP}$ is at least as hard as showing
+all of its ramnifications (and showing that there's a non-natural reduction):
+``If one were to show ... then one will have to show ...''
+---
+What do we believe about these ramnifications (give intuition why they might
+be wrong)
+
+\medskip
+
+\noindent
+Rahul:
+Build circuit with min number of wires...
+---
+Compression problem (information theory?)
+---
+
+
+NATURAL PROOFS: While these proofs are in some sense "natural", it can be shown (assuming a widely believed conjecture on the existence of pseudorandom functions) that no such proof can possibly be used to solve the P vs. NP problem.
+
+
+
+
+
+
+
+
+\newpage
 \section{Preliminaries}
 
 In this section, we provide some definitions that, we believe, are useful for the readers including some complexity classes, Natural (Karp) Reduction, and Pseudorandom Generators.
@@ -261,7 +334,17 @@ Note that $C$ is obviously containend in $\io C$.
 
 To begin with, we want to emphasize that researchers have not figured out yet whether it is possible to prove the $\NP$-hardness of $\mathprob{MCSP}$ or not. The difficulty of such proof was explicitly addressed through some implications for \textit{Circuit Complexity} and $\BPP$. In other words, the authors provided some consequences that are still unknown to the current state of the art if $\mathprob{MCSP}$ is $\NP$-hard under the ``natural'' Karp reduction. 
 
-Before we move on to some key theorems of this section, let us examine some lemmas that are useful for establishing.
+Now, we are ready to look at the first key theorem which is about the implication for \textit{Circuit Complexity} if $\mathprob{MCSP}$ is $\NP$-hard under the \textit{natural} reduction.
+
+\begin{theorem}[\cite{10.1145/335305.335314}]
+  \label{thm:15-1}
+  If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from
+  $\mathprob{SAT}$, then $\class{E}$ contains a family of Boolean functions
+  $f_k$ not in $\io \Ppoly$, i.e. of superpolynomial circuit complexity.
+\end{theorem}
+
+Before we move on to the proof, let us examine some lemmas that are useful
+for establishing this result.
 
 \begin{lemma}
 	\label{lem:qp-collapse}
@@ -395,16 +478,13 @@ Before we move on to some key theorems of this section, let us examine some lemm
   \end{enumerate}
 \end{proof}
 
-Now, we are ready to look at the first key theorem which is about the implication for \textit{Circuit Complexity} if $\mathprob{MCSP}$ is $\NP$-hard under the \textit{natural} reduction.
+We now know have enough tools to prove Theorem~\ref{thm:15-1}.
+We remind ourselves of the statement: We wanted to show that $\class E$
+contains a family of Boolean functions $f_k$ of superpolynomial circuit
+size under the premise that there is a natural polynomial-time reduction from
+$\SAT$ to $\mathprob{MCSP}$.
 
-\begin{theorem}[\cite{10.1145/335305.335314}]
-  \label{thm:15-1}
-  If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from
-  $\mathprob{SAT}$, then $\class{E}$ contains a family of Boolean functions
-  $f_k$ not in $\io \Ppoly$, i.e. of superpolynomial circuit complexity.
-\end{theorem}
-
-\begin{proof}
+\begin{proof}[Proof (Theorem~\ref{thm:15-1})]
   We separate the prove along two cases.
 	\begin{itemize}
 		\item Case 1: $\NP \subseteq \class{QP}$
@@ -560,12 +640,12 @@ Now, we are ready to look at the first key theorem which is about the implicatio
   $\langle T_{k'}, s_n \rangle \coloneqq R(\phi)$.
   Lemma~\ref{lem:num-of-circs} shows that there are
   $O(2^{n^{2 \varepsilon}})$ circuits of size at most $s_n$.
-  Enumerating all such circuits and checking whether they represent $T_{k'}$
-  therefore takes time
+  Enumerating all such circuits (1) and checking whether they represent
+  $T_{k'}$ by evaluating (3) all assignments (2) therefore takes time
   \[
-    \underbrace{O(2^{n^{2 \varepsilon}})}_{\textrm{\#circuits}} \cdot
-    \underbrace{O(2^{k'})}_{\textrm{\#entries}} \cdot 
-    \underbrace{O(s_n)}_{\textrm{evaluate}}
+    \underbrace{O(2^{n^{2 \varepsilon}})}_{\textrm{(1)}} \cdot
+    \underbrace{O(2^{k'})}_{\textrm{(2)}} \cdot 
+    \underbrace{O(s_n)}_{\textrm{(3)}}
     =
     O(2^{n^{2 \varepsilon}}) \cdot
     \mathrm{poly}(n) \cdot
