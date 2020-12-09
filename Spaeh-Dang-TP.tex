@@ -55,87 +55,65 @@ In the Minimum Circuit Size Problem (MCSP), we are given a truth table of some B
 	\end{center}
 }
 
-%TODO: Briefly talk about the motivation of studying MCSP here
+Finding solutions to $\mathprob{MSCP}$ in an important part in the design
+of integrated circuits where it is important to minimize space and execution
+speed of a computational component.
+However, motivations to study this problem are manifold and $\mathprob{MCSP}$
+appears to be important many areas of computer science.
+%
+As such, we can also derive it from the more general Kolmogorov complexity:
+For a universal Turing machine $U$ and $x \in \zo^*$, define
+$K_U(x) \coloneqq \min \set{ |d| \mid U(d) = x }$
+as the minimum size of a program which generats $x$.
+Now, the decision version of $K_U$ is undecidable, so weaker notions
+restricting at least the execution time of $U$ are studied, and
+$\mathprob{MCSP}$ is one of them.
+%
+% Meta-Complexity?!
+% This brings MSCP in line with questions in meta-complexity ...
+%
+This relates the study of $\mathprob{MCSP}$ to the typcial questions in
+information theory. In particular, the minimum circuit size puts a number on
+the information stored in a truth table $T_n$.
+%
+Finally, a slight adaption makes $\mathprob{MCSP}$ relevant to computational
+learning theory:
+If we want to know what hidden Boolean function produced some set of
+$n$-dimensional training samples, we can---in accordance to Occam's razor---ask
+for the minimum circuit coinciding with the training samples.
+The widely applied decision tree algorithms are just a special case of this,
+but circuits are of course more succinct.
 
-It is easy to see that $\mathprob{MCSP}$ is in $\NP$. Namely, we can define a certificate as some proposed circuit $C$ of size at most $s_n$, and verify whether $C$ computes each entry of the truth table correctly in polynomial time. With that being said, a natural question arises: Is $\mathprob{MCSP}$  $\NP$-complete?
+\bigskip
+
+It is easy to see that $\mathprob{MCSP}$ is in $\NP$. Namely, we can define a certificate as some proposed circuit $C$ of size at most $s_n$, and verify whether $C$ computes each entry of the truth table correctly in polynomial time.
+% With that being said, a natural question arises: Is $\mathprob{MCSP}$  $\NP$-complete?
+%
+Despite the huge interest and long history of research in $\mathprob{MSCP}$,
+we know relatively little beyond that.
 
 In ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi Cai addressed the difficulty of showing $\mathprob{MCSP}$ to be $\NP$-hard \cite{10.1145/335305.335314}. They showed some consequences that are unlikely to happen if there exists a polynomial-time reduction $R$ from $\mathprob{SAT}$ to $\mathprob{MCSP}$ that is ``natural,'' in the sense that the size of the output depends on the size of the inputs only, and these sizes are polynomially related.  Furthermore, the authors pointed out why it is challenging to prove $\mathprob{MCSP} \notin \P$ (again, by providing some consequences whose likelihood is questionable). Clearly, such proof would imply $\P \neq \NP$ which goes beyond the currently known techniques. 
 
 In this review, we will provide some definitions required to understand the main results and key theorems of the paper in Section 2. Section 3 introduces some main consequences when $\mathprob{MCSP} \notin \P$ and $\mathprob{MCSP}$ is $\NP$-hard under ``natural'' reductions. Finally, we conclude the review by providing some insightful remarks and directions for further research on this topic in Section 4.
 
 
-\newpage
-\subsection{Kolmogorov Complexity}
-\
+% META-complexity (how hard is it to proof a problem is hard?)
+%
+% Conclusion:
+% - No NP-hardness result known for $\mathprob{MCSP}^A$ for any oracle $A$;
+% - some success in proving $\NP$-hardness for some restricted cirucit designs
 
-$\to$ here:
-
-\medskip
-
-\noindent
-META-complexity (how hard is it to proof a problem is hard?)
----
-Define $\mathprob M \mathprob K_\mu \mathprob P$
-and
-$\mathprob{MKTP}$
-as a special case.
-Relate it to $\mathprob{MCSP}$
----
-$\mathprob{CS}$ einordnen in die anderen Maße
----
-
-\medskip
-
-\noindent
-Computational Learning Theory
----
-finding smallest decision trees (NP-hard)
----
-Occam's Razor
----
-time bounded Kolmogorov complexity (easy to evaluate model)
----
-
-\medskip
-
-$\to$ conclusion:
-
-\medskip
-\noindent
-No NP-hardness result known for $\mathprob{MCSP}^A$ for any oracle $A$;
----
-some success in proving $\NP$-hardness for some restricted cirucit designs
-
-\medskip
-
-\noindent
-Showing $\NP$-completeness of $\mathprob{MCSP}$ is at least as hard as showing
-all of its ramnifications (and showing that there's a non-natural reduction):
-``If one were to show ... then one will have to show ...''
----
-What do we believe about these ramnifications (give intuition why they might
-be wrong)
-
-\medskip
-
-\noindent
-Rahul:
-Build circuit with min number of wires...
----
-Compression problem (information theory?)
----
+% Showing $\NP$-completeness of $\mathprob{MCSP}$ is at least as hard as showing
+% all of its ramnifications (and showing that there's a non-natural reduction):
+% ``If one were to show ... then one will have to show ...''
+% ---
+% What do we believe about these ramnifications (give intuition why they might
+% be wrong)
 
 
-NATURAL PROOFS: While these proofs are in some sense "natural", it can be shown (assuming a widely believed conjecture on the existence of pseudorandom functions) that no such proof can possibly be used to solve the P vs. NP problem.
+% NATURAL PROOFS: While these proofs are in some sense "natural", it can be shown (assuming a widely believed conjecture on the existence of pseudorandom functions) that no such proof can possibly be used to solve the P vs. NP problem.
 
 
-
-
-
-
-
-
-\newpage
 \section{Preliminaries}
 
 In this section, we provide some definitions that, we believe, are useful for the readers including some complexity classes, Natural (Karp) Reduction, Infinitely-often (\textbf{i.o.}) Simulations, and Pseudorandom Generators.
