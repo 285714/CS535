@@ -22,8 +22,8 @@
 
 
 \author{\dots}
-\title{``A first glimpse on why MCSP is interesting''\\ or something like that}
-\date{November 20, 2020}
+\title{``A first glimpse on why MCSP is interesting''\\ or something like that... \\ \smallskip \normalsize{(final draft)}}
+\date{December 11, 2020}
 
 \begin{document}
 	\maketitle
@@ -64,7 +64,7 @@ appears to be important many areas of computer science.
 As such, we can also derive it from the more general Kolmogorov complexity:
 For a universal Turing machine $U$ and $x \in \zo^*$, define
 $K_U(x) \coloneqq \min \set{ |d| \mid U(d) = x }$
-as the minimum size of a program which generats $x$.
+as the minimum size of a program which generates $x$.
 Now, the decision version of $K_U$ is undecidable, so weaker notions
 restricting at least the execution time of $U$ are studied, and
 $\mathprob{MCSP}$ is one of them.
@@ -705,6 +705,7 @@ Intuitively speaking, if $\mathprob{MCSP}$ is $\NP$-hard under a natural reducti
 \end{proof}
 
 \subsection{MCSP and P}
+\label{subsect:MCSP-P}
 As mentioned previously, it is still unknown to us that whether we would be able to reduce $\mathprob{MCSP}$ to $\mathprob{SAT}$ using the natural Karp reduction. Namely, if such reduction exists, it yields some astonishing results (as stated in section \ref{subsect:MCSP-NP}) which are unlikely to be found soon. Nonetheless, the assumption that $\mathprob{MCSP}$ is in $\P$ gives some surprising consequences. 
 
 For starter, if $\mathprob{MCSP}$ can be efficiently solved, then we will be able to factor Blums integers \footnote{a Blum integer is the product of two primes, which congruent to $3$ mod $4$} well on the average case. Specifically, let us examine the following theorem and its consequence.
@@ -741,8 +742,13 @@ Also, it is trivial to see from the definitions that $\ZPP \subseteq \RP \subset
  
 \section{Conclusion}
 
-[Will be added when we are done with section 3, but basically, we plan to briefly introduce some other work that tackled the open problems introduced in this paper and then conclude with some further plans of research.]
-%TODO: do this once the introduction is fixed.
+To summarize, the results shown in ``Circuit Minimization Problem'' by Kabanets and Cai neither give any evidence against the $\NP$-hardness of $\mathprob{MCSP}$ nor refute the conjecture that $\mathprob{MCSP} \in \P$. Instead, they suggest that establishing such proofs would be a daunting task since it implies some certain consequences happen for complexity classes - some seem plausible, some not, but all are beyond the scope of our current techniques.
+
+There has been a long sequence of works (\cite{hitchcock2015np}, \cite{allender2017minimum}, \cite{murray2017non}, \cite{allender2019new}) which tackles the results given in Section \ref{subsect:MCSP-NP} to give further evidence of the difficulty of showing $\NP$-hardness of $\mathprob{MCSP}$. However, researchers have managed to prove that some variants of $\mathprob{MCSP}$ are $\NP$-complete. Namely, $\mathprob{DNF}$-$\mathprob{MCSP}$ \cite{masek1979some}, $\mathprob{MCSP}$ for OR-AND-MOD Circuits \cite{hirahara2018np}, and $\mathprob{MCSP}$ for multi-output functions \cite{ilango2020np} are $\NP$-complete. Furthermore, some theorists have been trying to prove that $\mathprob{MCSP}$ is $\NP$-intermediate \footnote{see chapter 3 of \cite{arora2009}} which is a pretty interesting research direction.
+
+As for $\mathprob{MCSP}$ and the class $\P$, it is very likely that $\mathprob{MCSP} \notin \P$ mainly because it will put an end to cryptography as briefly mentioned in Section \ref{subsect:MCSP-P}. One thing we want to emphasize that if the existence of one-way function \footnote{a one-way function is a function that is easy to compute on every input, but hard to invert given the set of all possible outputs of a random input, see: https://en.wikipedia.org/wiki/One-way\_function} can be proved one day, we can easily conclude that $\mathprob{MCSP}$ is not in $\P$ which implies the separation of $\P$ and $\NP$.
+
+We expect (but again, do not know) that $\mathprob{MCSP}$ cannot be efficiently solved and our research is taking the direction of establishing the hardness of $\mathprob{MCSP}$, which is a crucial step in obtaining the ``immortality'' of cryptography. This is a wrap up of our review, thank you all the readers for your time, and we wish you a Merry Christmas and a Happy New Year!!!
 
 % I like to use bibtex to organize reference, but you can use whatever you like. https://dblp.org/ is a good source for bibtex entries for CS papers
 \bibliographystyle{alpha}
