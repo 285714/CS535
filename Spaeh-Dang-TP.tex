@@ -58,10 +58,26 @@ In the Minimum Circuit Size Problem (MCSP), we are given a truth table of some B
 Finding solutions to $\mathprob{MSCP}$ in an important part in the design
 of integrated circuits where it is important to minimize space and execution
 speed of a computational component.
-However, motivations to study this problem are manifold and $\mathprob{MCSP}$
-appears to be important many areas of computer science.
+However, motivations to study this problem are manifold.
 %
-As such, we can also derive it from the more general Kolmogorov complexity:
+One lies in meta-complexity which is loosely the study of problems whose
+instances contain some form of execution instruction.
+For each individual instance, we want to know how complex the object resulting
+from this instruction is.
+So, studying such a meta problem entails determining the complexity of
+determining complexity itself.
+Now, $\mathprob{MCSP}$ is posed exactly as a meta problem, whereas the
+the instruction is stated in terms of a truthtable and the complexity is
+formalized as the size of a minimal circuit.
+Given the expressiveness of truthtables and importance of circuits in
+representing computation, $\mathprob{MCSP}$ is therefore central to
+meta-complexity.
+%
+In fact, the minimization of circuits was already studied in the Soviet Union
+as part of the question of whether brute-force search can be eliminated
+\cite{trakhtenbrot84}
+%
+As such, we can derive it from the more general Kolmogorov complexity:
 For a universal Turing machine $U$ and $x \in \zo^*$, define
 $K_U(x) \coloneqq \min \set{ |d| \mid U(d) = x }$
 as the minimum size of a program which generates $x$.
@@ -69,18 +85,15 @@ Now, the decision version of $K_U$ is undecidable, so weaker notions
 restricting at least the execution time of $U$ are studied, and
 $\mathprob{MCSP}$ is one of them.
 %
-% Meta-Complexity?!
-% This brings MSCP in line with questions in meta-complexity ...
-%
-This relates the study of $\mathprob{MCSP}$ to the typcial questions in
+This also relates the study of $\mathprob{MCSP}$ to the typcial questions in
 information theory. In particular, the minimum circuit size puts a number on
 the information stored in a truth table $T_n$.
 %
 Finally, a slight adaption makes $\mathprob{MCSP}$ relevant to computational
 learning theory:
-If we want to know what hidden Boolean function produced some set of
-$n$-dimensional training samples, we can---in accordance to Occam's razor---ask
-for the minimum circuit coinciding with the training samples.
+If we want to know what hidden Boolean function produced a certain set of
+$n$-dimensional training samples, we can---in accordance with Occam's
+razor---ask for the minimum circuit which coincides with all training samples.
 The widely applied decision tree algorithms are just a special case of this,
 but circuits are of course more succinct.
 
@@ -91,7 +104,7 @@ It is easy to see that $\mathprob{MCSP}$ is in $\NP$. Namely, we can define a ce
 %
 Despite the huge interest and long history of research in $\mathprob{MSCP}$,
 we know relatively little beyond that.
-
+%
 In ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi Cai addressed the difficulty of showing $\mathprob{MCSP}$ to be $\NP$-hard \cite{10.1145/335305.335314}. They showed some consequences that are unlikely to happen if there exists a polynomial-time reduction $R$ from $\mathprob{SAT}$ to $\mathprob{MCSP}$ that is ``natural,'' in the sense that the size of the output depends on the size of the inputs only, and these sizes are polynomially related.  Furthermore, the authors pointed out why it is challenging to prove $\mathprob{MCSP} \in \P$ (again, by providing some consequences whose likelihood is questionable). Clearly, such proof would imply $\P = \NP$ which seems unlikely to many and goes beyond the currently known techniques. 
 
 In this review, we will provide some definitions required to understand the main results and key theorems of the paper in Section 2. Section 3 introduces some main consequences when $\mathprob{MCSP} \in \P$ and $\mathprob{MCSP}$ is $\NP$-hard under ``natural'' reductions. Finally, we conclude the review by providing some insightful remarks and directions for further research on this topic in Section 4.
