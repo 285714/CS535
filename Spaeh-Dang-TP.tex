@@ -89,9 +89,9 @@ This also relates the study of $\mathprob{MCSP}$ to the typcial questions in
 information theory. In particular, the minimum circuit size puts a number on
 the information stored in a truth table $T_n$.
 %
-Finally, a slight adaption makes $\mathprob{MCSP}$ relevant to computational
+Finally, the promise version of $\mathprob{MCSP}$ is essential to computational
 learning theory:
-If we want to know what hidden Boolean function produced a certain set of
+If we would want to know what hidden Boolean function produced a certain set of
 $n$-dimensional training samples, we can---in accordance with Occam's
 razor---ask for the minimum circuit which coincides with all training samples.
 The widely applied decision tree algorithms are just a special case of this,
@@ -131,7 +131,7 @@ In this review, we will provide some definitions required to understand the main
 
 In this section, we provide some definitions that, we believe, are useful for the readers including some complexity classes, Natural (Karp) Reduction, Infinitely-often (\textbf{i.o.}) Simulations, and Pseudorandom Generators.
 
-\subsection{Some Complexity Classes}
+\subsection{Complexity Classes}
 We start with providing necessary definitions for some complexity classes.
 For more details and a full discussion, see \cite{arora2009}.
 
@@ -185,9 +185,23 @@ This is easily seen by using the limit definition of Landau symbols, namely
   The class \emph{exponential time with linear exponent} is defined as
 	$\class{E} \coloneqq \TIME(2^{O(n)})$.
 \end{definition}
-
 Since $\log^c n \in O(n)$ for any $c > 0$, we obtain that
 $\class{QP} \subseteq \class E$.
+%
+Finally, we introduce \emph{infinitely-often simulations} trough a modifier to
+a complexity class $C$.
+\begin{definition}
+  A language $L$ belongs to the class
+  $\io C$ if there is a language $A \in C$ such that
+  $A$ and $L$ agree on infinitely many input lengths, i.e.
+  \[
+    |\set{ n \in \N \mid \forall x \in \{0,1\}^n\ A(x) = L(x) }| = \infty
+  \]
+\end{definition}
+Note that $C$ is obviously containend in $\io C$.
+We often write $C \subseteq C$ (i.o.) instead of
+$C' \subseteq \io C$.
+
 
 
 \subsection{Natural Reductions}
@@ -225,13 +239,13 @@ In fact, all $\NP$-complete parameterized problems we are aware of seem to be co
 \begin{example}
   We reduce from
   $\mathprob{Partition}$\footnote{The partition problem asks, given a multiset
-  of positive integers $\{a_1, \dots, a_n\}$ whether there exists a partition
+  of positive integers $\{a_1, \dots, a_n\}$, whether there exists a partition
   $(S,T)$ of $\{1, \dots, n\}$ such that
   $\sum_{i \in S} a_i = \sum_{i \in T} a_i$.}
   to
-  $\mathprob{SubsetSum}:$\footnote{The partition problem asks for an instance
+  $\mathprob{SubsetSum}:$\footnote{Subset sum asks for an instance
   $\langle A, s \rangle$ of a multiset of positive integers
-  $A = \{a_1, \dots, a_n\}$ and an integer $s$ whether there exists a subset
+  $A = \{a_1, \dots, a_n\}$ and an integer $s$, whether there exists a subset
   $S \subseteq \{1, \dots, n\}$ such that
   $s = \sum_{i \in S} a_i$.}
   \[
@@ -269,33 +283,19 @@ In fact, all $\NP$-complete parameterized problems we are aware of seem to be co
     \end{array}
   \]
   Now, the numerical parameter $s$ is obviously only a function in the input
-  size $\sigma$. Regarding correctness, first note that
+  size $\sigma$.\footnote{Regarding correctness, first note that
   $2^{\sigma+2} > \sum_{i=1}^n 2 a_i$. This implies that any subset with a sum
   of $2^{\sigma+2}$ necessarily contains $r$ and thus
-  \[
+  $
     \textstyle
     2^{\sigma+2} = r + \sum_{i \in S} 2a_i
     \iff
     \frac 1 2 \sum_{i=1}^n = \sum_{i \in S} a_i
-  \]
+  $
   where $S$ is the rest of the subset without $r$.
+  [...]}
 \end{example}
 
-
-\subsection{Infinitely-often Simulations}
-
-We introduce a modifier to a complexity class $C$.
-
-\begin{definition}
-  A language $L$ belongs to the class
-  $\io C$ if there is a language $A \in C$ such that
-  $A$ and $L$ agree on infinitely many input lengths, i.e.
-  \[
-    |\set{ n \in \N \mid \forall x \in \{0,1\}^n\ A(x) = L(x) }| = \infty
-  \]
-\end{definition}
-
-Note that $C$ is obviously containend in $\io C$.
 
 % $L \in \almosteverywhere C$
 
@@ -471,10 +471,11 @@ for establishing this result.
 \end{proof}
 
 We now know have enough tools to prove Theorem~\ref{thm:15-1}.
-We remind ourselves of the statement: We wanted to show that $\class E$
+We remind ourselves of the statement to prove:
+If there is a natural polynomial-time reduction from
+$\SAT$ to $\mathprob{MCSP}$, then $\class E$
 contains a family of Boolean functions $f_k$ of superpolynomial circuit
-size under the premise that there is a natural polynomial-time reduction from
-$\SAT$ to $\mathprob{MCSP}$.
+size.
 
 \begin{proof}[Proof (Theorem~\ref{thm:15-1})]
   We separate the prove along two cases.
@@ -608,6 +609,13 @@ $\SAT$ to $\mathprob{MCSP}$.
 	\end{itemize}
 \end{proof}
 
+With the same techniques but a different bound on the circuit size, we can
+obtain a very similar statement. The only additional ingredient is
+the exponential-time hypothesis which is, however, widely assumed to
+be true \cite{impagliazzo99}.
+The claim is that $\NP \not\subseteq \class{SUBEXP}$, or equivalently, that
+$\SAT$ requires exponential time.
+
 \begin{theorem}[\cite{10.1145/335305.335314}]
   \label{thm:15-2}
   If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from
@@ -691,7 +699,17 @@ Now, we will look at the implications for $\BPP$ when $\NP$-hard under a natural
   way.
 \end{proof}
 
-Intuitively speaking, if $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT}$, then a problem in $\BPP$ can be efficiently solved. Finally, taking everything together, we obtain a nice corollary as follows.
+In words, if $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from
+$\mathprob{SAT}$, then every problem in $\BPP$ can be efficiently solved.
+% the ramification here or in conclusion?
+Now, so far there are no strong indicators for or against this.
+However, it is known that showing $\BPP = \P$ entails proving the existence
+of pseudorandom generators which can prove $\BPP = \P$ all
+along \cite{goldreich11}.
+Such a proof would is therefore as difficult as finding a constructive way for
+derandomization. [...]
+
+Finally, taking everything together, we obtain a nice corollary as follows.
 
 \begin{corollary}
 	If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from $\mathprob{SAT}$, then $\BPP \subsetneq \class{E}$
@@ -754,6 +772,8 @@ However, as mentioned in section \ref{subsect:MCSP-NP}, establishing the hardnes
 Also, it is trivial to see from the definitions that $\ZPP \subseteq \RP \subseteq \BPP$ (see \cite{arora2009}, chapter 7). However, it is still unknown to our current knowledge whether $\BPP \subseteq \RP$ or $\BPP \subseteq \NP$. But if $\mathprob{MCSP}$ can be efficiently solved, then by the above corollary, we obtain $\ZPP = \RP = \BPP$ (holy cow?!) which would be a huge breakthrough.
  
 \section{Conclusion}
+
+% add "local reductions" (v013a004.pdf)
 
 To summarize, the results shown in ``Circuit Minimization Problem'' by Kabanets and Cai neither give any evidence against the $\NP$-hardness of $\mathprob{MCSP}$ nor refute the conjecture that $\mathprob{MCSP} \in \P$. Instead, they suggest that establishing such proofs would be a daunting task since it implies some certain consequences happen for complexity classes - some seem plausible, some not, but all are beyond the scope of our current techniques.
 
