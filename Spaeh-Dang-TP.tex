@@ -105,7 +105,7 @@ It is easy to see that $\mathprob{MCSP}$ is in $\NP$. Namely, we can define a ce
 Despite the huge interest and long history of research in $\mathprob{MSCP}$,
 we know relatively little beyond that.
 %
-In ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi Cai addressed the difficulty of showing $\mathprob{MCSP}$ to be $\NP$-hard \cite{10.1145/335305.335314}. They showed some consequences that are unlikely to happen if there exists a polynomial-time reduction $R$ from $\mathprob{SAT}$ to $\mathprob{MCSP}$ that is ``natural,'' in the sense that the size of the output depends on the size of the inputs only, and these sizes are polynomially related.  Furthermore, the authors pointed out why it is challenging to prove $\mathprob{MCSP} \in \P$ (again, by providing some consequences whose likelihood is questionable). Clearly, such proof would imply $\P = \NP$ which seems unlikely to many and goes beyond the currently known techniques. 
+In ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi Cai addressed the difficulty of showing $\mathprob{MCSP}$ to be $\NP$-hard \cite{10.1145/335305.335314}. They showed some consequences that are unlikely to happen if there exists a polynomial-time reduction $R$ from $\mathprob{SAT}$ to $\mathprob{MCSP}$ that is ``natural,'' in the sense that the size of the output depends on the size of the inputs only, and these sizes are polynomially related. Furthermore, the authors pointed out that there has also been no proof that $\mathprob{MCSP} \notin \P$. Clearly, such proof would imply $\P \neq \NP$ which goes beyond the currently known techniques. However, the authors did provide some clues on why this conjecture seems plausible, again, by providing some consequences whose likelihood is questionable if $\mathprob{MCSP} \notin \P$.
 
 In this review, we will provide some definitions required to understand the main results and key theorems of the paper in Section 2. Section 3 introduces some main consequences when $\mathprob{MCSP} \in \P$ and $\mathprob{MCSP}$ is $\NP$-hard under ``natural'' reductions. Finally, we conclude the review by providing some insightful remarks and directions for further research on this topic in Section 4.
 
@@ -129,7 +129,7 @@ In this review, we will provide some definitions required to understand the main
 
 \section{Preliminaries}
 
-In this section, we provide some definitions that, we believe, are useful for the readers including some complexity classes, Natural (Karp) Reduction, Infinitely-often (\textbf{i.o.}) Simulations, and Pseudorandom Generators.
+In this section, we provide some definitions that, we believe, are useful for the readers including some complexity classes, Natural (Karp) Reduction, and Pseudorandom Generators.
 
 \subsection{Complexity Classes}
 We start with providing necessary definitions for some complexity classes.
@@ -234,7 +234,7 @@ In this subsection, we will provide you the definition of \textit{Natural Reduct
 	$\mathprob{3SAT} \leq_p \mathprob{INDSET}$\footnote{$\mathprob{INDSET} = \{ \langle G, k \rangle \mid G \text{ has independent set of size k}\}$} is ``natural,'' given by $R = \langle R_1(\varphi) = G, R_2(\varphi) = k$ where $\varphi$ is some $\mathprob{3CNF}$ formula, $G$ is a graph, and $k$ is the target size of the independent set that we want for $G$. The general strategy for the reduction is to create a graph of $7m$ vertices from a $\mathprob{3CNF}$ formula of $m$ clauses, and the number $k$ can be easily determined using $m$, the number of clauses. It is easy to see that the length of the output of the reduction is not stretched by much. \footnote{for full details of the reductions of both examples, see \cite{arora2009}, chapter 2, page 49 and 51 respectively.}
 \end{example}
 	
-In fact, all $\NP$-complete parameterized problems we are aware of seem to be complete under natural reductions. To wrap up, we introduce one more example which we found interesting, for the readers' further reference.
+In fact, all $\NP$-complete parameterized problems we are aware of seem to be complete under natural reductions. To wrap up, we introduce one more example of an ``unnatural'' reduction which we found interesting, for the readers' further reference.
 
 \begin{example}
   We reduce from
@@ -779,7 +779,7 @@ To summarize, the results shown in ``Circuit Minimization Problem'' by Kabanets 
 
 There has been a long sequence of works (\cite{hitchcock2015np}, \cite{allender2017minimum}, \cite{murray2017non}, \cite{allender2019new}) which tackles the results given in Section \ref{subsect:MCSP-NP} to give further evidence of the difficulty of showing $\NP$-hardness of $\mathprob{MCSP}$. However, researchers have managed to prove that some variants of $\mathprob{MCSP}$ are $\NP$-complete. Namely, $\mathprob{DNF}$-$\mathprob{MCSP}$ \cite{masek1979some}, $\mathprob{MCSP}$ for OR-AND-MOD Circuits \cite{hirahara2018np}, and $\mathprob{MCSP}$ for multi-output functions \cite{ilango2020np} are $\NP$-complete. Furthermore, some theorists have been trying to prove that $\mathprob{MCSP}$ is $\NP$-intermediate \footnote{see chapter 3 of \cite{arora2009}} which is a pretty interesting research direction.
 
-As for $\mathprob{MCSP}$ and the class $\P$, it is very likely that $\mathprob{MCSP} \notin \P$ mainly because it will put an end to cryptography as briefly mentioned in Section \ref{subsect:MCSP-P}. One thing we want to emphasize that if the existence of one-way function \footnote{a one-way function is a function that is easy to compute on every input, but hard to invert given the set of all possible outputs of a random input, see: https://en.wikipedia.org/wiki/One-way\_function} can be proved one day, we can easily conclude that $\mathprob{MCSP}$ is not in $\P$ which implies the separation of $\P$ and $\NP$.
+As for $\mathprob{MCSP}$ and the class $\P$, it is very likely that $\mathprob{MCSP} \notin \P$ mainly because it will put an end to cryptography as briefly mentioned in Section \ref{subsect:MCSP-P}. One thing we want to emphasize is that if the existence of one-way function \footnote{a one-way function is a function that is easy to compute on every input, but hard to invert given the set of all possible outputs of a random input, see: https://en.wikipedia.org/wiki/One-way\_function} can be proved one day, we can finally conclude that $\mathprob{MCSP}$ is not in $\P$ which implies the separation of $\P$ and $\NP$.
 
 We expect (but again, do not know) that $\mathprob{MCSP}$ cannot be efficiently solved and our research is taking the direction of establishing the hardness of $\mathprob{MCSP}$, which is a crucial step in obtaining the ``immortality'' of cryptography. This is a wrap up of our review, thank you all the readers for your time, and we wish you a Merry Christmas and a Happy New Year!!!
 
