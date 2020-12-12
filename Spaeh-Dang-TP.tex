@@ -21,8 +21,8 @@
 \newcommand{\dolphin}{\mathsf{DOLPHIN!!}}
 
 
-\author{\dots}
-\title{``A first glimpse on why MCSP is interesting''\\ or something like that... \\ \smallskip \normalsize{(final draft)}}
+\author{Ngu Dang and Fabian Späh}
+\title{The Hardness of Locating $\mathprob{MCSP}$ between $\P$ and $\NP$ \\ \smallskip \normalsize{(final draft)}}
 \date{December 11, 2020}
 
 \begin{document}
@@ -61,12 +61,12 @@ speed of a computational component.
 However, motivations to study this problem are manifold.
 %
 One lies in meta-complexity which is loosely the study of problems whose
-instances contain some form of execution instruction.
+instances contain some form of execution instruction themselves.
 For each individual instance, we want to know how complex the object resulting
 from this instruction is.
 So, studying such a meta problem entails determining the complexity of
 determining complexity itself.
-Now, $\mathprob{MCSP}$ is posed exactly as a meta problem, whereas the
+Now, $\mathprob{MCSP}$ is posed exactly as such a meta problem, whereas the
 the instruction is stated in terms of a truthtable and the complexity is
 formalized as the size of a minimal circuit.
 Given the expressiveness of truthtables and importance of circuits in
@@ -75,9 +75,9 @@ meta-complexity.
 %
 In fact, the minimization of circuits was already studied in the Soviet Union
 as part of the question of whether brute-force search can be eliminated
-\cite{trakhtenbrot84}
+in general \cite{trakhtenbrot84}.
 %
-As such, we can derive it from the more general Kolmogorov complexity:
+We can also derive $\mathprob{MCSP}$ from the more general Kolmogorov complexity:
 For a universal Turing machine $U$ and $x \in \zo^*$, define
 $K_U(x) \coloneqq \min \set{ |d| \mid U(d) = x }$
 as the minimum size of a program which generates $x$.
@@ -89,15 +89,17 @@ This also relates the study of $\mathprob{MCSP}$ to the typcial questions in
 information theory. In particular, the minimum circuit size puts a number on
 the information stored in a truth table $T_n$.
 %
-Finally, the promise version of $\mathprob{MCSP}$ is essential to computational
+Moreover, the promise version of $\mathprob{MCSP}$ is essential to computational
 learning theory:
 If we would want to know what hidden Boolean function produced a certain set of
 $n$-dimensional training samples, we can---in accordance with Occam's
 razor---ask for the minimum circuit which coincides with all training samples.
 The widely applied decision tree algorithms are just a special case of this,
 but circuits are of course more succinct.
-
-\bigskip
+%
+Finally, and we will see this in this paper,
+$\mathprob{MCSP}$ has strong connections to the existence of
+pseudorandom generators, an important assertion in cryptography.
 
 It is easy to see that $\mathprob{MCSP}$ is in $\NP$. Namely, we can define a certificate as some proposed circuit $C$ of size at most $s_n$, and verify whether $C$ computes each entry of the truth table correctly in polynomial time.
 % With that being said, a natural question arises: Is $\mathprob{MCSP}$  $\NP$-complete?
@@ -105,9 +107,10 @@ It is easy to see that $\mathprob{MCSP}$ is in $\NP$. Namely, we can define a ce
 Despite the huge interest and long history of research in $\mathprob{MSCP}$,
 we know relatively little beyond that.
 %
-In ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi Cai addressed the difficulty of showing $\mathprob{MCSP}$ to be $\NP$-hard \cite{10.1145/335305.335314}. They showed some consequences that are unlikely to happen if there exists a polynomial-time reduction $R$ from $\mathprob{SAT}$ to $\mathprob{MCSP}$ that is ``natural,'' in the sense that the size of the output depends on the size of the inputs only, and these sizes are polynomially related.  Furthermore, the authors pointed out why it is challenging to prove $\mathprob{MCSP} \in \P$ (again, by providing some consequences whose likelihood is questionable). Clearly, such proof would imply $\P = \NP$ which seems unlikely to many and goes beyond the currently known techniques. 
+In ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi Cai addressed the difficulty of showing $\mathprob{MCSP}$ to be $\NP$-hard \cite{10.1145/335305.335314}. They do this by providing some strong implications if there exists a polynomial-time reduction $R$ from $\mathprob{SAT}$ to $\mathprob{MCSP}$ that is ``natural,'' in the sense that the size of the output depends on the size of the inputs only, and these sizes are polynomially related. Furthermore, the authors pointed
+out that there has also been no proof that $\mathprob{MCSP} \notin \P$. Clearly, such proof would imply $\P \neq \NP$ which goes beyond the currently known techniques. The authors did, however, provide some clues on why this conjecture seems plausible; again, by providing consequences of questionable likelihood if $\mathprob{MCSP} \in \P$.
 
-In this review, we will provide some definitions required to understand the main results and key theorems of the paper in Section 2. Section 3 introduces some main consequences when $\mathprob{MCSP} \in \P$ and $\mathprob{MCSP}$ is $\NP$-hard under ``natural'' reductions. Finally, we conclude the review by providing some insightful remarks and directions for further research on this topic in Section 4.
+In this review, we will first provide some definitions required to understand the main results and key theorems of the paper in Section~2. Section~3 introduces some main consequences of $\mathprob{MCSP}$ being $\NP$-hard under ``natural'' reductions and of $\mathprob{MCSP} \in \P$. Finally, we conclude the review by giving remarks and directions for further research on this topic in Section 4.
 
 
 % META-complexity (how hard is it to proof a problem is hard?)
@@ -129,10 +132,13 @@ In this review, we will provide some definitions required to understand the main
 
 \section{Preliminaries}
 
-In this section, we provide some definitions that, we believe, are useful for the readers including some complexity classes, Natural (Karp) Reduction, Infinitely-often (\textbf{i.o.}) Simulations, and Pseudorandom Generators.
+We begin by introducing some useful background, including the definition
+of some complexity classes, the concept of natural reductions,
+and pseudorandomness.
 
 \subsection{Complexity Classes}
-We start with providing necessary definitions for some complexity classes.
+Here, we provide the necessary definitions for complexity classes used
+throughout this paper.
 For more details and a full discussion, see \cite{arora2009}.
 
 \begin{definition}
@@ -170,7 +176,7 @@ relationship of exponentials, the following proofs useful:
 For functions $f, g \colon \N_+ \to \N_+$ holds
 $2^{f(n)} \in o(2^{g(n)})$ if and only if $g(n) - f(n) \to \infty$ for
 $n \to \infty$.
-This is easily seen by using the limit definition of Landau symbols, namely
+This is easily seen by using the limit definition of Landau symbols as
 \[
   f(n) \in o(g(n))
   \iff
@@ -178,7 +184,8 @@ This is easily seen by using the limit definition of Landau symbols, namely
   = \lim_{n \to \infty} \exp(f(n) - g(n))
   \iff
   \lim_{n \to \infty} f(n) - g(n) = -\infty \,.
-\]}
+\]
+}
 
 
 \begin{definition}
@@ -199,14 +206,17 @@ a complexity class $C$.
   \]
 \end{definition}
 Note that $C$ is obviously containend in $\io C$.
-We often write $C \subseteq C$ (i.o.) instead of
-$C' \subseteq \io C$.
+For brevity, we usually write $C \subseteq C$ (i.o.) or $C = C$ (i.o.)
+in place of $C' \subseteq \io C$ and $C' = \io C$, respectively.
 
 
 
 \subsection{Natural Reductions}
 
-In this subsection, we will provide you the definition of \textit{Natural Reduction}. Intuitively speaking, for two problems $A$ and $B$, and a Karp reduction from $A$ to $B$, we say the reduction $R$ is natural if, for any instance $I$ of $A$, the length of the output depends only on the input length, and those lengths are polynomial related. To make sure that the readers can get a better understanding of the proofs that we introduce in the later sections, we provide the formal version which specifies more technical properties of the ``mapping'' process. 
+Let us now introduce the notion of a \textit{natural reduction}.
+Intuitively, a polynomial-time reduction is natural if its output size
+depends only on the size of the input. Formally, we define it as follows.
+% In this subsection, we will provide you the definition of \textit{Natural Reduction}. Intuitively speaking, for two problems $A$ and $B$, and a Karp reduction from $A$ to $B$, we say the reduction $R$ is natural if, for any instance $I$ of $A$, the length of the output depends only on the input length, and those lengths are polynomial related. To make sure that the readers can get a better understanding of the proofs that we introduce in the later sections, we provide the formal version which specifies more technical properties of the ``mapping'' process. 
 % should we? ans: fixed :)) what do you think? :))
 
 \begin{definition}
@@ -226,15 +236,21 @@ In this subsection, we will provide you the definition of \textit{Natural Reduct
   \end{itemize}
 \end{definition}
 	
-\begin{example}
-	$\mathprob{SAT} \leq_p \mathprob{3SAT}$ is ``natural,'' given by $R = R_1(\varphi) = \varphi'$ where $\varphi$ is some regular $\mathprob{CNF}$ and $\varphi'$ is a $\mathprob{3CNF}$-formula. The general strategy for the reduction is to split some clause $C$ in $\varphi$ of size $k > 3$ into a pair of two equivalent clauses $C_1$ of size $k - 1$ and $C_2$ of size $3$ and we repeat the process until we get the desired $\mathprob{3CNF}$ formula, $\varphi'$. Thus, it is easy to see that the length of $\varphi'$ is not stretched by much as we just add more clauses solely based on everything from the original formula $\varphi$. In this example, $R_2$ is not needed as the $\mathprob{3SAT}$ problem does not require any numerical value.
-\end{example}
+% \begin{example}
+%   $\mathprob{SAT} \leq_p \mathprob{3SAT}$ is ``natural,'' given by $R = R_1(\varphi) = \varphi'$ where $\varphi$ is some regular $\mathprob{CNF}$ and $\varphi'$ is a $\mathprob{3CNF}$-formula. The general strategy for the reduction is to split some clause $C$ in $\varphi$ of size $k > 3$ into a pair of two equivalent clauses $C_1$ of size $k - 1$ and $C_2$ of size $3$ and we repeat the process until we get the desired $\mathprob{3CNF}$ formula, $\varphi'$. Thus, it is easy to see that the length of $\varphi'$ is not stretched by much as we just add more clauses solely based on everything from the original formula $\varphi$. In this example, $R_2$ is not needed as the $\mathprob{3SAT}$ problem does not require any numerical value.
+% \end{example}
 
-\begin{example}
-	$\mathprob{3SAT} \leq_p \mathprob{INDSET}$\footnote{$\mathprob{INDSET} = \{ \langle G, k \rangle \mid G \text{ has independent set of size k}\}$} is ``natural,'' given by $R = \langle R_1(\varphi) = G, R_2(\varphi) = k$ where $\varphi$ is some $\mathprob{3CNF}$ formula, $G$ is a graph, and $k$ is the target size of the independent set that we want for $G$. The general strategy for the reduction is to create a graph of $7m$ vertices from a $\mathprob{3CNF}$ formula of $m$ clauses, and the number $k$ can be easily determined using $m$, the number of clauses. It is easy to see that the length of the output of the reduction is not stretched by much. \footnote{for full details of the reductions of both examples, see \cite{arora2009}, chapter 2, page 49 and 51 respectively.}
-\end{example}
+% \begin{example}
+%   $\mathprob{3SAT} \leq_p \mathprob{INDSET}$\footnote{$\mathprob{INDSET} = \{ \langle G, k \rangle \mid G \text{ has independent set of size k}\}$} is ``natural,'' given by $R = \langle R_1(\varphi) = G, R_2(\varphi) = k$ where $\varphi$ is some $\mathprob{3CNF}$ formula, $G$ is a graph, and $k$ is the target size of the independent set that we want for $G$. The general strategy for the reduction is to create a graph of $7m$ vertices from a $\mathprob{3CNF}$ formula of $m$ clauses, and the number $k$ can be easily determined using $m$, the number of clauses. It is easy to see that the length of the output of the reduction is not stretched by much. \footnote{for full details of the reductions of both examples, see \cite{arora2009}, chapter 2, page 49 and 51 respectively.}
+% \end{example}
 	
-In fact, all $\NP$-complete parameterized problems we are aware of seem to be complete under natural reductions. To wrap up, we introduce one more example which we found interesting, for the readers' further reference.
+All $\NP$-complete problems we are aware of seem to be complete under natural reductions. This is not special for a polynomial-time reduction to an
+unparameterized problem, as we can usually pad the reduct to conform to
+the specific length. However, so far we are not aware of any parameterized
+problem which is $\NP$-complete under general many-one reductions but not
+under a natural reduction.
+To give a good understanding, we wrap up with the following example of an
+unnatural reduction made natural.
 
 \begin{example}
   We reduce from
@@ -283,48 +299,133 @@ In fact, all $\NP$-complete parameterized problems we are aware of seem to be co
     \end{array}
   \]
   Now, the numerical parameter $s$ is obviously only a function in the input
-  size $\sigma$.\footnote{Regarding correctness, first note that
+  size $\sigma$. Regarding correctness, first note that
   $2^{\sigma+2} > \sum_{i=1}^n 2 a_i$. This implies that any subset with a sum
   of $2^{\sigma+2}$ necessarily contains $r$ and thus
   $
     \textstyle
     2^{\sigma+2} = r + \sum_{i \in S} 2a_i
     \iff
-    \frac 1 2 \sum_{i=1}^n = \sum_{i \in S} a_i
+    \frac 1 2 \sum_{i=1}^n a_i = \sum_{i \in S} a_i
   $
-  where $S$ is the rest of the subset without $r$.
-  [...]}
+  where $S$ is the original subset without $r$.
 \end{example}
 
 
 % $L \in \almosteverywhere C$
 
 
-\subsection{Pseudoramdom generator}
-\label{subsect:pseudorandom}
-\begin{definition}
-	\textit{Pseudorandom generators}: A distribution $R$ over $\{0, 1\}^m$ is ($S, \epsilon$)-pseudorandom (for $S \in \N$, $\epsilon > 0$) if for every circuit $C$ of size at most $S$.
-	\[|Pr[C(R) = 1] - Pr[C(U_m) = 1]| < \epsilon\]
-	where $U_m$ denotes the uniform distribution over $\{0, 1\}^m$.
-	
-	Let $S: \N \rightarrow \N$ be some function. A $2^n$-time computable function $G: \{0, 1\}^* \rightarrow \{0, 1\}^*$ is an $S(l)$-\textit{pseudorandom generator} if $|G(z)| = S(|z|)$ for every $z \in \{0, 1\}^*$ and for every $l \in \N$ the distribution $G(U_l)$ is $(S(l)^3, 1/10)$-pseudorandom.
-	
-	For more details and a full discussion of this topic, prefer to chapter 20 of \cite{arora2009}
+% \subsection{Pseudorandom generator}
+% \label{subsect:pseudorandom}
+% \begin{definition}
+%   \textit{Pseudorandom generators}: A distribution $R$ over $\{0, 1\}^m$ is ($S, \epsilon$)-pseudorandom (for $S \in \N$, $\epsilon > 0$) if for every circuit $C$ of size at most $S$.
+%   \[|Pr[C(R) = 1] - Pr[C(U_m) = 1]| < \epsilon\]
+%   where $U_m$ denotes the uniform distribution over $\{0, 1\}^m$.
+%   
+%   Let $S: \N \rightarrow \N$ be some function. A $2^n$-time computable function $G: \{0, 1\}^* \rightarrow \{0, 1\}^*$ is an $S(l)$-\textit{pseudorandom generator} if $|G(z)| = S(|z|)$ for every $z \in \{0, 1\}^*$ and for every $l \in \N$ the distribution $G(U_l)$ is $(S(l)^3, 1/10)$-pseudorandom.
+%   
+%   For more details and a full discussion of this topic, prefer to chapter 20 of \cite{arora2009}
+% \end{definition}
+%
+% \begin{definition} (\cite{10.1145/335305.335314})
+%   The \textit{hardness} $H(G_k)$ of a pseudorandom generator $G_k: \{0, 1\}^k \rightarrow \{0, 1\}^{2k}$ is defined as the minimal $s$ such that there exists a circuit $C$ of size at most $s$ for which
+%   \[|Pr_{x \in \{0, 1\}^k}[C(G_k(x)) = 1] - Pr_{x \in \{0, 1\}^{2k}}[C(y) = 1]| \geq 1/s\]
+%   
+%   The pseudorandom generator $G_k$ is called \textit{strong} if it has hardness $H(G_k) > 2^{k^{\Omega(1)}}$ 
+% \end{definition}
+
+
+\subsection{Pseudorandomness}
+
+Given a short string of truly random bits, a \emph{pseudorandom
+generator} tries to enlarge this sequence to obtain more
+``artificial'' randomness.
+We can evaluate the randomness of this resulting sequence is in the
+fashion of meta-complexity by testing how likely the best adversary is in
+distinguishing it from true randomness:
+
+\begin{definition}[Pseudorandom Generators]
+  A family $\{G_n\}_n$ with $G_n \colon \zo^n \to \zo^{S(n)}$ is called an
+  $S(n)$-pseudorandom generator if $\{G_n\}_n \in \class E$ and
+  \[
+    \Pr_{x \in \zo^n}[C(G(x)) = 1] -
+    \Pr_{y \in \zo^{S(n)}}[C(y) = 1] < \frac 1 {10}
+  \]
+  for every circuit $C$ of size at most $S(n)^3$.
 \end{definition}
 
-\begin{definition} (\cite{10.1145/335305.335314})
-	The \textit{hardness} $H(G_k)$ of a pseudorandom generator $G_k: \{0, 1\}^k \rightarrow \{0, 1\}^{2k}$ is defined as the minimal $s$ such that there exists a circuit $C$ of size at most $s$ for which
-	\[|Pr_{x \in \{0, 1\}^k}[C(G_k(x)) = 1] - Pr_{x \in \{0, 1\}^{2k}}[C(y) = 1]| \geq 1/s\]
-	
-	The pseudorandom generator $G_k$ is called \textit{strong} if it has hardness $H(G_k) > 2^{k^{\Omega(1)}}$ 
+% We also call $S(n)$ the stretch of $G$.
+The existence of certain pseudorandom generators would allows us to
+derandomize algorithms in $\BPP$. The basic idea is to replace the randomness
+used in a probabilistic algorithm with pseudorandmoness generated from a
+sufficiently small source of true randomness. We then try the algorithm on the
+pseudorandomness generated from each choice in this small source while the
+assumption guarantees that it cannot distinguish it from true randomness.
+If $S(n)$ is large enough, this leads to an efficient derandomization.
+% Now, enumerating the random strings of the
+% latter leads to a deterministic algorithm which is correct due to the
+% assumption that no algorithm can distinguish between true randomness and
+% our generated pseudorandomness.
+
+\begin{definition}[One-Way Functions]
+  A polynomial-time computable
+  function $f \colon \zo^* \to \zo^*$ with 
+  $|f(x)| = |x|$
+  is a \emph{one-way function}
+  if for every constant $c$ and every non-uniform algorithm $A$ running in
+  time $O(n^c)$ holds
+  \[
+    \Pr_{x \in \zo^n}\left[A(f(x)) \in f^{-1}(f(x))\right] \le \frac 1 {n^c}
+  \]
+  for every $n \in \N$.
 \end{definition}
+
+In words: no matter how hard an $O(n^c)$ time-constrained adversary tries to
+find a pre-image of $f(x)$, he can only do so with probability at most
+$1 / n^c$.
+Note that this statement is made about the average-case hardness of inverting
+$f$. As the adversary is time constrained, we can therefore construct one-way
+functions from problems that we belive to be hard on average.
+%
+As such, one-way functioins are generally assumed to exist.
+Moreover, we can show that the existence of certain pseudorandom generators
+implies the existence of one-way functions \cite{hastad99}.
+% One such problem is integer factoring, i.e. the inverse of multiplication.
+%
+
+In particular,
+the existence of one-way functions is vital for cryptography. For example,
+Bitcoin's blockchain consensus algorithm relies on the hardness of inverting
+a hash-function which is believed to be one-way.
+If an adversary would find a way to circumvent the brute-force search
+efficiently and with good probability, he would be able to take control over
+the protocol.
+%
+
+We wrap up with defining a special kind of pseudorandom generator:
+
+\begin{definition}(\cite{10.1145/335305.335314})
+	The \textit{hardness} $H(G)$ of a pseudorandom generator $G: \{0, 1\}^n \rightarrow \{0, 1\}^{2n}$ is defined as the minimal $s$ such that there exists a circuit $C$ of size at most $s$ for which
+	\[\Pr_{x \in \{0, 1\}^n}[C(G_n(x)) = 1] - \Pr_{x \in \{0, 1\}^{2n}}[C(y) = 1] \geq 1/s\]
+	
+	The pseudorandom generator $G$ is called \textit{strong} if it has hardness $H(G) > 2^{n^{\Omega(1)}}$ 
+\end{definition}
+
+\begin{definition}[Strong Pseudorandom Generators]
+  A pseudorandom generator $G_d \colon G_m$
+\end{definition}
+
+
+% ------------------------------------------------------------------------------
+
 
 \section{Main Results}
 
 \subsection{MCSP and NP-completeness}
 \label{subsect:MCSP-NP}
 
-To begin with, we want to emphasize that researchers have not figured out yet whether it is possible to prove the $\NP$-hardness of $\mathprob{MCSP}$ or not. The difficulty of such proof was explicitly addressed through some implications for \textit{Circuit Complexity} and $\BPP$. In other words, the authors provided some consequences that are still unknown to the current state of the art if $\mathprob{MCSP}$ is $\NP$-hard under the ``natural'' Karp reduction. 
+To begin with, we want to emphasize that researchers have not figured out yet whether it is possible to prove the $\NP$-hardness of $\mathprob{MCSP}$.
+The difficulty of such proof was explicitly addressed through some implications for \textit{Circuit Complexity} and $\BPP$. In other words, the authors provided some consequences that are still unknown to the current state of the art if $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction.
 
 Now, we are ready to look at the first key theorem which is about the implication for \textit{Circuit Complexity} if $\mathprob{MCSP}$ is $\NP$-hard under the \textit{natural} reduction.
 
@@ -335,7 +436,7 @@ Now, we are ready to look at the first key theorem which is about the implicatio
   $f_k$ not in $\io \Ppoly$, i.e. of superpolynomial circuit complexity.
 \end{theorem}
 
-Before we move on to the proof, let us examine some lemmas that are useful
+Before we move on to the proof, let us examine some lemmata that are useful
 for establishing this result.
 
 \begin{lemma}
@@ -622,7 +723,6 @@ $\SAT$ requires exponential time.
   $\mathprob{SAT}$ and $\NP \not\subseteq \class{SUBEXP}$, then
   $\class{E}$ contains a family of Boolean functions
   $f_k$ of circuit complexity $2^{\Omega(k)}$ (i.o.)
-  {\color{gray}(meaning not in $\io \mathrm{size}(2^{o(k)})$)}
 \end{theorem}
 
 \begin{proof}
@@ -701,13 +801,14 @@ Now, we will look at the implications for $\BPP$ when $\NP$-hard under a natural
 
 In words, if $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from
 $\mathprob{SAT}$, then every problem in $\BPP$ can be efficiently solved.
-% the ramification here or in conclusion?
-Now, so far there are no strong indicators for or against this.
+Now, we actually believe that $\P = \BPP$ as most algorithms in $\BPP$ surrender
+to derandomization.
 However, it is known that showing $\BPP = \P$ entails proving the existence
-of pseudorandom generators which can prove $\BPP = \P$ all
-along \cite{goldreich11}.
-Such a proof would is therefore as difficult as finding a constructive way for
-derandomization. [...]
+of certain pseudorandom generators which in turn would prove $\BPP = \P$ all
+along \cite{goldreich11},
+a result which seems to be challenging in its own right.
+Therefore, proving the $\NP$-hardness of $\mathprob{MCSP}$ is as difficult
+as finding a constructive way for derandomization.
 
 Finally, taking everything together, we obtain a nice corollary as follows.
 
@@ -737,40 +838,111 @@ Finally, taking everything together, we obtain a nice corollary as follows.
 
 \subsection{MCSP and P}
 \label{subsect:MCSP-P}
-As mentioned previously, it is still unknown to us that whether we would be able to reduce $\mathprob{MCSP}$ to $\mathprob{SAT}$ using the natural Karp reduction. Namely, if such reduction exists, it yields some astonishing results (as stated in section \ref{subsect:MCSP-NP}) which are unlikely to be found soon. Nonetheless, the assumption that $\mathprob{MCSP}$ is in $\P$ gives some surprising consequences. 
+In the previous section we have discussed the difficulties with proving
+the $\NP$-completeness of $\mathprob{MCSP}$ under a natural reduction.
+Nonetheless, in this section we consider the opposite assumption, namely that $\mathprob{MCSP}$ belongs in $\P$, which results in some even more surprising
+and unlikely consequences.
 
-For starter, if $\mathprob{MCSP}$ can be efficiently solved, then we will be able to factor Blums integers \footnote{a Blum integer is the product of two primes, which congruent to $3$ mod $4$} well on the average case. Specifically, let us examine the following theorem and its consequence.
+Let us start with providing a strong implication on the field of cryptography,
+by showing that
+if $\mathprob{MCSP}$ can be efficiently solved, we are be able to factor Blums
+integers\footnote{A Blum integer is a product of two distinct primes which are both congruent to $3$ mod $4$. Factoring Blum integers is believed to be as hard as factoring general integers.}
+well on the average.
+Specifically, let us examine the following theorem and its consequence.
 
 \begin{theorem}
+  \label{thm:nostrong}
 	If $\mathprob{MCSP}$ is in $\Ppoly$, then there is no strong pseudorandom generator in $\Ppoly$.
 \end{theorem}
 
-As a reminder, the definition of \textit{strong pseudorandom generators} can be found in section \ref{subsect:pseudorandom}. This theorem is a direct consequence of the main result of ``Natural Proofs'' by Razborov and Rudich \cite{10.1006/jcss.1997.1494}, and with that being said, this paper is the best reference for those who are interested in the proof of this theorem. In this sense, we obtain a consequence as follows.
+This theorem is a direct consequence of the ``Natural Proofs Barrier''
+conceived by Razborov and Rudich \cite{10.1006/jcss.1997.1494}.
+We highly suggest this read to the interested reader.
+%
+We generally believe that the pseudorandom generator based on factoring (Blum)
+integers is strong.
+However, Theorem~\ref{thm:nostrong} rules out such a prospective, so we obtain:
 
 \begin{corollary}
 	If $\mathprob{MCSP}$ is in $\P$, then, for any $\epsilon > 0$, there is an algorithm running in time $2^{n^{\epsilon}}$ that factors Blum integers well on the average.
 \end{corollary}
 
-An example of a pseudorandom generator which is believed to be a strong one is a generator based on factoring Blum integers. Thus, the corollary above suggests that if $\mathprob{MCSP}$ can be efficiently solved, then we can ``break'' the strong pseudorandom generator of factoring Blum integers with a good enough average-case algorithm.  
+Thus, the corollary above suggests that if $\mathprob{MCSP}$ can be efficiently
+solved, then we can break the strong pseudorandom generator of factoring Blum
+integers with a good enough average-case algorithm.
+%
+In other words, if $\mathprob{MCSP}$ is in $\P$, then current
+cryptographic schemes relying on the hardness of integer factoring
+(e.g. RSA or Diffie-Hellman key exchange) are prone to efficient
+attacks.
+%
+Even if factoring turns out to be easy, Theorem~\ref{thm:nostrong} still puts a
+questionmark behind the existence of pseudorandom generators and as such
+on one-way functions.
+%
+However,
+it is mainly believed that factoring is hard
+and one-way functions exist
+and therefore it is very much unlikely that $\mathprob{MCSP}$ can be efficiently
+solved; however, nothing has been shown to draw an ultimate conclusion about
+this assumption.
 
-In other words, if $\mathprob{MCSP}$ is in $\P$, then our current cryptography breaks because a fast algorithm for factoring (at least for the average-case) can break any type of cryptography. It is mainly believed that factoring is hard and therefore it is very much unlikely that $\mathprob{MCSP}$ can be efficiently solved; however, nothing has been shown to draw an ultimate conclusion about this assumption. We will now explore another surprising consequence that would happen if such proof exists.
+% We will now explore another surprising consequence that would
+% happen if such proof exists.
 
-If $\mathprob{MCSP}$ is in $\P$, then any problem in $\BPP$ can be substituted by an equivalent problem in $\ZPP$, roughly speaking. To see a clearer picture, let us first examine the following theorem.
+% In other words, if $\mathprob{MCSP}$ is in $\P$, then our current cryptography
+% breaks because a fast algorithm for factoring (at least for the average-case)
+% can break any type of cryptography. It is mainly believed that factoring is hard
+% and therefore it is very much unlikely that $\mathprob{MCSP}$ can be efficiently
+% solved; however, nothing has been shown to draw an ultimate conclusion about
+% this assumption. We will now explore another surprising consequence that would
+% happen if such proof exists.
+
+% It contradicts assumptions made in cryptography:
+% - One way functions exist
+% - Pseudorandomnumber generators exist
+
+\bigskip
+
+We want to look at a second consequence of $\mathprob{MCSP} \in \P$
+for randomized algorithms.
+To this end,
+let us first examine the following theorem.
 
 \begin{theorem}[\cite{10.1145/335305.335314}]
+  \label{thm:bpp-zpp}
 	$\BPP \subseteq \ZPP^{\mathprob{MCSP}}$
 \end{theorem}
 
-From this theorem, we can easily see that if $\mathprob{MCSP}$ is $\NP$-hard under natural Karp reduction, then we obtain the following consequence: $\BPP \subseteq \ZPP^{\NP}$. In fact, this inclusion has been shown previously by other theorists and we recommend the reader to visit the following chain of work \cite{10.1145/800061.808762} \cite{Zachos1986ADC} \cite{LAUTEMANN1983215} \cite{NISAN1994149} and \cite{article} for full details and discussion of this statement as well as related topics.
+This is a stronger version of the previoulsy known inclusion
+$\BPP \subseteq \ZPP^{\NP}$.
+In fact, this can be obtained by combining the result
+$\BPP \subseteq \MA$ achieved through techniques from to the Sipser-G\'acs
+Theorem with $\MA \subseteq \ZPP^{\mathprob{MCSP}}$ \cite{goldreich97}.
+We could obtain the Theorem~\ref{thm:bpp-zpp} easily from that if
+$\mathprob{MCSP}$ were shown to be $\NP$-hard.
 
-However, as mentioned in section \ref{subsect:MCSP-NP}, establishing the hardness of $\mathprob{MCSP}$ is very challenging as such proof will imply a decent amount of breakthroughs in theoretical computer science. Let us now assume that it is indeed true, then if $\mathprob{MCSP}$ is in $\P$, then we have $\P = \NP$ which provides us the corollary.
+% However, as mentioned in section \ref{subsect:MCSP-NP}, establishing the hardness of $\mathprob{MCSP}$ is very challenging as such proof will imply a decent amount of breakthroughs in theoretical computer science. Let us now assume that it is indeed true, then if $\mathprob{MCSP}$ is in $\P$, then we have $\P = \NP$ which provides us the corollary.
+Now, using the identity $\ZPP^\P = \ZPP$, we obtain the following as a corollary.
 
 \begin{corollary}
 	If $\mathprob{MCSP}$ is in $\P$, then $\BPP \subseteq \ZPP$.
 \end{corollary}
 
-Also, it is trivial to see from the definitions that $\ZPP \subseteq \RP \subseteq \BPP$ (see \cite{arora2009}, chapter 7). However, it is still unknown to our current knowledge whether $\BPP \subseteq \RP$ or $\BPP \subseteq \NP$. But if $\mathprob{MCSP}$ can be efficiently solved, then by the above corollary, we obtain $\ZPP = \RP = \BPP$ (holy cow?!) which would be a huge breakthrough.
- 
+We know that by definition, $\ZPP \subseteq \RP \subseteq \BPP$
+(cf. \cite{arora2009}, Chapter~7).
+However, it is yet unknown whether
+$\BPP \subseteq \RP$ or $\BPP \subseteq \NP$.
+But if $\mathprob{MCSP}$ can be
+efficiently solved, then by the above corollary, we obtain $\ZPP = \RP = \BPP$
+which would be a big breakthrough.
+%
+In particular, if $\mathprob{MCSP}$ were in $\P$, then any efficient algorithm
+with two-sided error could be simulated to run efficiently in
+expectation with zero-sided error.
+
+
+
 \section{Conclusion}
 
 % add "local reductions" (v013a004.pdf)
@@ -779,7 +951,7 @@ To summarize, the results shown in ``Circuit Minimization Problem'' by Kabanets 
 
 There has been a long sequence of works (\cite{hitchcock2015np}, \cite{allender2017minimum}, \cite{murray2017non}, \cite{allender2019new}) which tackles the results given in Section \ref{subsect:MCSP-NP} to give further evidence of the difficulty of showing $\NP$-hardness of $\mathprob{MCSP}$. However, researchers have managed to prove that some variants of $\mathprob{MCSP}$ are $\NP$-complete. Namely, $\mathprob{DNF}$-$\mathprob{MCSP}$ \cite{masek1979some}, $\mathprob{MCSP}$ for OR-AND-MOD Circuits \cite{hirahara2018np}, and $\mathprob{MCSP}$ for multi-output functions \cite{ilango2020np} are $\NP$-complete. Furthermore, some theorists have been trying to prove that $\mathprob{MCSP}$ is $\NP$-intermediate \footnote{see chapter 3 of \cite{arora2009}} which is a pretty interesting research direction.
 
-As for $\mathprob{MCSP}$ and the class $\P$, it is very likely that $\mathprob{MCSP} \notin \P$ mainly because it will put an end to cryptography as briefly mentioned in Section \ref{subsect:MCSP-P}. One thing we want to emphasize that if the existence of one-way function \footnote{a one-way function is a function that is easy to compute on every input, but hard to invert given the set of all possible outputs of a random input, see: https://en.wikipedia.org/wiki/One-way\_function} can be proved one day, we can easily conclude that $\mathprob{MCSP}$ is not in $\P$ which implies the separation of $\P$ and $\NP$.
+As for $\mathprob{MCSP}$ and the class $\P$, it is very likely that $\mathprob{MCSP} \notin \P$ mainly because it will put an end to cryptography as briefly mentioned in Section \ref{subsect:MCSP-P}. One thing we want to emphasize is that if the existence of one-way function can be proved one day, we can finally conclude that $\mathprob{MCSP}$ is not in $\P$ which implies the separation of $\P$ and $\NP$.
 
 We expect (but again, do not know) that $\mathprob{MCSP}$ cannot be efficiently solved and our research is taking the direction of establishing the hardness of $\mathprob{MCSP}$, which is a crucial step in obtaining the ``immortality'' of cryptography. This is a wrap up of our review, thank you all the readers for your time, and we wish you a Merry Christmas and a Happy New Year!!!
 
