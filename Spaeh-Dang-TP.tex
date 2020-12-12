@@ -55,25 +55,25 @@ In the Minimum Circuit Size Problem (MCSP), we are given a truth table of some B
 	\end{center}
 }
 
-Finding solutions to $\mathprob{MSCP}$ in an important part in the design
+Finding solutions to $\mathprob{MSCP}$ is an important part in the design
 of integrated circuits where it is important to minimize space and execution
 speed of a computational component.
 However, motivations to study this problem are manifold.
 %
-One lies in meta-complexity which is loosely the study of problems whose
+One lies in meta-complexity, which is loosely the study of problems whose
 instances contain some form of execution instruction themselves.
 For each individual instance, we want to know how complex the object resulting
 from this instruction is.
-So, studying such a meta problem entails determining the complexity of
+So, studying such a meta-problem entails determining the complexity of
 determining complexity itself.
-Now, $\mathprob{MCSP}$ is posed exactly as such a meta problem, whereas the
-the instruction is stated in terms of a truthtable and the complexity is
+Now, $\mathprob{MCSP}$ is posed exactly as such a meta-problem, whereas the
+instruction is stated in terms of a truthtable, and the complexity is
 formalized as the size of a minimal circuit.
-Given the expressiveness of truthtables and importance of circuits in
+Given the expressiveness of truthtables and the importance of circuits in
 representing computation, $\mathprob{MCSP}$ is therefore central to
 meta-complexity.
 %
-In fact, the minimization of circuits was already studied in the Soviet Union
+As such, the minimization of circuits was already studied in the Soviet Union
 as part of the question of whether brute-force search can be eliminated
 in general \cite{trakhtenbrot84}.
 %
@@ -85,7 +85,7 @@ Now, the decision version of $K_U$ is undecidable, so weaker notions
 restricting at least the execution time of $U$ are studied, and
 $\mathprob{MCSP}$ is one of them.
 %
-This also relates the study of $\mathprob{MCSP}$ to the typcial questions in
+This also relates the study of $\mathprob{MCSP}$ to the typical questions in
 information theory. In particular, the minimum circuit size puts a number on
 the information stored in a truth table $T_n$.
 %
@@ -95,7 +95,7 @@ If we would want to know what hidden Boolean function produced a certain set of
 $n$-dimensional training samples, we can---in accordance with Occam's
 razor---ask for the minimum circuit which coincides with all training samples.
 The widely applied decision tree algorithms are just a special case of this,
-but circuits are of course more succinct.
+but circuits are, of course, more succinct.
 %
 Finally, and we will see this in this paper,
 $\mathprob{MCSP}$ has strong connections to the existence of
@@ -108,9 +108,9 @@ Despite the huge interest and long history of research in $\mathprob{MSCP}$,
 we know relatively little beyond that.
 %
 In ``Circuit Minimization Problem,'' Valentine Kabanets and Jin-Yi Cai addressed the difficulty of showing $\mathprob{MCSP}$ to be $\NP$-hard \cite{10.1145/335305.335314}. They do this by providing some strong implications if there exists a polynomial-time reduction $R$ from $\mathprob{SAT}$ to $\mathprob{MCSP}$ that is ``natural,'' in the sense that the size of the output depends on the size of the inputs only, and these sizes are polynomially related. Furthermore, the authors pointed
-out that there has also been no proof that $\mathprob{MCSP} \notin \P$. Clearly, such proof would imply $\P \neq \NP$ which goes beyond the currently known techniques. The authors did, however, provide some clues on why this conjecture seems plausible; again, by providing consequences of questionable likelihood if $\mathprob{MCSP} \in \P$.
+out that there has also been no proof that $\mathprob{MCSP} \notin \P$. Clearly, such proof would imply $\P \neq \NP$, which goes beyond the currently known techniques. The authors did, however, provide some clues on why this conjecture seems plausible; again, by offering consequences of questionable likelihood if $\mathprob{MCSP} \in \P$.
 
-In this review, we will first provide some definitions required to understand the main results and key theorems of the paper in Section~2. Section~3 introduces some main consequences of $\mathprob{MCSP}$ being $\NP$-hard under ``natural'' reductions and of $\mathprob{MCSP} \in \P$. Finally, we conclude the review by giving remarks and directions for further research on this topic in Section 4.
+In this review, we will first give some definitions required to understand the main results and key theorems of the paper in Section~2. Section~3 introduces some main consequences of $\mathprob{MCSP}$ being $\NP$-hard under ``natural'' reductions and of $\mathprob{MCSP} \in \P$. Finally, we conclude the review by giving remarks and directions for further research on this topic in Section 4.
 
 
 % META-complexity (how hard is it to proof a problem is hard?)
@@ -953,13 +953,28 @@ expectation with zero-sided error.
 
 % add "local reductions" (v013a004.pdf)
 
-To summarize, the results shown in ``Circuit Minimization Problem'' by Kabanets and Cai neither give evidence against the $\NP$-hardness of $\mathprob{MCSP}$ nor refute the conjecture that $\mathprob{MCSP} \in \P$. Instead, they suggest that establishing such proofs would be a daunting task since it implies some certain consequences happen for complexity classes - some seem plausible, some not, but all are beyond the scope of our current techniques.
+To summarize, the results shown in ``Circuit Minimization Problem'' by Kabanets and Cai neither give evidence against the $\NP$-hardness of $\mathprob{MCSP}$ nor refute the conjecture that $\mathprob{MCSP} \in \P$. Instead, they explain how
+establishing such proofs is difficult.
+%
+% a daunting task since it implies some certain consequences happen for complexity classes - some seem plausible, some not, but all are beyond the scope of our current techniques.
+%
+First, even though we expect that $\mathprob{MCSP}$ cannot be efficiently solved,
+showing its $\NP$-hardness under natural reduction entails strong statements
+about circuit complexity which in turn imply the existence of certain
+pseudorandom generators. Both of which are known to be difficult to obtain.
+%
+On the other hand, it seems likely that $\mathprob{MCSP}$ is not contained in $\P$.
+This is mainly because $\mathprob{MCSP}$ being efficiently solvable contradicts
+the existence of one-way functions, which is a widely held belief in cryptography.
 
-As for $\mathprob{MCSP}$ and the class $\P$, it is very likely that $\mathprob{MCSP} \notin \P$ mainly because it will put an end to cryptography as briefly mentioned in Section \ref{subsect:MCSP-P}. One thing we want to emphasize is that if the existence of one-way function can be proved one day, we can finally conclude that $\mathprob{MCSP}$ is not in $\P$ which implies the separation of $\P$ and $\NP$.
+Our research is therefore taking the direction of showing the hardness of $\mathprob{MCSP}$, which is a crucial step in obtaining the soundness of
+this cryptographic assumption.
+%
+There has been a long sequence of work (\cite{hitchcock2015np}, \cite{allender2017minimum}, \cite{murray2017non}, \cite{allender2019new}) which tackles the results given in Section~\ref{subsect:MCSP-NP} to give further evidence of the difficulty of showing $\NP$-hardness of $\mathprob{MCSP}$. However, researchers have managed to prove that some variants of $\mathprob{MCSP}$ are $\NP$-complete. Namely, $\mathprob{DNF}$-$\mathprob{MCSP}$ \cite{masek1979some}, $\mathprob{MCSP}$ for
+$\mathprob{OR-AND-MOD}$ Circuits \cite{hirahara2018np}, and $\mathprob{MCSP}$ for multi-output functions \cite{ilango2020np} are now known to be $\NP$-complete. Furthermore, some theorists have been trying to prove that $\mathprob{MCSP}$ is $\NP$-intermediate which, while still implying a separation of $\NP$ from $\P$,
+avoids some of the hard ramifications we have seen for $\NP$-completeness.
 
-We expect (but again, do not know) that $\mathprob{MCSP}$ cannot be efficiently solved and our research is taking the direction of establishing the hardness of $\mathprob{MCSP}$, which is a crucial step in obtaining the ``immortality'' of cryptography. This is a wrap up of our review, thank you all the readers for your time, and we wish you a Merry Christmas and a Happy New Year!!!
-
-There has been a long sequence of works (\cite{hitchcock2015np}, \cite{allender2017minimum}, \cite{murray2017non}, \cite{allender2019new}) which tackles the results given in Section \ref{subsect:MCSP-NP} to give further evidence of the difficulty of showing $\NP$-hardness of $\mathprob{MCSP}$. However, researchers have managed to prove that some variants of $\mathprob{MCSP}$ are $\NP$-complete. Namely, $\mathprob{DNF}$-$\mathprob{MCSP}$ \cite{masek1979some}, $\mathprob{MCSP}$ for OR-AND-MOD Circuits \cite{hirahara2018np}, and $\mathprob{MCSP}$ for multi-output functions \cite{ilango2020np} are $\NP$-complete. Furthermore, some theorists have been trying to prove that $\mathprob{MCSP}$ is $\NP$-intermediate \footnote{see chapter 3 of \cite{arora2009}} which is a pretty interesting research direction.
+We wish the reader a Merry Christmas and a Happy New Year!
 
 % I like to use bibtex to organize reference, but you can use whatever you like. https://dblp.org/ is a good source for bibtex entries for CS papers
 \bibliographystyle{alpha}
