@@ -229,7 +229,7 @@ depends only on the size of the input. Formally, we define it as follows.
   that
   \begin{itemize}
     \item there exists a $c \in \R_+$ such that
-      $|x|^{1/c} \le |R(x)| \le |x|^c$, meaning $R_1$ does not suddenly grow or
+      $|x|^{1/c} \le |R_1(x)| \le |x|^c$, meaning $R_1$ does not suddenly grow or
       shrink, and
     \item $R_2$ depends only on the length of the instance $x$, i.e. there
       exists a function $f \colon \N \to \N$ such that $R_2(x) = f(|x|)$.
@@ -411,10 +411,6 @@ We wrap up with defining a special kind of pseudorandom generator:
 	The pseudorandom generator $G$ is called \textit{strong} if it has hardness $H(G) > 2^{n^{\Omega(1)}}$ 
 \end{definition}
 
-\begin{definition}[Strong Pseudorandom Generators]
-  A pseudorandom generator $G_d \colon G_m$
-\end{definition}
-
 
 % ------------------------------------------------------------------------------
 
@@ -424,10 +420,19 @@ We wrap up with defining a special kind of pseudorandom generator:
 \subsection{MCSP and NP-completeness}
 \label{subsect:MCSP-NP}
 
-To begin with, we want to emphasize that researchers have not figured out yet whether it is possible to prove the $\NP$-hardness of $\mathprob{MCSP}$.
-The difficulty of such proof was explicitly addressed through some implications for \textit{Circuit Complexity} and $\BPP$. In other words, the authors provided some consequences that are still unknown to the current state of the art if $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction.
+To begin with, let us make it clear that we do now know whether
+$\mathprob{MCSP}$ is $\NP$-hard.
+Yet, the difficulty of this proof can be made explicit by looking at
+some implications it has for circuit complexity and $\BPP$ which are both
+beyond currently known techniques.
+%
+In other words, proving the $\NP$-hardness of $\mathprob{MCSP}$ can be shown
+to be as challenging as finding proofs for other long-standing and
+problems known to be difficult.
 
-Now, we are ready to look at the first key theorem which is about the implication for \textit{Circuit Complexity} if $\mathprob{MCSP}$ is $\NP$-hard under the \textit{natural} reduction.
+Now, let us look at the first key theorem regarding an
+implication for circuit complexity if $\mathprob{MCSP}$ is $\NP$-hard
+under a natural reduction.
 
 \begin{theorem}[\cite{10.1145/335305.335314}]
   \label{thm:15-1}
@@ -838,21 +843,23 @@ Finally, taking everything together, we obtain a nice corollary as follows.
 
 \subsection{MCSP and P}
 \label{subsect:MCSP-P}
-In the previous section we have discussed the difficulties with proving
+In the previous section we have discussed the difficulties we face when proving
 the $\NP$-completeness of $\mathprob{MCSP}$ under a natural reduction.
-Nonetheless, in this section we consider the opposite assumption, namely that $\mathprob{MCSP}$ belongs in $\P$, which results in some even more surprising
-and unlikely consequences.
+Nonetheless, in this section we consider the opposite assumption, namely that $\mathprob{MCSP}$ belongs to $\P$. As we will see, this
+results in some surprising consequences which are, however, generally assumed
+to be unlikely.
 
-Let us start with providing a strong implication on the field of cryptography,
-by showing that
-if $\mathprob{MCSP}$ can be efficiently solved, we are be able to factor Blums
+Let us start with providing a strong implication on the field of cryptography:
+Under the premise that
+$\mathprob{MCSP}$ can be efficiently solved, we are be able to factor Blum
 integers\footnote{A Blum integer is a product of two distinct primes which are both congruent to $3$ mod $4$. Factoring Blum integers is believed to be as hard as factoring general integers.}
 well on the average.
 Specifically, let us examine the following theorem and its consequence.
 
 \begin{theorem}
   \label{thm:nostrong}
-	If $\mathprob{MCSP}$ is in $\Ppoly$, then there is no strong pseudorandom generator in $\Ppoly$.
+	If $\mathprob{MCSP}$ is in $\Ppoly$, then there is no strong pseudorandom
+  generator in $\Ppoly$.
 \end{theorem}
 
 This theorem is a direct consequence of the ``Natural Proofs Barrier''
@@ -906,8 +913,7 @@ this assumption.
 
 We want to look at a second consequence of $\mathprob{MCSP} \in \P$
 for randomized algorithms.
-To this end,
-let us first examine the following theorem.
+To this end, let us first examine the following theorem.
 
 \begin{theorem}[\cite{10.1145/335305.335314}]
   \label{thm:bpp-zpp}
@@ -947,13 +953,13 @@ expectation with zero-sided error.
 
 % add "local reductions" (v013a004.pdf)
 
-To summarize, the results shown in ``Circuit Minimization Problem'' by Kabanets and Cai neither give any evidence against the $\NP$-hardness of $\mathprob{MCSP}$ nor refute the conjecture that $\mathprob{MCSP} \in \P$. Instead, they suggest that establishing such proofs would be a daunting task since it implies some certain consequences happen for complexity classes - some seem plausible, some not, but all are beyond the scope of our current techniques.
-
-There has been a long sequence of works (\cite{hitchcock2015np}, \cite{allender2017minimum}, \cite{murray2017non}, \cite{allender2019new}) which tackles the results given in Section \ref{subsect:MCSP-NP} to give further evidence of the difficulty of showing $\NP$-hardness of $\mathprob{MCSP}$. However, researchers have managed to prove that some variants of $\mathprob{MCSP}$ are $\NP$-complete. Namely, $\mathprob{DNF}$-$\mathprob{MCSP}$ \cite{masek1979some}, $\mathprob{MCSP}$ for OR-AND-MOD Circuits \cite{hirahara2018np}, and $\mathprob{MCSP}$ for multi-output functions \cite{ilango2020np} are $\NP$-complete. Furthermore, some theorists have been trying to prove that $\mathprob{MCSP}$ is $\NP$-intermediate \footnote{see chapter 3 of \cite{arora2009}} which is a pretty interesting research direction.
+To summarize, the results shown in ``Circuit Minimization Problem'' by Kabanets and Cai neither give evidence against the $\NP$-hardness of $\mathprob{MCSP}$ nor refute the conjecture that $\mathprob{MCSP} \in \P$. Instead, they suggest that establishing such proofs would be a daunting task since it implies some certain consequences happen for complexity classes - some seem plausible, some not, but all are beyond the scope of our current techniques.
 
 As for $\mathprob{MCSP}$ and the class $\P$, it is very likely that $\mathprob{MCSP} \notin \P$ mainly because it will put an end to cryptography as briefly mentioned in Section \ref{subsect:MCSP-P}. One thing we want to emphasize is that if the existence of one-way function can be proved one day, we can finally conclude that $\mathprob{MCSP}$ is not in $\P$ which implies the separation of $\P$ and $\NP$.
 
 We expect (but again, do not know) that $\mathprob{MCSP}$ cannot be efficiently solved and our research is taking the direction of establishing the hardness of $\mathprob{MCSP}$, which is a crucial step in obtaining the ``immortality'' of cryptography. This is a wrap up of our review, thank you all the readers for your time, and we wish you a Merry Christmas and a Happy New Year!!!
+
+There has been a long sequence of works (\cite{hitchcock2015np}, \cite{allender2017minimum}, \cite{murray2017non}, \cite{allender2019new}) which tackles the results given in Section \ref{subsect:MCSP-NP} to give further evidence of the difficulty of showing $\NP$-hardness of $\mathprob{MCSP}$. However, researchers have managed to prove that some variants of $\mathprob{MCSP}$ are $\NP$-complete. Namely, $\mathprob{DNF}$-$\mathprob{MCSP}$ \cite{masek1979some}, $\mathprob{MCSP}$ for OR-AND-MOD Circuits \cite{hirahara2018np}, and $\mathprob{MCSP}$ for multi-output functions \cite{ilango2020np} are $\NP$-complete. Furthermore, some theorists have been trying to prove that $\mathprob{MCSP}$ is $\NP$-intermediate \footnote{see chapter 3 of \cite{arora2009}} which is a pretty interesting research direction.
 
 % I like to use bibtex to organize reference, but you can use whatever you like. https://dblp.org/ is a good source for bibtex entries for CS papers
 \bibliographystyle{alpha}
