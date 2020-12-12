@@ -205,7 +205,7 @@ a complexity class $C$.
     |\set{ n \in \N \mid \forall x \in \{0,1\}^n\ A(x) = L(x) }| = \infty
   \]
 \end{definition}
-Note that $C$ is obviously containend in $\io C$.
+Note that $C$ is obviously contained in $\io C$.
 For brevity, we usually write $C \subseteq C$ (i.o.) or $C = C$ (i.o.)
 in place of $C' \subseteq \io C$ and $C' = \io C$, respectively.
 
@@ -215,7 +215,7 @@ in place of $C' \subseteq \io C$ and $C' = \io C$, respectively.
 
 Let us now introduce the notion of a \textit{natural reduction}.
 Intuitively, a polynomial-time reduction is natural if its output size
-depends only on the size of the input. Formally, we define it as follows.
+depends only on the input size. Formally, we define it as follows.
 % In this subsection, we will provide you the definition of \textit{Natural Reduction}. Intuitively speaking, for two problems $A$ and $B$, and a Karp reduction from $A$ to $B$, we say the reduction $R$ is natural if, for any instance $I$ of $A$, the length of the output depends only on the input length, and those lengths are polynomial related. To make sure that the readers can get a better understanding of the proofs that we introduce in the later sections, we provide the formal version which specifies more technical properties of the ``mapping'' process. 
 % should we? ans: fixed :)) what do you think? :))
 
@@ -247,7 +247,7 @@ depends only on the size of the input. Formally, we define it as follows.
 All $\NP$-complete problems we are aware of seem to be complete under natural reductions. This is not special for a polynomial-time reduction to an
 unparameterized problem, as we can usually pad the reduct to conform to
 the specific length. However, so far we are not aware of any parameterized
-problem which is $\NP$-complete under general many-one reductions but not
+problem, which is $\NP$-complete under general many-one reductions but not
 under a natural reduction.
 To give a good understanding, we wrap up with the following example of an
 unnatural reduction made natural.
@@ -355,11 +355,11 @@ distinguishing it from true randomness:
 \end{definition}
 
 % We also call $S(n)$ the stretch of $G$.
-The existence of certain pseudorandom generators would allows us to
+The existence of certain pseudorandom generators would allow us to
 derandomize algorithms in $\BPP$. The basic idea is to replace the randomness
-used in a probabilistic algorithm with pseudorandmoness generated from a
+used in a probabilistic algorithm with pseudorandomness generated from a
 sufficiently small source of true randomness. We then try the algorithm on the
-pseudorandomness generated from each choice in this small source while the
+pseudorandomness generated from each choice in this small source, while the
 assumption guarantees that it cannot distinguish it from true randomness.
 If $S(n)$ is large enough, this leads to an efficient derandomization.
 % Now, enumerating the random strings of the
@@ -384,10 +384,10 @@ In words: no matter how hard an $O(n^c)$ time-constrained adversary tries to
 find a pre-image of $f(x)$, he can only do so with probability at most
 $1 / n^c$.
 Note that this statement is made about the average-case hardness of inverting
-$f$. As the adversary is time constrained, we can therefore construct one-way
-functions from problems that we belive to be hard on average.
+$f$. As the adversary is time-constrained, we can construct one-way
+functions from problems that we believe to be hard on average.
 %
-As such, one-way functioins are generally assumed to exist.
+As such, one-way functions are generally assumed to exist.
 Moreover, we can show that the existence of certain pseudorandom generators
 implies the existence of one-way functions \cite{hastad99}.
 % One such problem is integer factoring, i.e. the inverse of multiplication.
@@ -396,13 +396,12 @@ implies the existence of one-way functions \cite{hastad99}.
 In particular,
 the existence of one-way functions is vital for cryptography. For example,
 Bitcoin's blockchain consensus algorithm relies on the hardness of inverting
-a hash-function which is believed to be one-way.
-If an adversary would find a way to circumvent the brute-force search
-efficiently and with good probability, he would be able to take control over
-the protocol.
+a hash-function, which is believed to be one-way.
+If an adversary found a way to circumvent the brute-force search
+efficiently and with good probability, he could take control over the protocol.
 %
 
-We wrap up with defining a special kind of pseudorandom generator:
+We wrap up by defining a special kind of pseudorandom generator:
 
 \begin{definition}(\cite{10.1145/335305.335314})
 	The \textit{hardness} $H(G)$ of a pseudorandom generator $G: \{0, 1\}^n \rightarrow \{0, 1\}^{2n}$ is defined as the minimal $s$ such that there exists a circuit $C$ of size at most $s$ for which
@@ -422,12 +421,12 @@ We wrap up with defining a special kind of pseudorandom generator:
 
 To begin with, let us make it clear that we do now know whether
 $\mathprob{MCSP}$ is $\NP$-hard.
-Yet, the difficulty of this proof can be made explicit by looking at
-some implications it has for circuit complexity and $\BPP$ which are both
+Yet, the proof's difficulty can be made explicit by looking at
+some implications it has for circuit complexity and $\BPP$, which are both
 beyond currently known techniques.
 %
 In other words, proving the $\NP$-hardness of $\mathprob{MCSP}$ can be shown
-to be as challenging as finding proofs for other long-standing and
+to be as challenging as finding proofs for other long-standing
 problems known to be difficult.
 
 Now, let us look at the first key theorem regarding an
@@ -438,10 +437,10 @@ under a natural reduction.
   \label{thm:15-1}
   If $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from
   $\mathprob{SAT}$, then $\class{E}$ contains a family of Boolean functions
-  $f_k$ not in $\io \Ppoly$, i.e. of superpolynomial circuit complexity.
+  $f_k$ not in $\io \Ppoly$, i.e., of superpolynomial circuit complexity.
 \end{theorem}
 
-Before we move on to the proof, let us examine some lemmata that are useful
+Before we move on to the proof, let us examine some lemmata useful
 for establishing this result.
 
 \begin{lemma}
@@ -450,7 +449,7 @@ for establishing this result.
 \end{lemma}
 
 \begin{proof}
-  Let $M$ be a TM dedicing a language $L \in \class{QP}^{\class{QP}}$ in
+  Let $M$ be a TM deciding a language $L \in \class{QP}^{\class{QP}}$ in
   quasi-polynomial time, say $\exp(\log^c n)$.
   We show that carrying out the oracle computation instead of calling the
   oracle does still guarantee a quasi-polynomial running time. To this end,
@@ -461,7 +460,7 @@ for establishing this result.
   $\exp(\log^c (\exp(\log^c n))) = \exp(\log^{cc'} n)$
   for one oracle computation. At the same time, there are at most
   $\exp(\log^c n)$ calls, resulting in a total running time bound of
-  $\exp(\log^c (\exp(\log^{cc'} n))) = \exp(\log^{c^2 c'} n)$
+  $\exp(\log^c (\exp(\log^{cc'} n))) = \exp(\log^{c^2 c'} n)$,
   which is still quasi-polynomial.
 \end{proof}
 
@@ -478,7 +477,7 @@ for establishing this result.
     \bigcup_{n > 0} \underbrace{\NP^{\NP^{\cdots^{\NP}}}}_{n \textrm{ times}}
     \,.
   \]
-  We can use a straithgforward induction over $n$ to show that
+  We can use a straightforward induction over $n$ to show that
   $\class{PH} \subseteq \class{QP}$.
   Note that the induction basis is just the assumption.
   Furthermore, by the inductive hypothesis, we have that
@@ -501,13 +500,13 @@ for establishing this result.
 
 \begin{lemma}
 	\label{lem:qp-super-circ}
-	$\class{QP}^{\class{\Sigma}^p_k}$ contains a language which does not belong
+	$\class{QP}^{\class{\Sigma}^p_k}$ contains a language that does not belong
 	to $\io \Ppoly$ for some $k \in \N$.
 \end{lemma}
 
 \begin{proof}
 	The proof follows a nonuniform diagonalization argument. We first define
-	a language which will be hard to compute for any polynomial-size circuit
+	a language that will be hard to compute for any polynomial-size circuit
 	family:
 	Let $L'$ be the language consisting of tuples
 	$\langle x, 1^{\exp(\log^3 n)} \rangle$
@@ -548,9 +547,9 @@ for establishing this result.
 
 \begin{proof}
   In a circuit with $s \in \N$ many gates and inputs, each gate is connected to
-  at most two out of $s$ gates, and computes one of the functions
+  at most two out of $s$ gates and computes one of the functions
   $\land, \lor, \neg$.
-  This means, there are at most $3 \cdot s^2$ choices to construct each gate
+  This means there are at most $3 \cdot s^2$ choices to construct each gate
   and thus $(3 s^2)^s = O(s^{3s})$ choices to construct the whole circuit.
 
   \begin{enumerate}
@@ -576,7 +575,7 @@ for establishing this result.
   \end{enumerate}
 \end{proof}
 
-We now know have enough tools to prove Theorem~\ref{thm:15-1}.
+We now have enough tools to prove Theorem~\ref{thm:15-1}.
 We remind ourselves of the statement to prove:
 If there is a natural polynomial-time reduction from
 $\SAT$ to $\mathprob{MCSP}$, then $\class E$
@@ -584,7 +583,7 @@ contains a family of Boolean functions $f_k$ of superpolynomial circuit
 size.
 
 \begin{proof}[Proof (Theorem~\ref{thm:15-1})]
-  We separate the prove along two cases.
+  We separate the prove into two cases.
 	\begin{itemize}
 		\item Case 1: $\NP \subseteq \class{QP}$
 
@@ -606,8 +605,8 @@ size.
       While it is (computationally) trivial to choose a no-instance for $\SAT$
       of any given size, it is not clear how to do so for $\mathprob{MCSP}$.
       The key idea for this part is, therefore, to use the natural reduction $R$
-      to obtain hard instances for $\mathprob{MCSP}$, i.e. a family of
-      truthtables which cannot be represented by ciruits of polynomial size.
+      to obtain hard instances for $\mathprob{MCSP}$, i.e., a family of
+      truthtables that cannot be represented by circuits of polynomial size.
 
       We start out by picking a quite arbitrary infinite set $U$ of 
       unsatisfiable CNF-formulae, say,
@@ -657,7 +656,7 @@ size.
           The reduction $R$ runs in polynomial time, say $n^a$ for an
           $a \in \N$.
           %
-          By the above construction, $n = 2^{\Theta(k)}$ which means we
+          By the above construction, $n = 2^{\Theta(k)}$, which means we
           only need to check $2^{\Theta(k)}$ candidates whereas each check
           runs in time at most $n^a = (2^{\Theta(k)})^a = 2^{\Theta(k)}$.
           %
@@ -679,7 +678,7 @@ size.
           Given a CNF-formula $\phi$ of size $n$, we apply
           $R$ to obtain $\langle T_{k'}, s_n \rangle \coloneqq R(\phi)$
           with $s_n \le \log^b n$.
-          We are going to decide the membership of this instance to
+          We will decide the membership of this instance to
           $\mathprob{MSCP}$ instead of solving
           the original satisfiability problem.
           By Lemma~\ref{lem:num-of-circs}, there are at most
@@ -694,7 +693,7 @@ size.
           However, this implies that $\SAT \in \class{QP}$
           contradicting our assumption that $\NP \not\subseteq \class{QP}$.
 
-          We therefore established that $s_n$ is superpolynomial in $\log n$.
+          We, therefore, established that $s_n$ is superpolynomial in $\log n$.
           At the same time, $R$ is a natural reduction, meaning that $s_n$ is
           the same for every input of size $n$.
           In particular, we obtain that since we set
@@ -717,7 +716,7 @@ size.
 
 With the same techniques but a different bound on the circuit size, we can
 obtain a very similar statement. The only additional ingredient is
-the exponential-time hypothesis which is, however, widely assumed to
+the exponential-time hypothesis, which is, however, widely assumed to
 be true \cite{impagliazzo99}.
 The claim is that $\NP \not\subseteq \class{SUBEXP}$, or equivalently, that
 $\SAT$ requires exponential time.
@@ -806,10 +805,10 @@ Now, we will look at the implications for $\BPP$ when $\NP$-hard under a natural
 
 In words, if $\mathprob{MCSP}$ is $\NP$-hard under a natural reduction from
 $\mathprob{SAT}$, then every problem in $\BPP$ can be efficiently solved.
-Now, we actually believe that $\P = \BPP$ as most algorithms in $\BPP$ surrender
+Now, we believe that $\P = \BPP$, as most algorithms in $\BPP$ surrender
 to derandomization.
 However, it is known that showing $\BPP = \P$ entails proving the existence
-of certain pseudorandom generators which in turn would prove $\BPP = \P$ all
+of certain pseudorandom generators, which in turn would prove $\BPP = \P$ all
 along \cite{goldreich11},
 a result which seems to be challenging in its own right.
 Therefore, proving the $\NP$-hardness of $\mathprob{MCSP}$ is as difficult
@@ -843,15 +842,15 @@ Finally, taking everything together, we obtain a nice corollary as follows.
 
 \subsection{MCSP and P}
 \label{subsect:MCSP-P}
-In the previous section we have discussed the difficulties we face when proving
+In the previous section, we have discussed the difficulties we face when proving
 the $\NP$-completeness of $\mathprob{MCSP}$ under a natural reduction.
-Nonetheless, in this section we consider the opposite assumption, namely that $\mathprob{MCSP}$ belongs to $\P$. As we will see, this
-results in some surprising consequences which are, however, generally assumed
+Nonetheless, in this section, we consider the opposite assumption, namely that $\mathprob{MCSP}$ belongs to $\P$. As we will see, this
+results in some surprising consequences which are generally assumed
 to be unlikely.
 
-Let us start with providing a strong implication on the field of cryptography:
+Let us start by providing a strong implication on the field of cryptography:
 Under the premise that
-$\mathprob{MCSP}$ can be efficiently solved, we are be able to factor Blum
+$\mathprob{MCSP}$ can be efficiently solved, we are able to factor Blum
 integers\footnote{A Blum integer is a product of two distinct primes which are both congruent to $3$ mod $4$. Factoring Blum integers is believed to be as hard as factoring general integers.}
 well on the average.
 Specifically, let us examine the following theorem and its consequence.
@@ -868,29 +867,29 @@ We highly suggest this read to the interested reader.
 %
 We generally believe that the pseudorandom generator based on factoring (Blum)
 integers is strong.
-However, Theorem~\ref{thm:nostrong} rules out such a prospective, so we obtain:
+However, Theorem~\ref{thm:nostrong} rules out such a perspective, so we obtain:
 
 \begin{corollary}
 	If $\mathprob{MCSP}$ is in $\P$, then, for any $\epsilon > 0$, there is an algorithm running in time $2^{n^{\epsilon}}$ that factors Blum integers well on the average.
 \end{corollary}
 
 Thus, the corollary above suggests that if $\mathprob{MCSP}$ can be efficiently
-solved, then we can break the strong pseudorandom generator of factoring Blum
+solved, we can break the strong pseudorandom generator of factoring Blum
 integers with a good enough average-case algorithm.
 %
 In other words, if $\mathprob{MCSP}$ is in $\P$, then current
 cryptographic schemes relying on the hardness of integer factoring
-(e.g. RSA or Diffie-Hellman key exchange) are prone to efficient
+(e.g., RSA or Diffie-Hellman key exchange) are prone to efficient
 attacks.
 %
 Even if factoring turns out to be easy, Theorem~\ref{thm:nostrong} still puts a
-questionmark behind the existence of pseudorandom generators and as such
+question mark behind the existence of pseudorandom generators and as such
 on one-way functions.
 %
 However,
 it is mainly believed that factoring is hard
-and one-way functions exist
-and therefore it is very much unlikely that $\mathprob{MCSP}$ can be efficiently
+and one-way functions exist,
+and therefore, it is very much unlikely that $\mathprob{MCSP}$ can be efficiently
 solved; however, nothing has been shown to draw an ultimate conclusion about
 this assumption.
 
@@ -920,7 +919,7 @@ To this end, let us first examine the following theorem.
 	$\BPP \subseteq \ZPP^{\mathprob{MCSP}}$
 \end{theorem}
 
-This is a stronger version of the previoulsy known inclusion
+This is a stronger version of the previously known inclusion
 $\BPP \subseteq \ZPP^{\NP}$.
 In fact, this can be obtained by combining the result
 $\BPP \subseteq \MA$ achieved through techniques from to the Sipser-G\'acs
@@ -929,7 +928,7 @@ We could obtain the Theorem~\ref{thm:bpp-zpp} easily from that if
 $\mathprob{MCSP}$ were shown to be $\NP$-hard.
 
 % However, as mentioned in section \ref{subsect:MCSP-NP}, establishing the hardness of $\mathprob{MCSP}$ is very challenging as such proof will imply a decent amount of breakthroughs in theoretical computer science. Let us now assume that it is indeed true, then if $\mathprob{MCSP}$ is in $\P$, then we have $\P = \NP$ which provides us the corollary.
-Now, using the identity $\ZPP^\P = \ZPP$, we obtain the following as a corollary.
+Now, using the identity $\ZPP^\P = \ZPP$, we get the following as a corollary.
 
 \begin{corollary}
 	If $\mathprob{MCSP}$ is in $\P$, then $\BPP \subseteq \ZPP$.
@@ -940,7 +939,7 @@ We know that by definition, $\ZPP \subseteq \RP \subseteq \BPP$
 However, it is yet unknown whether
 $\BPP \subseteq \RP$ or $\BPP \subseteq \NP$.
 But if $\mathprob{MCSP}$ can be
-efficiently solved, then by the above corollary, we obtain $\ZPP = \RP = \BPP$
+efficiently solved, then by the above corollary, we obtain $\ZPP = \RP = \BPP$,
 which would be a big breakthrough.
 %
 In particular, if $\mathprob{MCSP}$ were in $\P$, then any efficient algorithm
@@ -960,18 +959,18 @@ establishing such proofs is difficult.
 %
 First, even though we expect that $\mathprob{MCSP}$ cannot be efficiently solved,
 showing its $\NP$-hardness under natural reduction entails strong statements
-about circuit complexity which in turn imply the existence of certain
+about circuit complexity, which in turn imply the existence of certain
 pseudorandom generators. Both of which are known to be difficult to obtain.
 %
 On the other hand, it seems likely that $\mathprob{MCSP}$ is not contained in $\P$.
 This is mainly because $\mathprob{MCSP}$ being efficiently solvable contradicts
 the existence of one-way functions, which is a widely held belief in cryptography.
 
-Our research is therefore taking the direction of showing the hardness of $\mathprob{MCSP}$, which is a crucial step in obtaining the soundness of
+Our research is, therefore, taking the direction of showing the hardness of $\mathprob{MCSP}$, which is a crucial step in obtaining the soundness of
 this cryptographic assumption.
 %
 There has been a long sequence of work (\cite{hitchcock2015np}, \cite{allender2017minimum}, \cite{murray2017non}, \cite{allender2019new}) which tackles the results given in Section~\ref{subsect:MCSP-NP} to give further evidence of the difficulty of showing $\NP$-hardness of $\mathprob{MCSP}$. However, researchers have managed to prove that some variants of $\mathprob{MCSP}$ are $\NP$-complete. Namely, $\mathprob{DNF}$-$\mathprob{MCSP}$ \cite{masek1979some}, $\mathprob{MCSP}$ for
-$\mathprob{OR-AND-MOD}$ Circuits \cite{hirahara2018np}, and $\mathprob{MCSP}$ for multi-output functions \cite{ilango2020np} are now known to be $\NP$-complete. Furthermore, some theorists have been trying to prove that $\mathprob{MCSP}$ is $\NP$-intermediate which, while still implying a separation of $\NP$ from $\P$,
+$\mathprob{OR-AND-MOD}$ Circuits \cite{hirahara2018np}, and $\mathprob{MCSP}$ for multi-output functions \cite{ilango2020np} are now known to be $\NP$-complete. Furthermore, some theorists have been trying to prove that $\mathprob{MCSP}$ is $\NP$-intermediate, which, while still implying a separation of $\NP$ from $\P$,
 avoids some of the hard ramifications we have seen for $\NP$-completeness.
 
 We wish the reader a Merry Christmas and a Happy New Year!
